@@ -1,0 +1,6 @@
+{
+  "name": "Valentine & Jean",
+  "description": "Le site officiel du mariage de Valentine & Jean le 17 Avril 2027. Thème bleu et jaune, Toile de Jouy, liste de mariage, programme et RSVP.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
