@@ -1,0 +1,62 @@
+[
+  {
+    "id": "cambodge-honeymoon",
+    "title": "Voyage de Noces au Cambodge",
+    "description": "Un grand voyage de découvertes et de sérénité à la découverte des temples mythiques d'Angkor, des forêts tropicales et des îles préservées.",
+    "targetAmount": 5500,
+    "currentAmount": 3450,
+    "category": "honeymoon",
+    "imageUrl": "/src/assets/images/cambodge.png",
+    "characteristics": [
+      "Destination : Siem Reap, Angkor Vat, Phnom Penh & Koh Rong",
+      "Activités : Temples d'Angkor, lac Tonlé Sap, plages préservées",
+      "Période prévue : Automne 2027"
+    ],
+    "personalNote": "Le Cambodge est un rêve d'évasion partagé depuis nos années d'études. Ce voyage féerique et culturel marquera le début mémorable de notre vie de mariés."
+  },
+  {
+    "id": "tasses-cafe",
+    "title": "Tasses à Café",
+    "description": "Ensemble raffiné de tasses à espresso et cappuccino en porcelaine délicate avec soucoupes assorties pour nos petits-déjeuners et fins de repas.",
+    "targetAmount": 380,
+    "currentAmount": 260,
+    "category": "tableware",
+    "imageUrl": "/src/assets/images/tasses_cafe.jpg",
+    "characteristics": [
+      "Contenu : 8 tasses à café & 8 sous-tasses artisanales",
+      "Matière : Porcelaine d'art aux détails délicats",
+      "Usage : Cafés gourmands & réceptions"
+    ],
+    "personalNote": "Pour partager nos moments de café du matin et recevoir chaleureusement nos proches autour d'une pause gourmande."
+  },
+  {
+    "id": "assiettes-dessert",
+    "title": "Assiettes à Dessert",
+    "description": "Ensemble élégant d'assiettes à dessert aux motifs délicats, parfait pour sublimer nos gâteaux, douceurs et gourmandises de fête.",
+    "targetAmount": 520,
+    "currentAmount": 340,
+    "category": "tableware",
+    "imageUrl": "/src/assets/images/assiettes_desserts.jpg",
+    "characteristics": [
+      "Contenu : 12 assiettes à dessert",
+      "Matière : Faïence / Porcelaine fine de collection",
+      "Finition : Liséré raffiné et motifs intemporels"
+    ],
+    "personalNote": "Ces assiettes apporteront une touche de poésie et d'élégance à nos fins de repas de famille et célébrations."
+  },
+  {
+    "id": "assiettes-diner",
+    "title": "Assiettes à Dîner",
+    "description": "Grand service de table comprenant assiettes plates de présentation pour accueillir nos invités lors de nos dîners et déjeuners dominicaux.",
+    "targetAmount": 850,
+    "currentAmount": 580,
+    "category": "tableware",
+    "imageUrl": "/src/assets/images/assiettes_diner.jpg",
+    "characteristics": [
+      "Contenu : 12 grandes assiettes de dîner",
+      "Style : Intemporel & élégant au charme français",
+      "Finition : Émail résistant et motifs fins"
+    ],
+    "personalNote": "Parce que nous aimons réunir famille et amis autour d'une belle table dressée avec soin."
+  }
+]

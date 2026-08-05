@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Pinyon+Script&family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap');
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'New Icon Script';
+  src: url('/fonts/New-Icon-Script-Exfont1157.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'New Icon Script Regular';
+  src: url('/fonts/New-Icon-Script-Exfont1157.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-script: "New Icon Script", "New Icon Script Regular", "Great Vibes", cursive;
+  
+  --color-wedding-blue-50: #F4F7FA;
+  --color-wedding-blue-100: #3B6FA015;
+  --color-wedding-blue-200: #3B6FA035;
+  --color-wedding-blue-600: #3B6FA0;
+  --color-wedding-blue-800: #13263B;
+  --color-wedding-blue-900: #13263B;
+  
+  --color-wedding-yellow-50: #FAF7F2;
+  --color-wedding-yellow-100: #FAF7F2;
+  --color-wedding-yellow-200: #DFD3C3;
+  --color-wedding-yellow-500: #C4A475;
+  --color-wedding-yellow-600: #AE8E5C;
+  --color-wedding-yellow-700: #4E453A;
+}
+
+/* Calligraphic script utility using New Icon Script Regular */
+.font-script {
+  font-family: "New Icon Script", "New Icon Script Regular", "Great Vibes", cursive !important;
+}
+
+/* Base styling */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-wedding-yellow-50);
+  color: var(--color-wedding-yellow-700);
+  overflow-x: hidden;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Custom heading weights and styles */
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+  color: var(--color-wedding-blue-900);
+}
+
+/* Toile de Jouy Custom Texture Utilities with visible motifs and subtle blur */
+.toile-pattern {
+  background-image: url("/src/assets/images/toile_de_jouy_blue_1783093878722.jpg");
+  background-size: 420px;
+  background-repeat: repeat;
+  filter: contrast(1.05) brightness(1.02);
+}
+
+.toile-overlay {
+  position: relative;
+}
+
+.toile-overlay::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("/src/assets/images/toile_de_jouy_blue_1783093878722.jpg");
+  background-size: 380px;
+  background-repeat: repeat;
+  opacity: 0.12;
+  filter: blur(0.5px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Smooth elegant scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-wedding-yellow-50);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-wedding-blue-200);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-wedding-blue-600);
+}
+
+/* Elegant selection colors */
+::selection {
+  background-color: var(--color-wedding-yellow-200);
+  color: var(--color-wedding-blue-900);
+}

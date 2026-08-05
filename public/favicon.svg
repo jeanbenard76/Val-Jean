@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Outer Deep Blue Circle Background -->
+  <circle cx="50" cy="50" r="48" fill="#13263B" stroke="#C4A475" stroke-width="2" />
+  
+  <!-- Fine Inner Gold Accent Ring -->
+  <circle cx="50" cy="50" r="42" fill="none" stroke="#C4A475" stroke-width="1" stroke-dasharray="3 2" opacity="0.8" />
+  <circle cx="50" cy="50" r="38" fill="none" stroke="#DFD3C3" stroke-width="0.8" opacity="0.6" />
+
+  <!-- Monogram V & J -->
+  <g font-family="Georgia, 'Times New Roman', serif" font-weight="bold">
+    <!-- V in Soft Gold / Ivory -->
+    <text x="32" y="58" font-size="34" fill="#DFD3C3" text-anchor="middle">V</text>
+    
+    <!-- Ampersand / Heart in Warm Gold -->
+    <text x="50" y="57" font-size="18" fill="#C4A475" font-style="italic" text-anchor="middle">&amp;</text>
+    
+    <!-- J in Gold -->
+    <text x="68" y="65" font-size="34" fill="#C4A475" text-anchor="middle">J</text>
+  </g>
+  
+  <!-- Tiny decorative Gold heart at bottom -->
+  <path d="M50 78 C50 78, 46 74, 46 71.5 C46 69.5, 47.5 68, 49.5 68 C50.5 68, 51.5 68.5, 52 69.5 C52.5 68.5, 53.5 68, 54.5 68 C56.5 68, 58 69.5, 58 71.5 C58 74, 54 78, 54 78 Z" fill="#C4A475" opacity="0.9" />
+</svg>
