@@ -345,8 +345,7 @@ export default function RSVPForm() {
       </div>
 
       {/* Main Card Container */}
-      <div className="bg-white/80 backdrop-blur-md border-0 rounded-3xl p-5 sm:p-8 shadow-sm relative">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#C4A475]/60 to-transparent" />
+      <div className="border-0 rounded-3xl p-1 sm:p-4 relative">
 
         <AnimatePresence mode="wait">
           {isSubmitted ? (
@@ -357,7 +356,7 @@ export default function RSVPForm() {
               exit={{ opacity: 0 }}
               className="py-8 text-center space-y-6"
             >
-              <div className="w-16 h-16 rounded-full bg-[#FAF7F2] border border-[#C4A475] mx-auto flex items-center justify-center text-[#13263B]">
+              <div className="w-16 h-16 rounded-full bg-white border border-[#C4A475] mx-auto flex items-center justify-center text-[#13263B]">
                 <CheckCircle2 className="w-8 h-8 text-[#C4A475]" />
               </div>
 
@@ -371,7 +370,7 @@ export default function RSVPForm() {
               </div>
 
               {/* Summary breakdown box */}
-              <div className="bg-[#FAF7F2] border border-[#3B6FA0]/15 rounded-2xl p-5 max-w-md mx-auto text-left space-y-3">
+              <div className="bg-white/90 backdrop-blur-sm shadow-sm border border-[#3B6FA0]/15 rounded-2xl p-5 max-w-md mx-auto text-left space-y-3">
                 <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-[#13263B] border-b border-[#3B6FA0]/10 pb-2">
                   <span>Récapitulatif des confirmations</span>
                   <span className="text-[#C4A475]">
@@ -440,7 +439,7 @@ export default function RSVPForm() {
                     }}
                     onFocus={() => setShowSuggestions(true)}
                     placeholder="Tapez votre nom (ex. Bénard, Chem-Lenhof, Dubois, Martin...)"
-                    className="w-full pl-10 pr-4 py-3 bg-[#FAF7F2] border border-[#3B6FA0]/20 rounded-2xl text-xs text-[#13263B] font-sans focus:outline-none focus:border-[#C4A475] transition-colors"
+                    className="w-full pl-10 pr-4 py-3 bg-white border border-[#3B6FA0]/20 rounded-2xl text-xs text-[#13263B] font-sans focus:outline-none focus:border-[#C4A475] shadow-sm transition-colors"
                   />
                 </div>
 
@@ -494,7 +493,7 @@ export default function RSVPForm() {
 
               {/* BANNÈRE RAPPEL : SI LE FOYER A DÉJÀ RÉPONDU */}
               {selectedFamily?.hasResponded && (
-                <div className="bg-[#FAF7F2] border border-[#C4A475]/50 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-2xs">
+                <div className="bg-white/90 backdrop-blur-sm border border-[#C4A475]/50 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
                   <div className="flex items-start gap-3">
                     <div className="w-9 h-9 rounded-full bg-[#C4A475]/20 text-[#C4A475] flex items-center justify-center shrink-0 border border-[#C4A475]/30 mt-0.5">
                       <CheckCircle2 className="w-5 h-5 text-emerald-600" />
@@ -565,8 +564,8 @@ export default function RSVPForm() {
                         key={member.id}
                         className={`p-4 sm:p-5 rounded-2xl border transition-all ${
                           member.isAttending
-                            ? 'bg-[#FAF7F2] border-[#3B6FA0]/30 shadow-2xs'
-                            : 'bg-slate-50 border-slate-200 opacity-60'
+                            ? 'bg-white/90 backdrop-blur-sm border-[#3B6FA0]/30 shadow-sm'
+                            : 'bg-white/50 backdrop-blur-sm border-slate-200 opacity-70'
                         }`}
                       >
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
@@ -771,7 +770,7 @@ export default function RSVPForm() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="votre.email@exemple.fr"
-                      className="w-full px-4 py-3 bg-[#FAF7F2] border border-[#3B6FA0]/20 rounded-2xl text-xs text-[#13263B] font-sans focus:outline-none focus:border-[#C4A475]"
+                      className="w-full px-4 py-3 bg-white shadow-sm border border-[#3B6FA0]/20 rounded-2xl text-xs text-[#13263B] font-sans focus:outline-none focus:border-[#C4A475]"
                     />
                   </div>
 
@@ -784,7 +783,7 @@ export default function RSVPForm() {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder="Laissez-nous un message doux pour graver ce souvenir..."
-                      className="w-full px-4 py-3 bg-[#FAF7F2] border border-[#3B6FA0]/20 rounded-2xl text-xs text-[#13263B] font-sans focus:outline-none focus:border-[#C4A475] resize-none"
+                      className="w-full px-4 py-3 bg-white shadow-sm border border-[#3B6FA0]/20 rounded-2xl text-xs text-[#13263B] font-sans focus:outline-none focus:border-[#C4A475] resize-none"
                     />
                   </div>
 
@@ -803,7 +802,7 @@ export default function RSVPForm() {
 
               {/* Default hint if family not yet searched */}
               {!selectedFamily && members.length === 0 && (
-                <div className="p-6 bg-[#FAF7F2] border border-dashed border-[#3B6FA0]/20 rounded-2xl text-center space-y-2">
+                <div className="p-6 bg-white/60 backdrop-blur-sm shadow-sm border border-dashed border-[#3B6FA0]/20 rounded-2xl text-center space-y-2">
                   <Heart className="w-5 h-5 text-[#C4A475] mx-auto" />
                   <p className="font-serif italic text-xs text-[#5A5040]">
                     Entrez votre nom de famille ci-dessus (ex. <strong>Bénard</strong>, <strong>Chem-Lenhof</strong>, <strong>Dubois</strong>, <strong>Martin</strong>...) pour pré-remplir les membres de votre foyer et confirmer votre présence en quelques clics.
