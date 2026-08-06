@@ -17,6 +17,7 @@ import {
   saveDatabaseToDisk,
   updateFamilyInvitations,
   clearAllRSVPs,
+  addFamilies,
 } from "./server/db";
 import { sendRSVPNotificationEmail } from "./server/mailer";
 

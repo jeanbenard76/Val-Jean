@@ -488,5 +488,50 @@ export function clearAllRSVPs() {
  */
 export function getDbFilePath(): string {
   saveDatabaseToDisk();
-  return DB_FILE_PATH;
+}
+
+/**
+ * Add an array of families directly (used by admin for manual addition and Excel import).
+ */
+export function addFamilies(families: any[]) {
+  if (!db) throw new Error('Database not initialized');
+
+  let addedCount = 0;
+
+  for (const fam of families) {
+    // Generate an ID if it doesn't exist
+    const famId = fam.id || `fam-custom-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    
+    // Insert family
+    db.run(
+      "INSERT INTO families (id, family_name, email, notes) VALUES (?, ?, ?, 'manual_addition')",
+      [famId, fam.familyName, fam.email || '']
+    );
+
+    // Insert members
+    for (const m of fam.members) {
+      const memId = m.id || `m-custom-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+      
+      const invVin = m.invitedTo?.vinHonneur !== false ? 1 : 0;
+      const invRepas = m.invitedTo?.repasNoces ? 1 : 0;
+      const invBrunch = m.invitedTo?.brunchLendemain ? 1 : 0;
+
+      // For admin addition, they might be marking them as attending or not right away
+      const isAttending = m.isAttending ? 1 : 0;
+      const vin = (invVin && m.events?.vinHonneur) ? 1 : 0;
+      const repas = (invRepas && m.events?.repasNoces) ? 1 : 0;
+      const brunch = (invBrunch && m.events?.brunchLendemain) ? 1 : 0;
+      
+      db.run(
+        `INSERT INTO members (id, family_id, first_name, last_name, is_child, age, is_attending, invited_vin, invited_repas, invited_brunch, vin_honneur, repas_noces, brunch_lendemain, dietary_notes)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [memId, famId, m.firstName, m.lastName, m.isChild ? 1 : 0, m.age || null, isAttending, invVin, invRepas, invBrunch, vin, repas, brunch, m.dietaryNotes || '']
+      );
+    }
+    
+    addedCount++;
+  }
+
+  saveDatabaseToDisk();
+  return { success: true, count: addedCount };
 }

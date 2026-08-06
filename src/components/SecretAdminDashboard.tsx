@@ -8,6 +8,7 @@ import { motion } from 'motion/react';
 import { Database, Download, FileSpreadsheet, ShieldCheck, RefreshCw, Search, Users, Baby, Utensils, MessageSquare, Check, X, ArrowLeft } from 'lucide-react';
 import { GuestFamily, RSVPStats } from '../types';
 import { getStoredFamilies, clearLocalStorageRSVPs } from '../utils/rsvpStorage';
+import AdminAddFamily from './AdminAddFamily';
 
 interface SecretAdminDashboardProps {
   onBackToHome?: () => void;
@@ -290,6 +291,9 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
           </button>
         </div>
       </div>
+
+      {/* 1.5 ADD GUESTS SECTION */}
+      <AdminAddFamily onSuccess={() => { fetchFamilies(); fetchStats(); }} adminHeaders={adminHeaders} />
 
       {/* 2. REPARTITION EXACTE DES ADULTES & ENFANTS PAR TYPE DE REPAS / ÉVÉNEMENT */}
       <div className="space-y-3">
