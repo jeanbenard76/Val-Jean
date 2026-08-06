@@ -67,6 +67,11 @@ async function startServer() {
     res.json({ status: "ok", db: "wedding.db active" });
   });
 
+  // Verify admin password (used by the dashboard login popup)
+  app.get("/api/admin/verify", requireAdmin, (req, res) => {
+    res.json({ ok: true });
+  });
+
   // Get all families or search by query
   app.get("/api/families", (req, res) => {
     try {

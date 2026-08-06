@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'motion/react';
-import { Database, Download, FileSpreadsheet, ShieldCheck, RefreshCw, Search, Users, Baby, Utensils, MessageSquare, Check, X, ArrowLeft } from 'lucide-react';
+import { Database, Download, FileSpreadsheet, ShieldCheck, RefreshCw, Search, Users, Baby, Utensils, MessageSquare, Check, X, ArrowLeft, Lock } from 'lucide-react';
 import { GuestFamily, RSVPStats } from '../types';
 import { getStoredFamilies, clearLocalStorageRSVPs } from '../utils/rsvpStorage';
 
@@ -50,6 +50,43 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
   const [filterStatus, setFilterStatus] = useState<'all' | 'attending' | 'absent' | 'dietary'>('all');
   const [filterEvent, setFilterEvent] = useState<'all' | 'vin' | 'repas' | 'brunch'>('all');
 
+  // Authentication gate: null = checking, false = login popup, true = dashboard
+  const [authed, setAuthed] = useState<boolean | null>(null);
+  const [pwdInput, setPwdInput] = useState('');
+  const [authError, setAuthError] = useState('');
+
+  const verifyToken = async (token: string): Promise<{ ok: boolean; error?: string }> => {
+    try {
+      const res = await fetch('/api/admin/verify', {
+        headers: token ? { 'x-admin-token': token } : {},
+      });
+      if (res.ok) return { ok: true };
+      if (res.status === 503) {
+        const data = await res.json().catch(() => ({} as any));
+        return { ok: false, error: data.error || 'ADMIN_TOKEN non configuré sur le serveur.' };
+      }
+      return { ok: false, error: 'Mot de passe incorrect.' };
+    } catch {
+      return { ok: false, error: 'Serveur injoignable, réessayez.' };
+    }
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const pwd = pwdInput.trim();
+    if (!pwd) return;
+    const result = await verifyToken(pwd);
+    if (result.ok) {
+      sessionStorage.setItem('adminToken', pwd);
+      setAuthed(true);
+      setAuthError('');
+      fetchStats();
+      fetchFamilies();
+    } else {
+      setAuthError(result.error || 'Mot de passe incorrect.');
+    }
+  };
+
   const fetchStats = async () => {
     try {
       const res = await fetch('/api/stats');
@@ -91,9 +128,16 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
     setLoading(false);
   };
 
+  // On mount: silently try the token stored in session (e.g. from ?admin=<token> URL)
   useEffect(() => {
-    fetchStats();
-    fetchFamilies();
+    (async () => {
+      const result = await verifyToken(getAdminToken());
+      setAuthed(result.ok);
+      if (result.ok) {
+        fetchStats();
+        fetchFamilies();
+      }
+    })();
   }, []);
 
   const handleUpdateInvitation = async (familyId: string, vin: boolean, repas: boolean, brunch: boolean) => {
@@ -186,9 +230,72 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
     });
   }, [families, search, filterStatus, filterEvent]);
 
+  // Still checking the stored token
+  if (authed === null) {
+    return (
+      <div className="w-full max-w-md mx-auto px-4 py-24 text-center">
+        <RefreshCw className="w-6 h-6 text-[#C4A475] animate-spin mx-auto" />
+      </div>
+    );
+  }
+
+  // Login popup: password required before showing any guest data
+  if (!authed) {
+    return (
+      <div className="w-full max-w-md mx-auto px-4 py-16" id="admin-login-gate">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white/95 backdrop-blur-md p-8 rounded-3xl border border-[#13263B]/15 shadow-xl space-y-5 text-center"
+        >
+          <div className="mx-auto w-14 h-14 bg-[#13263B] text-[#C4A475] rounded-2xl flex items-center justify-center shadow-xs">
+            <Lock className="w-7 h-7" />
+          </div>
+          <div>
+            <h2 className="font-display text-2xl text-[#13263B] font-bold">Espace Mariés</h2>
+            <p className="font-serif italic text-xs text-[#5A5040] mt-1">
+              Cette page est réservée à Valentine &amp; Jean. Entrez le mot de passe pour accéder aux réponses des invités.
+            </p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-3">
+            <input
+              type="password"
+              value={pwdInput}
+              onChange={(e) => { setPwdInput(e.target.value); setAuthError(''); }}
+              placeholder="Mot de passe"
+              autoFocus
+              className="w-full px-4 py-3 bg-[#FAF7F2] border border-slate-200 rounded-xl text-sm text-[#13263B] text-center tracking-widest focus:outline-none focus:border-[#C4A475]"
+            />
+            {authError && (
+              <p className="text-xs text-red-600 font-semibold">{authError}</p>
+            )}
+            <button
+              type="submit"
+              className="w-full py-3 bg-[#13263B] hover:bg-[#C4A475] hover:text-[#13263B] text-white text-sm font-semibold rounded-xl transition-colors cursor-pointer flex items-center justify-center gap-2"
+            >
+              <ShieldCheck className="w-4 h-4" />
+              <span>Accéder au tableau de bord</span>
+            </button>
+          </form>
+
+          {onBackToHome && (
+            <button
+              onClick={onBackToHome}
+              className="text-xs text-[#3B6FA0] hover:underline cursor-pointer flex items-center gap-1 mx-auto"
+            >
+              <ArrowLeft className="w-3 h-3" />
+              <span>Retour au site</span>
+            </button>
+          )}
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full max-w-6xl mx-auto px-4 py-6 sm:py-8 space-y-8" id="secret-admin-dashboard">
-      
+
       {/* 1. HEADER WITH GO BACK & REFRESH BUTTONS */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/90 backdrop-blur-md p-6 rounded-3xl border border-[#13263B]/15 shadow-xs">
         <div className="flex items-center gap-3">
