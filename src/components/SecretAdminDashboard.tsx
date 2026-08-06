@@ -35,8 +35,10 @@ const formatDate = (dateStr?: string | null) => {
   }
 };
 
-// Admin token captured from the URL (?admin=<token>) and stored by App.tsx
-const getAdminToken = () => sessionStorage.getItem('adminToken') || '';
+// Admin token kept in memory only for the current visit — never stored,
+// so the password is asked again on every visit to the admin page.
+let currentToken = '';
+const getAdminToken = () => currentToken;
 const adminHeaders = (): Record<string, string> => {
   const token = getAdminToken();
   return token ? { 'x-admin-token': token } : {};
@@ -110,10 +112,11 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
     setLoading(false);
   };
 
-  // On mount: try the stored token, otherwise ask via the native browser prompt
+  // On every visit: ask the password via the native browser prompt (never stored)
   useEffect(() => {
     (async () => {
-      let result = await verifyToken(getAdminToken());
+      currentToken = '';
+      let result = await verifyToken(''); // passes only in dev (no ADMIN_TOKEN required)
       let message = 'Espace Mariés — mot de passe :';
       while (!result.ok) {
         if (result.error && result.error !== 'incorrect') {
@@ -128,7 +131,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
         }
         result = await verifyToken(pwd.trim());
         if (result.ok) {
-          sessionStorage.setItem('adminToken', pwd.trim());
+          currentToken = pwd.trim();
         } else {
           message = 'Mot de passe incorrect, réessayez :';
         }
