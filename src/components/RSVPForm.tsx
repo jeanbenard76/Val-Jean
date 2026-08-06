@@ -177,7 +177,23 @@ export default function RSVPForm() {
   // Set explicit attendance status (Présent / Absent)
   const setMemberAttendance = (memberId: string, status: boolean) => {
     setMembers((prev) =>
-      prev.map((m) => (m.id === memberId ? { ...m, isAttending: status } : m))
+      prev.map((m) => {
+        if (m.id === memberId) {
+          if (status === true && !m.isAttending) {
+            return {
+              ...m,
+              isAttending: status,
+              events: {
+                vinHonneur: m.invitedTo?.vinHonneur !== false,
+                repasNoces: m.invitedTo?.repasNoces === true,
+                brunchLendemain: m.invitedTo?.brunchLendemain === true,
+              }
+            };
+          }
+          return { ...m, isAttending: status };
+        }
+        return m;
+      })
     );
   };
 
@@ -207,7 +223,20 @@ export default function RSVPForm() {
 
   // Batch toggle all members
   const batchSetAttendance = (status: boolean) => {
-    setMembers((prev) => prev.map((m) => ({ ...m, isAttending: status })));
+    setMembers((prev) => prev.map((m) => {
+      if (status === true && !m.isAttending) {
+        return {
+          ...m,
+          isAttending: status,
+          events: {
+            vinHonneur: m.invitedTo?.vinHonneur !== false,
+            repasNoces: m.invitedTo?.repasNoces === true,
+            brunchLendemain: m.invitedTo?.brunchLendemain === true,
+          }
+        };
+      }
+      return { ...m, isAttending: status };
+    }));
   };
 
   // Add a new member / child to the current family
