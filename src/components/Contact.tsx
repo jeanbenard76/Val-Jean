@@ -161,18 +161,6 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Secure & Privacy badge */}
-          <div className="bg-[#3B6FA0]/5 border border-[#3B6FA0]/15 p-5 rounded-2xl flex gap-3 text-left">
-            <ShieldCheck className="w-5 h-5 text-[#F5C842] flex-shrink-0 mt-0.5" />
-            <div>
-              <h5 className="font-display font-semibold text-sm text-[#1A3A5C]">
-                Confidentialité garantie
-              </h5>
-              <p className="text-xs text-[#5A5040] font-serif italic leading-relaxed mt-0.5">
-                Si vous souhaitez préparer une animation ou un discours surprise pour la soirée, contactez directement Arthur ou Claire. Valentine et Jean ne seront pas informés des échanges !
-              </p>
-            </div>
-          </div>
         </div>
 
         {/* Right Column: Dynamic Contact/Message Form */}
