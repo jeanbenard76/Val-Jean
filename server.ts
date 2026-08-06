@@ -144,6 +144,20 @@ async function startServer() {
     }
   });
 
+  // Add new families (manual or bulk import)
+  app.post("/api/admin/families", requireAdmin, (req, res) => {
+    try {
+      const families = req.body;
+      if (!Array.isArray(families)) {
+        return res.status(400).json({ error: "Un tableau de familles est requis" });
+      }
+      const result = addFamilies(families);
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   // Get registry gifts JSON data (scraped / updated periodically from Millemercis)
   app.get("/api/registry", (req, res) => {
     try {

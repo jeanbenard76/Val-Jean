@@ -488,6 +488,7 @@ export function clearAllRSVPs() {
  */
 export function getDbFilePath(): string {
   saveDatabaseToDisk();
+  return DB_FILE_PATH;
 }
 
 /**
