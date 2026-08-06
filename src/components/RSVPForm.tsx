@@ -445,7 +445,7 @@ export default function RSVPForm() {
                 </div>
 
                 {/* Database Suggestion Dropdown */}
-                {showSuggestions && searchQuery.trim().length > 0 && (
+                {showSuggestions && searchQuery.trim().length >= 3 && (
                   <div className="absolute z-20 left-0 right-0 top-full mt-1 bg-white border border-[#3B6FA0]/20 rounded-2xl shadow-lg max-h-[260px] overflow-y-auto divide-y divide-slate-100">
                     {filteredSuggestions.length > 0 ? (
                       filteredSuggestions.map((fam) => (
