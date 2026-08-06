@@ -111,10 +111,10 @@ export default function RSVPForm() {
   const [adminSearch, setAdminSearch] = useState('');
 
   // Load live families & stats from SQLite backend on component mount
-  // (fetchRSVPs removed: admin-only route, unused on the public form)
   useEffect(() => {
     fetchFamilies();
     fetchStats();
+    fetchRSVPs();
   }, []);
 
   const fetchFamilies = async () => {

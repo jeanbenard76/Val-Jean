@@ -7,11 +7,8 @@ import initSqlJs, { Database } from 'sql.js';
 import fs from 'fs';
 import path from 'path';
 
-// Path to the SQLite .db file on disk.
-// Configurable via DB_PATH (e.g. /data/wedding.db on Coolify with a persistent volume).
-const DB_FILE_PATH = process.env.DB_PATH
-  ? path.resolve(process.env.DB_PATH)
-  : path.join(process.cwd(), 'wedding.db');
+// Path to the SQLite .db file on disk
+const DB_FILE_PATH = path.join(process.cwd(), 'wedding.db');
 
 let db: Database | null = null;
 
@@ -109,7 +106,6 @@ function syncInitialInvitations(database: Database): void {
 export function saveDatabaseToDisk(): void {
   if (!db) return;
   try {
-    fs.mkdirSync(path.dirname(DB_FILE_PATH), { recursive: true });
     const data = db.export();
     const buffer = Buffer.from(data);
     fs.writeFileSync(DB_FILE_PATH, buffer);
@@ -459,7 +455,7 @@ export function updateFamilyInvitations(familyId: string, invitedVin: boolean, i
   const iRepas = invitedRepas ? 1 : 0;
   const iBrunch = invitedBrunch ? 1 : 0;
 
-  db.run('UPDATE members SET invited_vin = ?, invited_repas = ?, invited_brunch = ? WHERE family_id = ?', [iVin, iRepas, iBrunch, familyId]);
+  db.exec(`UPDATE members SET invited_vin = ${iVin}, invited_repas = ${iRepas}, invited_brunch = ${iBrunch} WHERE family_id = '${familyId}'`);
   saveDatabaseToDisk();
   return { success: true };
 }

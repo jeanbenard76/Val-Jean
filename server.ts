@@ -4,8 +4,8 @@
  */
 
 import express from "express";
-import fs from "fs";
 import path from "path";
+import { createServer as createViteServer } from "vite";
 import {
   initDatabase,
   getAllFamiliesWithMembers,
@@ -22,45 +22,12 @@ import { sendRSVPNotificationEmail } from "./server/mailer";
 
 async function startServer() {
   const app = express();
-  const PORT = Number(process.env.PORT) || 3000;
-  const IS_PROD = process.env.NODE_ENV === "production";
-  const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
+  const PORT = 3000;
 
   app.use(express.json());
 
   // Initialize SQLite wedding.db database
   await initDatabase();
-
-  // Protect sensitive routes (guest data & destructive actions) with ADMIN_TOKEN.
-  // Token accepted via "x-admin-token" header or "?key=" query param (for download links).
-  const requireAdmin: express.RequestHandler = (req, res, next) => {
-    if (!ADMIN_TOKEN) {
-      if (IS_PROD) {
-        return res.status(503).json({
-          error: "ADMIN_TOKEN non configuré sur le serveur : accès admin désactivé.",
-        });
-      }
-      return next(); // pas de token exigé en développement local
-    }
-    const provided = req.headers["x-admin-token"] || req.query.key;
-    if (provided === ADMIN_TOKEN) return next();
-    res.status(401).json({ error: "Accès non autorisé." });
-  };
-
-  // Basic in-memory rate limit on RSVP submissions (anti-spam)
-  const rsvpHits = new Map<string, number[]>();
-  const rsvpRateLimit: express.RequestHandler = (req, res, next) => {
-    const ip = req.ip || "unknown";
-    const now = Date.now();
-    const windowMs = 10 * 60 * 1000;
-    const hits = (rsvpHits.get(ip) || []).filter((t) => now - t < windowMs);
-    if (hits.length >= 10) {
-      return res.status(429).json({ error: "Trop de tentatives, réessayez dans quelques minutes." });
-    }
-    hits.push(now);
-    rsvpHits.set(ip, hits);
-    next();
-  };
 
   // API Routes
   app.get("/api/health", (req, res) => {
@@ -83,7 +50,7 @@ async function startServer() {
   });
 
   // Submit RSVP and save to SQLite wedding.db + transmit email to valentinetjean@etik.com
-  app.post("/api/rsvp", rsvpRateLimit, async (req, res) => {
+  app.post("/api/rsvp", async (req, res) => {
   try {
     const { familyId, familyName, email, message, members } = req.body;
     if (!familyName || !email || !Array.isArray(members)) {
@@ -110,7 +77,7 @@ async function startServer() {
 });
 
   // Update invitation scopes (Vin / Repas / Brunch) for a family
-  app.post("/api/admin/update-invitation", requireAdmin, (req, res) => {
+  app.post("/api/admin/update-invitation", (req, res) => {
     try {
       const { familyId, invitedVin, invitedRepas, invitedBrunch } = req.body;
       if (!familyId) {
@@ -129,7 +96,7 @@ async function startServer() {
   });
 
   // Clear all RSVPs and reset database responses
-  app.post("/api/admin/clear-rsvps", requireAdmin, (req, res) => {
+  app.post("/api/admin/clear-rsvps", (req, res) => {
     try {
       const result = clearAllRSVPs();
       res.json(result);
@@ -142,8 +109,8 @@ async function startServer() {
   app.get("/api/registry", (req, res) => {
     try {
       const jsonPath = path.join(process.cwd(), "src", "data", "registry_gifts.json");
-      if (fs.existsSync(jsonPath)) {
-        const data = fs.readFileSync(jsonPath, "utf-8");
+      if (require("fs").existsSync(jsonPath)) {
+        const data = require("fs").readFileSync(jsonPath, "utf-8");
         return res.json(JSON.parse(data));
       }
       res.status(404).json({ error: "Fichier registry_gifts.json introuvable" });
@@ -153,14 +120,14 @@ async function startServer() {
   });
 
   // Update registry gifts JSON data (for Millemercis scraper script running every 5 minutes)
-  app.post("/api/registry", requireAdmin, (req, res) => {
+  app.post("/api/registry", (req, res) => {
     try {
       const jsonPath = path.join(process.cwd(), "src", "data", "registry_gifts.json");
       const gifts = req.body;
       if (!Array.isArray(gifts)) {
         return res.status(400).json({ error: "Tableau de cadeaux valide requis" });
       }
-      fs.writeFileSync(jsonPath, JSON.stringify(gifts, null, 2), "utf-8");
+      require("fs").writeFileSync(jsonPath, JSON.stringify(gifts, null, 2), "utf-8");
       res.json({ success: true, message: "Mise à jour des financements Millemercis réussie !" });
     } catch (err: any) {
       res.status(500).json({ error: err.message });
@@ -178,7 +145,7 @@ async function startServer() {
   });
 
   // Get all RSVP logs
-  app.get("/api/rsvps", requireAdmin, (req, res) => {
+  app.get("/api/rsvps", (req, res) => {
     try {
       const rsvps = getAllRSVPs();
       res.json(rsvps);
@@ -188,7 +155,7 @@ async function startServer() {
   });
 
   // Download raw wedding.db binary SQLite file for OVHcloud / local backups
-  app.get("/api/admin/download-db", requireAdmin, (req, res) => {
+  app.get("/api/admin/download-db", (req, res) => {
     try {
       saveDatabaseToDisk();
       const filePath = getDbFilePath();
@@ -199,7 +166,7 @@ async function startServer() {
   });
 
   // Export CSV for caterer / wedding planner
-  app.get("/api/admin/export-csv", requireAdmin, (req, res) => {
+  app.get("/api/admin/export-csv", (req, res) => {
     try {
       const families = getAllFamiliesWithMembers();
       let csv =
@@ -228,9 +195,8 @@ async function startServer() {
     }
   });
 
-  // Vite middleware for development only (dynamic import: Vite must never load in production)
-  if (!IS_PROD) {
-    const { createServer: createViteServer } = await import("vite");
+  // Vite middleware for development
+  if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",

@@ -35,13 +35,6 @@ const formatDate = (dateStr?: string | null) => {
   }
 };
 
-// Admin token captured from the URL (?admin=<token>) and stored by App.tsx
-const getAdminToken = () => sessionStorage.getItem('adminToken') || '';
-const adminHeaders = (): Record<string, string> => {
-  const token = getAdminToken();
-  return token ? { 'x-admin-token': token } : {};
-};
-
 export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashboardProps) {
   const [families, setFamilies] = useState<GuestFamily[]>([]);
   const [stats, setStats] = useState<RSVPStats | null>(null);
@@ -85,7 +78,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
     try {
       const res = await fetch('/api/admin/update-invitation', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...adminHeaders() },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ familyId, invitedVin: vin, invitedRepas: repas, invitedBrunch: brunch }),
       });
       if (res.ok) {
@@ -492,7 +485,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
       {/* 4. FILE DOWNLOAD BUTTONS & RESET ACTION */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <a
-          href={`/api/admin/export-csv?key=${encodeURIComponent(getAdminToken())}`}
+          href="/api/admin/export-csv"
           download="liste_invites_mariage.csv"
           className="p-5 bg-[#13263B] hover:bg-[#C4A475] text-white hover:text-[#13263B] rounded-2xl font-sans text-xs font-semibold flex items-center justify-between group transition-all shadow-2xs cursor-pointer"
         >
@@ -509,7 +502,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
         </a>
 
         <a
-          href={`/api/admin/download-db?key=${encodeURIComponent(getAdminToken())}`}
+          href="/api/admin/download-db"
           download="wedding.db"
           className="p-5 bg-white border border-[#3B6FA0]/20 hover:border-[#13263B] text-[#13263B] rounded-2xl font-sans text-xs font-semibold flex items-center justify-between group transition-all shadow-2xs cursor-pointer"
         >
@@ -529,7 +522,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
           onClick={async () => {
             if (window.confirm('Voulez-vous vraiment effacer toutes les réponses reçues et réinitialiser la base de données ?')) {
               try {
-                const res = await fetch('/api/admin/clear-rsvps', { method: 'POST', headers: adminHeaders() });
+                const res = await fetch('/api/admin/clear-rsvps', { method: 'POST' });
                 if (res.ok) {
                   fetchFamilies();
                   fetchStats();
