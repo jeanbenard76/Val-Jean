@@ -181,15 +181,15 @@ export default function App() {
         {activePage === 'home' && (
           <div id="home-page" className="animate-fade-in">
             {/* 1. INITIAL ENTRY HERO SCREEN (Simple, elegant, Toile de Jouy) */}
-            <section className="relative flex flex-col items-center justify-center text-center px-4 py-6 sm:py-8 overflow-hidden bg-[#FAF7F2] border-b border-[#3B6FA0]/15 min-h-[calc(100dvh-73px)]">
+            <section className="relative flex flex-col items-center text-center px-4 pt-10 sm:pt-14 pb-8 overflow-hidden bg-[#FAF7F2] min-h-[calc(100dvh-73px)]">
               {/* Richer Toile de Jouy Background Overlay with soft blur */}
               <div className="absolute inset-0 toile-pattern opacity-[0.14] blur-[0.3px] pointer-events-none" />
               
-              {/* Top Parents Line with Larger Logo in Center */}
-              <div className="relative z-10 my-auto py-2 sm:py-4 max-w-4xl mx-auto flex flex-col items-center text-center space-y-3">
+              {/* Top Parents Line centered between header and trait */}
+              <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center text-center">
                 
                 {/* Parents & Larger Center Logo Row */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6 w-full max-w-3xl mx-auto px-4 border-b border-[#C4A475]/30 py-4">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6 w-full max-w-3xl mx-auto px-4 border-b border-[#C4A475]/30 pb-10 sm:pb-14 mb-8 sm:mb-10">
                   <span className="text-[11px] sm:text-xs font-serif tracking-widest uppercase text-[#13263B]/70 text-center sm:text-left font-medium">
                     Anne et Visith Chem-Lenhof
                   </span>
@@ -202,7 +202,10 @@ export default function App() {
                     Anny-Claude et Marc Bénard
                   </span>
                 </div>
+              </div>
 
+              {/* Main Content Centered in remaining space */}
+              <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto space-y-3 pb-8">
                 {/* Invitation phrase */}
                 <p className="text-xs sm:text-sm font-serif italic text-[#3B6FA0] tracking-wider pt-1 mb-4 sm:mb-6">
                   sont heureux de vous inviter au mariage de leurs enfants
