@@ -310,13 +310,15 @@ export default function App() {
         <div className="pt-2 text-[10px] text-slate-400 font-sans uppercase tracking-widest flex items-center justify-center gap-4">
           <span>Créé avec amour</span>
           <span>•</span>
+          <span>Tous droits réservés © 2027</span>
+          <span>•</span>
           <button
             type="button"
             onClick={() => handlePageChange('admin')}
             className="hover:text-[#13263B] transition-colors cursor-pointer"
             title="Espace Mariés"
           >
-            Tous droits réservés © 2027
+            Admin
           </button>
         </div>
       </footer>
