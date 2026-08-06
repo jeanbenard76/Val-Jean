@@ -1,20 +1,40 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Mariage Valentine & Jean — 17 avril 2027
 
-# Run and deploy your AI Studio app
+Site de mariage : React 19 + Vite 6 + Tailwind 4, serveur Express (API RSVP + fichiers statiques), base SQLite (fichier `wedding.db`).
 
-This contains everything you need to run your app locally.
+## Développement local
 
-View your app in AI Studio: https://ai.studio/apps/f0d049bc-490e-4aad-903c-9521a7820a2a
+```bash
+npm install
+npm run dev        # http://localhost:3000
+```
 
-## Run Locally
+## Build & production
 
-**Prerequisites:**  Node.js
+```bash
+npm run build      # front (dist/) + serveur (dist/server.cjs)
+npm start          # NODE_ENV=production requis
+```
 
+## Variables d'environnement
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Voir [.env.example](.env.example) :
+
+| Variable | Rôle |
+|---|---|
+| `NODE_ENV` | `production` en déploiement |
+| `ADMIN_TOKEN` | **Obligatoire en prod** — protège `/api/admin/*`, `/api/rsvps` et `POST /api/registry` |
+| `DB_PATH` | Chemin du fichier SQLite (ex. `/data/wedding.db` sur un volume persistant) |
+| `RESEND_API_KEY` | Optionnel — notifications email des réponses RSVP via Resend |
+
+## Espace mariés (dashboard admin)
+
+Accessible via `https://votre-domaine.fr/?admin=<ADMIN_TOKEN>` (le token est mémorisé pour la session). Sans token valide, les routes admin renvoient 401.
+
+## Déploiement Coolify
+
+1. Application → dépôt GitHub, branche `main`, buildpack Nixpacks.
+2. Build : `npm run build` — Start : `npm start` — Port : `3000`.
+3. Variables : `NODE_ENV=production`, `ADMIN_TOKEN=<token fort>`, `DB_PATH=/data/wedding.db`, `RESEND_API_KEY` (optionnel).
+4. Persistent Storage : volume monté sur `/data` (indispensable, sinon les réponses RSVP sont perdues à chaque redéploiement).
+5. Health check : `GET /api/health`.

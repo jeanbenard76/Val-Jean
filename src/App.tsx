@@ -22,10 +22,15 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activePage, setActivePage] = useState<PageType>('home');
 
-  // Check URL query parameters for secret admin trigger (e.g. ?admin=1 or ?secret=maries2027)
+  // Check URL query parameters for secret admin trigger (e.g. ?admin=<ADMIN_TOKEN>)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.has('admin') || params.has('secret') || params.has('maries') || window.location.pathname.includes('/admin')) {
+      // The param value is the ADMIN_TOKEN expected by the /api/admin/* routes
+      const token = params.get('admin') || params.get('secret') || params.get('maries') || params.get('key');
+      if (token && token.length > 1) {
+        sessionStorage.setItem('adminToken', token);
+      }
       setActivePage('admin');
     }
   }, []);

@@ -6,3 +6,6 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Base de données SQLite (données personnelles des invités — ne jamais versionner)
+wedding.db
