@@ -328,7 +328,7 @@ export default function RSVPForm() {
   }, [families, adminFilter, adminSearch]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-6 sm:py-8 min-h-[70vh]" id="rsvp-section">
+    <div className="w-full max-w-4xl mx-auto px-4 py-6 sm:py-8 min-h-[85vh] pb-72" id="rsvp-section">
       
       {/* Editorial Header */}
       <div className="text-center mb-6 sm:mb-8">
@@ -438,6 +438,7 @@ export default function RSVPForm() {
                       }
                     }}
                     onFocus={() => setShowSuggestions(true)}
+                    onClick={(e) => (e.target as HTMLInputElement).select()}
                     placeholder="Tapez votre nom (ex. Bénard, Chem-Lenhof, Dubois, Martin...)"
                     className="w-full pl-10 pr-4 py-3 bg-white border border-[#3B6FA0]/20 rounded-2xl text-xs text-[#13263B] font-sans focus:outline-none focus:border-[#C4A475] shadow-sm transition-colors"
                   />
