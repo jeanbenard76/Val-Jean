@@ -7,86 +7,10 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Check, Search, User, Baby, Heart, Users, ChevronRight, CheckCircle2, AlertCircle, Database, Download, FileSpreadsheet, ShieldCheck, RefreshCw, MessageSquare, Utensils, Clock } from 'lucide-react';
 import { GuestFamily, FamilyMember } from '../types';
-
-// Fallback Pre-seeded Database of Guest Families
-const FALLBACK_FAMILIES: GuestFamily[] = [
-  {
-    id: 'fam-benard',
-    familyName: 'Bénard',
-    email: 'jean.benard@exemple.fr',
-    members: [
-      {
-        id: 'm-b1',
-        firstName: 'Jean',
-        lastName: 'Bénard',
-        isChild: false,
-        isAttending: true,
-        events: { vinHonneur: true, repasNoces: true, brunchLendemain: true },
-      },
-      {
-        id: 'm-b2',
-        firstName: 'Valentine',
-        lastName: 'Bénard',
-        isChild: false,
-        isAttending: true,
-        events: { vinHonneur: true, repasNoces: true, brunchLendemain: true },
-      },
-      {
-        id: 'm-b3',
-        firstName: 'Lucas',
-        lastName: 'Bénard',
-        isChild: true,
-        age: 8,
-        isAttending: true,
-        events: { vinHonneur: true, repasNoces: true, brunchLendemain: true },
-      },
-      {
-        id: 'm-b4',
-        firstName: 'Camille',
-        lastName: 'Bénard',
-        isChild: true,
-        age: 5,
-        isAttending: true,
-        events: { vinHonneur: true, repasNoces: true, brunchLendemain: true },
-      },
-    ],
-  },
-  {
-    id: 'fam-chemlenhof',
-    familyName: 'Chem-Lenhof',
-    email: 'alex.chemlenhof@exemple.fr',
-    members: [
-      {
-        id: 'm-c1',
-        firstName: 'Alexandre',
-        lastName: 'Chem-Lenhof',
-        isChild: false,
-        isAttending: true,
-        events: { vinHonneur: true, repasNoces: true, brunchLendemain: true },
-      },
-      {
-        id: 'm-c2',
-        firstName: 'Élodie',
-        lastName: 'Chem-Lenhof',
-        isChild: false,
-        isAttending: true,
-        events: { vinHonneur: true, repasNoces: true, brunchLendemain: true },
-      },
-      {
-        id: 'm-c3',
-        firstName: 'Gabriel',
-        lastName: 'Chem-Lenhof',
-        isChild: true,
-        age: 6,
-        isAttending: true,
-        events: { vinHonneur: true, repasNoces: true, brunchLendemain: true },
-      },
-    ],
-  },
-];
+import { getStoredFamilies, saveRSVPToLocalStorage, getStoredRSVPs } from '../utils/rsvpStorage';
 
 export default function RSVPForm() {
-  const [families, setFamilies] = useState<GuestFamily[]>(FALLBACK_FAMILIES);
+  const [families, setFamilies] = useState<GuestFamily[]>(() => getStoredFamilies());
   const [searchQuery, setSearchQuery] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedFamily, setSelectedFamily] = useState<GuestFamily | null>(null);
@@ -110,7 +34,7 @@ export default function RSVPForm() {
   const [adminFilter, setAdminFilter] = useState<'all' | 'attending' | 'absent' | 'dietary'>('all');
   const [adminSearch, setAdminSearch] = useState('');
 
-  // Load live families & stats from SQLite backend on component mount
+  // Load live families & stats on component mount
   useEffect(() => {
     fetchFamilies();
     fetchStats();
@@ -121,15 +45,21 @@ export default function RSVPForm() {
     try {
       const res = await fetch('/api/families');
       if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          setFamilies(data);
-        }
+        const text = await res.text();
+        try {
+          const data = JSON.parse(text);
+          if (Array.isArray(data) && data.length > 0) {
+            setFamilies(data);
+            return;
+          }
+        } catch (jsonErr) {}
       }
     } catch (err) {
       console.log('Utilisation du mode hors-ligne pour la recherche invités');
     }
+    setFamilies(getStoredFamilies());
   };
+
 
   const fetchStats = async () => {
     try {
@@ -301,7 +231,7 @@ export default function RSVPForm() {
     setShowAddMember(false);
   };
 
-  // Submit RSVP to SQLite wedding.db backend
+  // Submit RSVP to SQLite wedding.db backend or fallback storage
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -313,6 +243,9 @@ export default function RSVPForm() {
       message,
     };
 
+    // Always save to localStorage so Admin Dashboard works reliably in all production environments
+    saveRSVPToLocalStorage(payload);
+
     try {
       const res = await fetch('/api/rsvp', {
         method: 'POST',
@@ -320,17 +253,32 @@ export default function RSVPForm() {
         body: JSON.stringify(payload),
       });
 
-      if (res.ok) {
-        await fetchFamilies();
-        await fetchStats();
-        await fetchRSVPs();
-        setIsSubmitted(true);
+      if (!res.ok) {
+        // Fallback to PHP script if hosted on traditional PHP web server
+        await fetch('/api/send_rsvp_mail.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        }).catch(() => {});
       }
+
+      await fetchFamilies();
+      await fetchStats();
+      await fetchRSVPs();
     } catch (err) {
-      console.error('Erreur lors de l’envoi du RSVP', err);
-      setIsSubmitted(true);
+      console.error('Erreur lors de l’envoi du RSVP API, fallback exécuté', err);
+      // Fallback to PHP mail script if on classical PHP host
+      await fetch('/api/send_rsvp_mail.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }).catch(() => {});
     }
+
+    setFamilies(getStoredFamilies());
+    setIsSubmitted(true);
   };
+
 
   const attendingAdults = members.filter((m) => m.isAttending && !m.isChild).length;
   const attendingChildren = members.filter((m) => m.isAttending && m.isChild).length;

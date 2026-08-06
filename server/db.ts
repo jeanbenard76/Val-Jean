@@ -263,7 +263,7 @@ export function getAllFamiliesWithMembers() {
     );
     const rsvpCount = countRes.length && countRes[0].values.length > 0 ? Number(countRes[0].values[0][0]) : 0;
 
-    let hasResponded = rsvpCount > 0;
+    let hasResponded = rsvpCount > 0 || fam.notes === 'has_responded';
     let respondedAt = null;
     let lastMessage = '';
 

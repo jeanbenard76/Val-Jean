@@ -7,6 +7,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'motion/react';
 import { Database, Download, FileSpreadsheet, ShieldCheck, RefreshCw, Search, Users, Baby, Utensils, MessageSquare, Check, X, ArrowLeft } from 'lucide-react';
 import { GuestFamily, RSVPStats } from '../types';
+import { getStoredFamilies, clearLocalStorageRSVPs } from '../utils/rsvpStorage';
 
 interface SecretAdminDashboardProps {
   onBackToHome?: () => void;
@@ -15,7 +16,6 @@ interface SecretAdminDashboardProps {
 const formatDate = (dateStr?: string | null) => {
   if (!dateStr) return '';
   try {
-    // Convert SQLite UTC timestamp (e.g. "2026-07-30 08:39:00") into French local time (UTC+2)
     const utcStr = dateStr.includes('Z') || dateStr.includes('+')
       ? dateStr
       : dateStr.replace(' ', 'T') + 'Z';
@@ -47,11 +47,17 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
     try {
       const res = await fetch('/api/stats');
       if (res.ok) {
-        const data = await res.json();
-        setStats(data);
+        const text = await res.text();
+        try {
+          const data = JSON.parse(text);
+          if (data && typeof data.totalFamilies === 'number') {
+            setStats(data);
+            return;
+          }
+        } catch (jsonErr) {}
       }
     } catch (e) {
-      console.error('Erreur chargement stats:', e);
+      console.error('Erreur chargement stats API:', e);
     }
   };
 
@@ -59,14 +65,23 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
     try {
       const res = await fetch('/api/families');
       if (res.ok) {
-        const data = await res.json();
-        setFamilies(data);
+        const text = await res.text();
+        try {
+          const data = JSON.parse(text);
+          if (Array.isArray(data) && data.length > 0) {
+            setFamilies(data);
+            setLoading(false);
+            return;
+          }
+        } catch (jsonErr) {}
       }
     } catch (e) {
-      console.error('Erreur chargement familles:', e);
-    } finally {
-      setLoading(false);
+      console.error('Erreur chargement familles API:', e);
     }
+    // Fallback to localStorage + pre-seeded list in production / static mode
+    const localFamilies = getStoredFamilies();
+    setFamilies(localFamilies);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -98,8 +113,15 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
     let totalAdultsAttending = 0, totalChildrenAttending = 0;
 
     families.forEach((fam) => {
+      const isResponded = Boolean(
+        fam.hasResponded ||
+        fam.respondedAt ||
+        fam.notes === 'has_responded' ||
+        (fam.lastMessage && fam.lastMessage.trim().length > 0)
+      );
+
       // ONLY count attendance metrics for families that HAVE RESPONDED
-      if (fam.hasResponded) {
+      if (isResponded) {
         fam.members.forEach((m) => {
           if (m.isAttending) {
             if (m.isChild) totalChildrenAttending++;
@@ -133,6 +155,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
       brunchChildren,
     };
   }, [families]);
+
 
   // Filtered families list
   const filteredFamilies = useMemo(() => {
@@ -370,7 +393,12 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
             filteredFamilies.map((fam) => {
               const attendingMembers = fam.members.filter((m) => m.isAttending);
               const absentMembers = fam.members.filter((m) => !m.isAttending);
-              const isResponded = Boolean(fam.hasResponded);
+              const isResponded = Boolean(
+                fam.hasResponded ||
+                fam.respondedAt ||
+                fam.notes === 'has_responded' ||
+                (fam.lastMessage && fam.lastMessage.trim().length > 0)
+              );
 
               return (
                 <div key={fam.id} className="p-4 bg-[#FAF7F2] rounded-2xl border border-slate-200/80 space-y-3">
@@ -484,9 +512,30 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
 
       {/* 4. FILE DOWNLOAD BUTTONS & RESET ACTION */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <a
-          href="/api/admin/export-csv"
-          download="liste_invites_mariage.csv"
+        <button
+          onClick={() => {
+            let csv = "Famille,Prénom,Nom,Statut,Âge,Présent,Vin d'Honneur,Repas de Noces,Brunch,Régime/Allergies,Email\n";
+            families.forEach((fam) => {
+              fam.members.forEach((m: any) => {
+                csv += `"${fam.familyName}","${m.firstName}","${m.lastName}","${
+                  m.isChild ? "Enfant" : "Adulte"
+                }","${m.age || ""}","${m.isAttending ? "Oui" : "Non"}","${
+                  m.events?.vinHonneur ? "Oui" : "Non"
+                }","${m.events?.repasNoces ? "Oui" : "Non"}","${
+                  m.events?.brunchLendemain ? "Oui" : "Non"
+                }","${m.dietaryNotes || ""}","${fam.email || ""}"\n`;
+              });
+            });
+
+            const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", "liste_invites_mariage.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          }}
           className="p-5 bg-[#13263B] hover:bg-[#C4A475] text-white hover:text-[#13263B] rounded-2xl font-sans text-xs font-semibold flex items-center justify-between group transition-all shadow-2xs cursor-pointer"
         >
           <div className="flex items-center gap-3">
@@ -499,7 +548,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
             </div>
           </div>
           <Download className="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
-        </a>
+        </button>
 
         <a
           href="/api/admin/download-db"
@@ -522,12 +571,11 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
           onClick={async () => {
             if (window.confirm('Voulez-vous vraiment effacer toutes les réponses reçues et réinitialiser la base de données ?')) {
               try {
-                const res = await fetch('/api/admin/clear-rsvps', { method: 'POST' });
-                if (res.ok) {
-                  fetchFamilies();
-                  fetchStats();
-                  alert('Toutes les réponses ont été réinitialisées avec succès !');
-                }
+                clearLocalStorageRSVPs();
+                await fetch('/api/admin/clear-rsvps', { method: 'POST' }).catch(() => {});
+                fetchFamilies();
+                fetchStats();
+                alert('Toutes les réponses ont été réinitialisées avec succès !');
               } catch (e) {
                 console.error('Erreur réinitialisation:', e);
               }
