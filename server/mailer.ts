@@ -22,6 +22,18 @@ export interface RSVPMailPayload {
 }
 
 /**
+ * Escape user-provided strings before injecting them into the HTML email body.
+ */
+function esc(value: unknown): string {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+/**
  * Sends a formatted RSVP notification email to valentinetjean@etik.com
  * Supports direct Node dispatch, Resend API, and native PHP mail() script relay!
  */
@@ -45,11 +57,11 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
       }
 
       const eventsText = eventsList.length > 0 ? eventsList.join(", ") : "Aucun";
-      const dietaryText = m.dietaryNotes ? `<b>Régime :</b> ${m.dietaryNotes}` : "-";
+      const dietaryText = m.dietaryNotes ? `<b>Régime :</b> ${esc(m.dietaryNotes)}` : "-";
 
       return `
         <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 10px; font-weight: bold; color: #13263B;">${m.firstName} ${m.lastName} (${type})</td>
+          <td style="padding: 10px; font-weight: bold; color: #13263B;">${esc(m.firstName)} ${esc(m.lastName)} (${type})</td>
           <td style="padding: 10px; font-weight: bold; color: ${m.isAttending ? '#2e7d32' : '#c62828'};">${status}</td>
           <td style="padding: 10px; color: #555;">${m.isAttending ? eventsText : '-'}</td>
           <td style="padding: 10px; color: #555;">${dietaryText}</td>
@@ -64,14 +76,14 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
         💍 Nouvelle Confirmation RSVP
       </h2>
       <p style="font-size: 15px; color: #333;">
-        La <strong>Famille ${data.familyName}</strong> vient de soumettre sa réponse sur le site !
+        La <strong>Famille ${esc(data.familyName)}</strong> vient de soumettre sa réponse sur le site !
       </p>
 
       <div style="background-color: #ffffff; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid #e0dcd5;">
-        <p style="margin: 4px 0;"><strong>Famille :</strong> Famille ${data.familyName}</p>
-        <p style="margin: 4px 0;"><strong>Email de contact :</strong> <a href="mailto:${data.email}">${data.email}</a></p>
+        <p style="margin: 4px 0;"><strong>Famille :</strong> Famille ${esc(data.familyName)}</p>
+        <p style="margin: 4px 0;"><strong>Email de contact :</strong> <a href="mailto:${esc(data.email)}">${esc(data.email)}</a></p>
         <p style="margin: 4px 0;"><strong>Bilan :</strong> ${attendingCount} présent(s) sur ${totalCount} invité(s)</p>
-        ${data.message ? `<p style="margin: 12px 0 4px 0; padding-top: 8px; border-top: 1px italic #eee;"><strong>Message des invités :</strong><br><em style="color: #3B6FA0;">« ${data.message} »</em></p>` : ''}
+        ${data.message ? `<p style="margin: 12px 0 4px 0; padding-top: 8px; border-top: 1px italic #eee;"><strong>Message des invités :</strong><br><em style="color: #3B6FA0;">« ${esc(data.message)} »</em></p>` : ''}
       </div>
 
       <h3 style="color: #13263B; font-size: 16px; margin-top: 20px;">Détails des invités :</h3>
