@@ -328,7 +328,7 @@ export default function RSVPForm() {
   }, [families, adminFilter, adminSearch]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-6 sm:py-8" id="rsvp-section">
+    <div className="w-full max-w-4xl mx-auto px-4 py-6 sm:py-8 min-h-[70vh]" id="rsvp-section">
       
       {/* Editorial Header */}
       <div className="text-center mb-6 sm:mb-8">

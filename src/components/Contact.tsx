@@ -81,8 +81,8 @@ export default function Contact() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch">
         
         {/* Left Column: Direct Phone Contacts */}
-        <div className="lg:col-span-5 space-y-8">
-          <div className="bg-[#FFFEF5] border border-[#3B6FA0]/15 rounded-2xl p-6 sm:p-8 shadow-sm h-full">
+        <div className="lg:col-span-5 flex flex-col">
+          <div className="bg-[#FFFEF5] border border-[#3B6FA0]/15 rounded-2xl p-6 sm:p-8 shadow-sm flex-1">
             <h4 className="font-display text-2xl text-[#1A3A5C] font-semibold mb-6 border-b border-[#3B6FA0]/10 pb-3">
               L'Équipe du Jour J
             </h4>
@@ -164,8 +164,8 @@ export default function Contact() {
         </div>
 
         {/* Right Column: Dynamic Contact/Message Form */}
-        <div className="lg:col-span-7">
-          <div className="bg-[#FFFEF5] border border-[#3B6FA0]/15 rounded-2xl p-6 sm:p-8 shadow-sm h-full">
+        <div className="lg:col-span-7 flex flex-col">
+          <div className="bg-[#FFFEF5] border border-[#3B6FA0]/15 rounded-2xl p-6 sm:p-8 shadow-sm flex-1">
             <h4 className="font-display text-2xl text-[#1A3A5C] font-semibold mb-2">
               Écrire aux Mariés
             </h4>
