@@ -297,8 +297,8 @@ export default function App() {
           </div>
         )}
 
-        {/* GLOBAL RSVP REINFORCEMENT BANNER (Shown on inner content pages, excluded from Home, Story, RSVP and Admin) */}
-        {activePage !== 'home' && activePage !== 'story' && activePage !== 'rsvp' && activePage !== 'admin' && (
+        {/* GLOBAL RSVP REINFORCEMENT BANNER (Shown on inner content pages, excluded from Home, Story, RSVP, Admin, Lodging, and Contact) */}
+        {activePage !== 'home' && activePage !== 'story' && activePage !== 'rsvp' && activePage !== 'admin' && activePage !== 'lodging' && activePage !== 'contact' && (
           <div className="max-w-4xl mx-auto px-4 py-8 text-center">
             <div className="bg-[#FAF7F2] border border-[#C4A475]/40 border-t-2 border-t-[#C4A475] rounded-3xl p-6 sm:p-8 space-y-3 shadow-xs">
               <span className="font-serif italic text-xs text-[#C4A475] uppercase tracking-widest block">
