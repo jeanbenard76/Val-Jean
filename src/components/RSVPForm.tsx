@@ -335,7 +335,7 @@ export default function RSVPForm() {
         <span className="font-serif italic text-xs sm:text-sm text-[#C4A475] tracking-wider uppercase block mb-4">
           Réponse Souhaitée Avant le 15 Février 2027
         </span>
-        <h2 className="font-script text-5xl sm:text-7xl text-[#13263B] leading-tight pt-2">
+        <h2 className="font-script text-[clamp(3rem,6vw,5rem)] text-[#13263B] leading-tight pt-2">
           Confirmation de Présence
         </h2>
         <div className="w-16 h-[1px] bg-[#C4A475] mx-auto my-3" />

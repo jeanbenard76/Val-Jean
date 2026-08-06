@@ -170,7 +170,7 @@ export default function OurStory() {
         <span className="text-[10px] sm:text-[11px] tracking-[0.3em] font-sans uppercase font-bold text-[#C4A475] block mb-3">
           CARNET D'AVENTURES &amp; CHRONOLOGIE
         </span>
-        <h2 className="font-script text-5xl sm:text-7xl text-[#13263B] leading-tight pt-2">
+        <h2 className="font-script text-[clamp(3rem,6vw,5rem)] text-[#13263B] leading-tight pt-2">
           L'Histoire de Valentine &amp; Jean
         </h2>
         <div className="w-20 h-[1px] bg-[#C4A475] mx-auto my-2" />

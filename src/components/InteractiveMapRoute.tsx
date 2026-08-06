@@ -52,7 +52,7 @@ export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRou
         <span className="font-serif italic text-xs sm:text-sm text-[#C4A475] tracking-widest uppercase block mb-4">
           — Déroulement de la journée —
         </span>
-        <h2 className="font-script text-5xl sm:text-7xl text-[#13263B] leading-tight pt-2">
+        <h2 className="font-script text-[clamp(3rem,6vw,5rem)] text-[#13263B] leading-tight pt-2">
           Le Programme
         </h2>
         <p className="font-serif italic text-xs sm:text-sm text-[#5A5040] max-w-xl mx-auto leading-relaxed">

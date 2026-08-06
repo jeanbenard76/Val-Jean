@@ -72,7 +72,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen toile-overlay selection:bg-[#FAE28A] flex flex-col relative" id="app-root">
+    <div className="min-h-[100dvh] toile-overlay selection:bg-[#FAE28A] flex flex-col relative" id="app-root">
       
       {/* 1. STICKY NAV HEADER */}
       <header className="sticky top-0 z-[100] bg-[#FFFEF5]/90 backdrop-blur-md border-b border-[#3B6FA0]/15 px-6 py-4 flex items-center justify-between shadow-xs">
@@ -181,7 +181,7 @@ export default function App() {
         {activePage === 'home' && (
           <div id="home-page" className="animate-fade-in">
             {/* 1. INITIAL ENTRY HERO SCREEN (Simple, elegant, Toile de Jouy) */}
-            <section className="relative flex flex-col items-center justify-center text-center px-4 py-6 sm:py-8 overflow-hidden bg-[#FAF7F2] border-b border-[#3B6FA0]/15">
+            <section className="relative flex flex-col items-center justify-center text-center px-4 py-6 sm:py-8 overflow-hidden bg-[#FAF7F2] border-b border-[#3B6FA0]/15 min-h-[calc(100dvh-73px)]">
               {/* Richer Toile de Jouy Background Overlay with soft blur */}
               <div className="absolute inset-0 toile-pattern opacity-[0.14] blur-[0.3px] pointer-events-none" />
               
@@ -209,7 +209,7 @@ export default function App() {
                 </p>
 
                 {/* Main Script Heading */}
-                <h1 className="font-script text-5xl sm:text-7xl md:text-8xl text-[#13263B] my-2 leading-tight drop-shadow-xs select-none">
+                <h1 className="font-script text-[clamp(3.5rem,8vw,7rem)] text-[#13263B] my-2 leading-tight drop-shadow-xs select-none">
                   Valentine <span className="font-serif italic text-[#C4A475]">&amp;</span> Jean
                 </h1>
 
@@ -304,7 +304,7 @@ export default function App() {
               <span className="font-serif italic text-xs text-[#C4A475] uppercase tracking-widest block">
                 — Réponse Souhaitée Avant le 15 Février 2027 —
               </span>
-              <h3 className="font-script text-3xl sm:text-4xl text-[#13263B]">
+              <h3 className="font-script text-[clamp(2rem,5vw,3.5rem)] text-[#13263B]">
                 Serez-vous parmi nous ?
               </h3>
               <p className="text-xs sm:text-sm text-[#5A5040] font-serif italic max-w-md mx-auto">

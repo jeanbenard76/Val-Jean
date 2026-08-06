@@ -49,7 +49,7 @@ body {
   background-color: var(--color-wedding-yellow-50);
   color: var(--color-wedding-yellow-700);
   overflow-x: hidden;
-  font-size: 15px;
+  font-size: clamp(14px, 1vw + 10px, 17px);
   line-height: 1.6;
 }
 

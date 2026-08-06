@@ -68,7 +68,7 @@ export default function Registry() {
       {/* Editorial Header */}
       <div className="text-center mb-6 sm:mb-8">
         <span className="font-serif italic text-xs sm:text-sm text-[#C4A475] tracking-wider uppercase block mb-4">Participer à Notre Bonheur</span>
-        <h3 className="font-script text-5xl sm:text-7xl text-[#13263B] leading-tight pt-2">
+        <h3 className="font-script text-[clamp(3rem,6vw,5rem)] text-[#13263B] leading-tight pt-2">
           La Liste de Mariage
         </h3>
         <div className="w-12 sm:w-16 h-[1px] bg-[#C4A475] mx-auto my-3 sm:my-4" />

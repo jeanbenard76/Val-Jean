@@ -101,7 +101,7 @@ export default function Lodging() {
         <span className="font-serif italic text-xs sm:text-sm text-[#C4A475] uppercase tracking-widest block mb-4">
           SÉJOUR &amp; HÉBERGEMENT
         </span>
-        <h2 className="font-script text-5xl sm:text-7xl text-[#13263B] leading-tight pt-2">
+        <h2 className="font-script text-[clamp(3rem,6vw,5rem)] text-[#13263B] leading-tight pt-2">
           Où Dormir ?
         </h2>
         <p className="font-serif italic text-[#5A5040] text-sm mt-1.5 max-w-xl mx-auto leading-relaxed">
