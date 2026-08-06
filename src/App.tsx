@@ -18,22 +18,55 @@ import SecretAdminDashboard from './components/SecretAdminDashboard';
 
 type PageType = 'home' | 'story' | 'itinerary' | 'lodging' | 'registry' | 'rsvp' | 'contact' | 'admin';
 
+// Real URL per page so refresh / back / shared links land on the right page.
+// The Express server (and Vite in dev) serve index.html for every path (SPA fallback).
+const PAGE_PATHS: Record<PageType, string> = {
+  home: '/',
+  story: '/notre-histoire',
+  itinerary: '/programme',
+  lodging: '/ou-dormir',
+  registry: '/liste-de-mariage',
+  rsvp: '/rsvp',
+  contact: '/contact',
+  admin: '/admin',
+};
+
+const pageFromPath = (path: string): PageType => {
+  const entry = Object.entries(PAGE_PATHS).find(
+    ([, p]) => p !== '/' && (path === p || path.startsWith(p + '/'))
+  );
+  return (entry?.[0] as PageType) || 'home';
+};
+
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activePage, setActivePage] = useState<PageType>('home');
 
-  // Check URL query parameters for admin page trigger (e.g. ?admin=1 or /admin).
-  // The password itself is always asked via the browser prompt, never stored.
+  // On load: restore the page from the URL (path, or legacy ?admin=1 query).
+  // The admin password itself is always asked via the browser prompt, never stored.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    if (params.has('admin') || params.has('secret') || params.has('maries') || window.location.pathname.includes('/admin')) {
+    if (params.has('admin') || params.has('secret') || params.has('maries')) {
       setActivePage('admin');
+      return;
     }
+    setActivePage(pageFromPath(window.location.pathname));
+  }, []);
+
+  // Browser back/forward buttons
+  useEffect(() => {
+    const onPopState = () => setActivePage(pageFromPath(window.location.pathname));
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
   const handlePageChange = (page: PageType) => {
     setActivePage(page);
     setMobileMenuOpen(false);
+    const path = PAGE_PATHS[page] || '/';
+    if (window.location.pathname !== path) {
+      window.history.pushState({}, '', path);
+    }
     // Instant scroll to top to simulate moving to a completely new separated page
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
