@@ -189,7 +189,7 @@ export default function App() {
               <div className="relative z-10 my-auto py-2 sm:py-4 max-w-4xl mx-auto flex flex-col items-center text-center space-y-3">
                 
                 {/* Parents & Larger Center Logo Row */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6 w-full max-w-3xl mx-auto px-4 border-b border-[#C4A475]/30 pb-3">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6 w-full max-w-3xl mx-auto px-4 border-b border-[#C4A475]/30 py-4">
                   <span className="text-[11px] sm:text-xs font-serif tracking-widest uppercase text-[#13263B]/70 text-center sm:text-left font-medium">
                     Anne et Visith Chem-Lenhof
                   </span>
@@ -294,31 +294,6 @@ export default function App() {
         {activePage === 'admin' && (
           <div id="admin-dashboard-page" className="py-8 animate-fade-in">
             <SecretAdminDashboard onBackToHome={() => handlePageChange('home')} />
-          </div>
-        )}
-
-        {/* GLOBAL RSVP REINFORCEMENT BANNER (Shown on inner content pages, excluded from Home, Story, RSVP, Admin, Lodging, and Contact) */}
-        {activePage !== 'home' && activePage !== 'story' && activePage !== 'rsvp' && activePage !== 'admin' && activePage !== 'lodging' && activePage !== 'contact' && (
-          <div className="max-w-4xl mx-auto px-4 py-8 text-center">
-            <div className="bg-[#FAF7F2] border border-[#C4A475]/40 border-t-2 border-t-[#C4A475] rounded-3xl p-6 sm:p-8 space-y-3 shadow-xs">
-              <span className="font-serif italic text-xs text-[#C4A475] uppercase tracking-widest block">
-                — Réponse Souhaitée Avant le 15 Février 2027 —
-              </span>
-              <h3 className="font-script text-[clamp(2rem,5vw,3.5rem)] text-[#13263B]">
-                Serez-vous parmi nous ?
-              </h3>
-              <p className="text-xs sm:text-sm text-[#5A5040] font-serif italic max-w-md mx-auto">
-                Afin de nous aider à organiser au mieux notre réception au Manoir d'Auffay, merci de confirmer votre présence.
-              </p>
-              <div className="pt-2">
-                <button
-                  onClick={() => handlePageChange('rsvp')}
-                  className="font-serif italic text-base sm:text-lg text-[#13263B] hover:text-[#C4A475] underline decoration-[#C4A475] underline-offset-4 cursor-pointer transition-colors"
-                >
-                  Confirmer votre présence &rarr;
-                </button>
-              </div>
-            </div>
           </div>
         )}
       </main>

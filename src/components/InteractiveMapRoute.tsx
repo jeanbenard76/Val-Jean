@@ -146,23 +146,23 @@ export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRou
           </p>
 
           {/* Chic Action Links */}
-          <div className="flex items-center justify-center gap-3 pt-3 flex-wrap">
+          <div className="flex flex-row w-full sm:w-auto items-center justify-center gap-2 sm:gap-3 pt-3">
             <a
               href="https://maps.google.com/?q=Manoir+d'Auffay+Oherville+France"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#13263B] hover:bg-[#C4A475] text-white hover:text-[#13263B] text-xs font-semibold rounded-full transition-all cursor-pointer shadow-2xs"
+              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3 sm:px-5 py-2.5 bg-[#13263B] hover:bg-[#C4A475] text-white hover:text-[#13263B] text-[11px] sm:text-xs font-semibold rounded-full transition-all cursor-pointer shadow-2xs text-center"
             >
-              <span>Ouvrir dans Google Maps</span>
+              <span>Google Maps</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
 
             <button
               onClick={copyAddress}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/90 hover:bg-white text-[#13263B] border border-[#C4A475]/35 text-xs font-semibold rounded-full transition-all cursor-pointer shadow-2xs"
+              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3 sm:px-5 py-2.5 bg-white/90 hover:bg-white text-[#13263B] border border-[#C4A475]/35 text-[11px] sm:text-xs font-semibold rounded-full transition-all cursor-pointer shadow-2xs text-center"
             >
               {copiedText ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-[#3B6FA0]" />}
-              <span>{copiedText ? 'Adresse copiée !' : 'Copier l\'adresse'}</span>
+              <span>{copiedText ? 'Copiée !' : 'Copier'}</span>
             </button>
           </div>
         </div>
@@ -171,41 +171,41 @@ export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRou
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left pt-2">
           
           {/* Card 1: En voiture */}
-          <div className="bg-[#FAF7F2]/90 border border-[#C4A475]/40 border-t-2 border-t-[#C4A475] rounded-2xl p-6 space-y-2.5 shadow-2xs hover:border-[#C4A475] hover:shadow-xs transition-all">
-            <span className="text-[10px] font-mono font-bold text-[#C4A475] uppercase tracking-widest block">
-              1. EN VOITURE (RECOMMANDÉ)
-            </span>
+          <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs hover:shadow-md hover:border-[#C4A475]/30 transition-all flex flex-col items-center text-center">
+            <div className="w-12 h-12 rounded-full bg-[#FAF7F2] border border-[#C4A475]/20 flex items-center justify-center mb-1">
+              <Car className="w-5 h-5 text-[#C4A475]" />
+            </div>
             <h4 className="font-display font-semibold text-lg text-[#13263B]">
-              Autoroutes A13 / A29 & Parking
+              En Voiture
             </h4>
             <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
-              Depuis Paris (2h30). Un grand <strong>parking privé, gratuit et sécurisé de 150 places</strong> est aménagé directement dans l'enceinte du Manoir d'Auffay à Oherville (76560).
+              Depuis Paris (2h30). Un grand <strong>parking privé et gratuit</strong> de 150 places est disponible dans l'enceinte du Manoir.
             </p>
           </div>
 
           {/* Card 2: En train */}
-          <div className="bg-[#FAF7F2]/90 border border-[#3B6FA0]/40 border-t-2 border-t-[#3B6FA0] rounded-2xl p-6 space-y-2.5 shadow-2xs hover:border-[#3B6FA0] hover:shadow-xs transition-all">
-            <span className="text-[10px] font-mono font-bold text-[#3B6FA0] uppercase tracking-widest block">
-              2. EN TRAIN
-            </span>
-            <h4 className="font-display font-semibold text-lg text-[#3B6FA0]">
-              Gare d'Yvetot (à 12 min)
+          <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs hover:shadow-md hover:border-[#3B6FA0]/30 transition-all flex flex-col items-center text-center">
+            <div className="w-12 h-12 rounded-full bg-[#F5F8FA] border border-[#3B6FA0]/20 flex items-center justify-center mb-1">
+              <Train className="w-5 h-5 text-[#3B6FA0]" />
+            </div>
+            <h4 className="font-display font-semibold text-lg text-[#13263B]">
+              En Train
             </h4>
             <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
-              Liaisons ferroviaires directes depuis <strong>Paris-Saint-Lazare</strong> (1h40) et <strong>Rouen</strong> (25 min). Taxis et navettes facilement réservables depuis la gare.
+              <strong>Gare d'Yvetot (12 min)</strong>. Liaisons directes depuis Paris-St-Lazare (1h40). Taxis disponibles en gare.
             </p>
           </div>
 
           {/* Card 3: Entre les lieux */}
-          <div className="bg-[#FAF7F2]/90 border border-[#C4A475]/40 border-t-2 border-t-[#C4A475] rounded-2xl p-6 space-y-2.5 shadow-2xs hover:border-[#C4A475] hover:shadow-xs transition-all">
-            <span className="text-[10px] font-mono font-bold text-[#C4A475] uppercase tracking-widest block">
-              3. ENTRE LES LIEUX
-            </span>
+          <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs hover:shadow-md hover:border-[#C4A475]/30 transition-all flex flex-col items-center text-center">
+            <div className="w-12 h-12 rounded-full bg-[#FAF7F2] border border-[#C4A475]/20 flex items-center justify-center mb-1">
+              <MapPin className="w-5 h-5 text-[#C4A475]" />
+            </div>
             <h4 className="font-display font-semibold text-lg text-[#13263B]">
-              Trajet Cérémonie &rarr; Manoir
+              Entre les Lieux
             </h4>
             <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
-              Comptez environ <strong>45 minutes de route champêtre</strong> (50 km) entre l'Église de Torcy-le-Grand et le Manoir d'Auffay à Oherville. Pensez au covoiturage entre invités !
+              Comptez <strong>45 minutes de route</strong> entre l'Église (Torcy-le-Grand) et le Manoir (Oherville).
             </p>
           </div>
         </div>

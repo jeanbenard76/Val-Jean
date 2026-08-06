@@ -90,19 +90,13 @@ export default function Registry() {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`px-4 py-2 rounded-full text-xs font-semibold font-sans transition-all duration-300 flex items-center gap-2 cursor-pointer border ${
+              className={`px-5 py-2.5 rounded-full text-xs font-semibold font-sans transition-all duration-300 flex items-center justify-center cursor-pointer border ${
                 isActive
                   ? 'bg-[#13263B] text-white border-[#13263B] shadow-xs scale-105'
                   : 'bg-white/80 hover:bg-[#FAF7F2] text-[#13263B] border-[#3B6FA0]/20'
               }`}
             >
-              <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#C4A475]' : 'text-[#3B6FA0]'}`} />
               <span>{cat.label}</span>
-              <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold ${
-                isActive ? 'bg-[#C4A475] text-[#13263B]' : 'bg-[#FAF7F2] text-[#5A5040]'
-              }`}>
-                {count}
-              </span>
             </button>
           );
         })}

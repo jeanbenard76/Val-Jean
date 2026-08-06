@@ -90,9 +90,6 @@ export default function Contact() {
             <div className="space-y-6">
               {/* Valentine */}
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-[#FAE28A]/20 border border-[#F5C842]/40 flex items-center justify-center text-[#1A3A5C] flex-shrink-0">
-                  <span className="font-serif italic text-sm font-semibold">V</span>
-                </div>
                 <div>
                   <h5 className="font-display font-semibold text-base text-[#1A3A5C]">
                     Valentine <span className="text-xs text-[#5A5040]/70 font-serif italic">(La Mariée)</span>
@@ -107,9 +104,6 @@ export default function Contact() {
 
               {/* Jean */}
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-[#FAE28A]/20 border border-[#F5C842]/40 flex items-center justify-center text-[#1A3A5C] flex-shrink-0">
-                  <span className="font-serif italic text-sm font-semibold">J</span>
-                </div>
                 <div>
                   <h5 className="font-display font-semibold text-base text-[#1A3A5C]">
                     Jean <span className="text-xs text-[#5A5040]/70 font-serif italic">(Le Marié)</span>
@@ -122,17 +116,14 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Witnesses Title */}
-              <div className="h-px bg-[#3B6FA0]/10 my-4" />
+              {/* Divider */}
+              <div className="w-24 h-[1px] bg-[#3B6FA0]/10 mx-auto" />
 
-              {/* Arthur (Témoin) */}
+              {/* Juliette */}
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-[#3B6FA0]/10 border border-[#3B6FA0]/20 flex items-center justify-center text-[#1A3A5C] flex-shrink-0">
-                  <span className="font-serif italic text-sm font-semibold">A</span>
-                </div>
                 <div>
                   <h5 className="font-display font-semibold text-base text-[#1A3A5C]">
-                    Arthur <span className="text-xs text-[#5A5040]/70 font-serif italic">(Témoin Général)</span>
+                    Juliette <span className="text-xs text-[#5A5040]/70 font-serif italic">(Témoin général)</span>
                   </h5>
                   <p className="text-xs text-[#5A5040] font-serif italic mt-0.5">Pour organiser des surprises, discours, animations</p>
                   <a href="tel:+33611223344" className="inline-flex items-center gap-1.5 mt-2 text-xs font-mono font-semibold text-[#3B6FA0] hover:text-[#1A3A5C] transition-colors">
@@ -142,16 +133,13 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Claire (Témoin) */}
+              {/* Hugo */}
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-[#3B6FA0]/10 border border-[#3B6FA0]/20 flex items-center justify-center text-[#1A3A5C] flex-shrink-0">
-                  <span className="font-serif italic text-sm font-semibold">C</span>
-                </div>
                 <div>
                   <h5 className="font-display font-semibold text-base text-[#1A3A5C]">
-                    Claire <span className="text-xs text-[#5A5040]/70 font-serif italic">(Témoin Valentine)</span>
+                    Hugo <span className="text-xs text-[#5A5040]/70 font-serif italic">(Témoin général)</span>
                   </h5>
-                  <p className="text-xs text-[#5A5040] font-serif italic mt-0.5">Pour l'enterrement de vie de jeune fille (EVJF)</p>
+                  <p className="text-xs text-[#5A5040] font-serif italic mt-0.5">Pour gérer les questions logistiques le Jour J</p>
                   <a href="tel:+33699887766" className="inline-flex items-center gap-1.5 mt-2 text-xs font-mono font-semibold text-[#3B6FA0] hover:text-[#1A3A5C] transition-colors">
                     <Phone className="w-3.5 h-3.5" />
                     <span>+33 6 99 88 77 66</span>
@@ -160,7 +148,6 @@ export default function Contact() {
               </div>
             </div>
           </div>
-
         </div>
 
         {/* Right Column: Dynamic Contact/Message Form */}

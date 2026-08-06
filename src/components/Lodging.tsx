@@ -23,59 +23,37 @@ const BOOKING_OHERVILLE_URL = "https://www.booking.com/searchresults.fr.html?ss=
 
 const LODGING_CAROUSEL: LodgingCard[] = [
   {
-    id: 'manoir-lys',
-    name: "Le Manoir des Lys",
-    category: "NOTRE RECOMMANDATION",
-    distance: "À 5 MIN DU DOMAINE",
-    image: "/images/chateau_wedding_venue_1783093909311.jpg",
-    description: "Demeure normande de charme située à Oherville dans la vallée de la Durdent. Idéal pour séjourner au calme.",
-    price: "130€ - 190€ / nuit",
-    highlights: ["Petit-déjeuner inclus", "Parking sécurisé gratuit", "Proche Manoir d'Auffay"],
-    link: BOOKING_OHERVILLE_URL,
-  },
-  {
-    id: 'gite-grange',
-    name: "Gîte La Grange Bleue",
+    id: 'essentiel',
+    name: "L'Essentiel",
     category: "CHAMBRE D'HÔTES",
-    distance: "À 7 MIN DU DOMAINE",
-    image: "/images/wedding_couple_watercolor_1783093896603.jpg",
-    description: "Une grange rénovée avec goût combinant poutres apparentes, confort haut de gamme et atmosphère paisible en pleine nature à Oherville.",
-    price: "95€ - 140€ / nuit",
-    highlights: ["Cuisine équipée", "Wi-Fi haut débit", "Vue sur la vallée de la Durdent"],
-    link: AIRBNB_OHERVILLE_URL,
+    distance: "À OHERVILLE (SUR PLACE)",
+    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80",
+    description: "Un charmant Bed & Breakfast avec un magnifique jardin fleuri, situé dans le village d'Oherville, à deux pas du Manoir.",
+    price: "Environ 85€ / nuit",
+    highlights: ["Jardin paysager", "Petit-déjeuner maison", "Le plus proche du Manoir"],
+    link: "https://www.booking.com/searchresults.fr.html?ss=Oherville%2C+France",
   },
   {
-    id: 'val-durdent',
-    name: "Auberge du Val de Durdent",
-    category: "PRATIQUE & PROCHE",
-    distance: "AU CŒUR D'OHERVILLE",
-    image: "/images/wedding_table_setup_1783093924449.jpg",
-    description: "Auberge authentique et suites au bord de la rivière, à quelques minutes en voiture du Manoir d'Auffay.",
-    price: "85€ - 120€ / nuit",
-    highlights: ["Au centre d'Oherville", "Terrasse au bord de l'eau", "Petit-déjeuner normand"],
-    link: BOOKING_OHERVILLE_URL,
-  },
-  {
-    id: 'domaine-durdent',
-    name: "Domaine de la Durdent",
-    category: "CHARME & CALME",
+    id: 'clos-fees',
+    name: "Hôtel Le Clos des Fées",
+    category: "HÔTEL DE CHARME",
     distance: "À 10 MIN DU DOMAINE",
-    image: "/images/chateau_wedding_venue_1783093909311.jpg",
-    description: "Superbe corps de ferme normand transformé en suites privatives au bord de l'eau avec jardin d'hiver.",
-    price: "110€ - 160€ / nuit",
-    highlights: ["Jardin privé avec terrasse", "Calme absolu", "Petit-déjeuner fait maison"],
-    link: "https://www.gites-de-france.com",
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80",
+    description: "Hôtel élégant niché dans un cadre verdoyant près de Paluel. L'alliance parfaite entre le charme normand et le confort moderne.",
+    price: "Environ 110€ / nuit",
+    highlights: ["Cadre verdoyant", "Chambres élégantes", "Parking privé"],
+    link: "https://www.booking.com/searchresults.fr.html?ss=Paluel%2C+France",
   },
   {
-    id: 'clos-normand',
-    name: "Le Clos Normand",
-    category: "GÎTE FAMILIAL",
-    distance: "À 12 MIN DU DOMAINE",
-    image: "/images/wedding_table_setup_1783093924449.jpg",
-    description: "Gîte de grande capacité pouvant accueillir jusqu'à 8 personnes. Parfait pour les familles ou groupes d'amis.",
-    price: "180€ - 250€ / nuit",
-    highlights: ["4 chambres doubles", "Grand jardin clos", "Parking privé 4 voitures"],
-    link: AIRBNB_OHERVILLE_URL,
+    id: 'hotel-plage',
+    name: "Hôtel de la Plage",
+    category: "BORD DE MER",
+    distance: "À 15 MIN DU DOMAINE",
+    image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80",
+    description: "Profitez de la côte d'Albâtre dans cet hôtel situé directement sur le front de mer à Veulettes-sur-Mer.",
+    price: "Environ 95€ / nuit",
+    highlights: ["Vue sur la mer", "Proche de la plage", "Restaurant sur place"],
+    link: "https://www.booking.com/searchresults.fr.html?ss=Veulettes-sur-Mer%2C+France",
   },
 ];
 
@@ -123,18 +101,18 @@ export default function Lodging() {
           </p>
         </div>
 
-        <div className="flex flex-wrap sm:flex-nowrap items-center justify-center sm:justify-end gap-3 w-full sm:w-auto">
+        <div className="flex flex-row items-center justify-center sm:justify-end gap-2 sm:gap-3 w-full sm:w-auto">
           {/* Airbnb Button */}
           <a
             href={AIRBNB_OHERVILLE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-3 bg-white border border-[#3B6FA0]/20 text-[#13263B] hover:bg-slate-50 font-semibold text-xs rounded-full flex items-center justify-center gap-2 shadow-2xs cursor-pointer transition-all hover:border-[#FF5A5F]/40"
+            className="flex-1 sm:flex-none px-3 sm:px-5 py-3 bg-white border border-[#3B6FA0]/20 text-[#13263B] hover:bg-slate-50 font-semibold text-[10px] sm:text-xs rounded-full flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer transition-all hover:border-[#FF5A5F]/40 text-center"
             id="btn-airbnb-oherville"
           >
-            <Bed className="w-4 h-4 text-[#FF5A5F]" />
-            <span>Voir sur Airbnb</span>
-            <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+            <Bed className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#FF5A5F]" />
+            <span>Airbnb</span>
+            <ExternalLink className="w-3 h-3 text-slate-400" />
           </a>
 
           {/* Booking Button */}
@@ -142,12 +120,12 @@ export default function Lodging() {
             href={BOOKING_OHERVILLE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-5 py-3 bg-[#003580] hover:bg-[#002866] text-white font-semibold text-xs rounded-full flex items-center justify-center gap-2 shadow-2xs cursor-pointer transition-all"
+            className="flex-1 sm:flex-none px-3 sm:px-5 py-3 bg-[#003580] hover:bg-[#002866] text-white font-semibold text-[10px] sm:text-xs rounded-full flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer transition-all text-center"
             id="btn-booking-oherville"
           >
-            <Hotel className="w-4 h-4 text-white" />
-            <span>Voir sur Booking</span>
-            <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+            <Hotel className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
+            <span>Booking</span>
+            <ExternalLink className="w-3 h-3 opacity-80" />
           </a>
         </div>
       </div>
@@ -186,13 +164,13 @@ export default function Lodging() {
         {/* Carousel Scroll Container */}
         <div
           ref={carouselRef}
-          className="flex items-stretch gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 pt-1 px-1 custom-scrollbar"
+          className="flex items-stretch gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 pt-1 px-1 custom-scrollbar sm:justify-center md:justify-start"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {LODGING_CAROUSEL.map((item) => (
             <div
               key={item.id}
-              className="w-full sm:w-[320px] md:w-[350px] flex-shrink-0 snap-start bg-white border border-[#3B6FA0]/15 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
+              className="w-[85vw] sm:w-[320px] md:w-[350px] flex-shrink-0 snap-center bg-white border border-[#3B6FA0]/15 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col justify-between"
             >
               {/* Image Section with Badges - Compact height */}
               <div className="relative h-36 sm:h-40 w-full overflow-hidden bg-slate-100 shrink-0">
