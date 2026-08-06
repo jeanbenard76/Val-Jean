@@ -345,7 +345,7 @@ export default function RSVPForm() {
       </div>
 
       {/* Main Card Container */}
-      <div className="bg-white/80 backdrop-blur-md border-0 rounded-3xl p-5 sm:p-8 shadow-sm relative overflow-hidden">
+      <div className="bg-white/80 backdrop-blur-md border-0 rounded-3xl p-5 sm:p-8 shadow-sm relative">
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#C4A475]/60 to-transparent" />
 
         <AnimatePresence mode="wait">
@@ -446,7 +446,7 @@ export default function RSVPForm() {
 
                 {/* Database Suggestion Dropdown */}
                 {showSuggestions && searchQuery.trim().length > 0 && (
-                  <div className="absolute z-20 left-0 right-0 top-full mt-1 bg-white border border-[#3B6FA0]/20 rounded-2xl shadow-lg max-h-60 overflow-y-auto divide-y divide-slate-100">
+                  <div className="absolute z-20 left-0 right-0 top-full mt-1 bg-white border border-[#3B6FA0]/20 rounded-2xl shadow-lg max-h-[260px] overflow-y-auto divide-y divide-slate-100">
                     {filteredSuggestions.length > 0 ? (
                       filteredSuggestions.map((fam) => (
                         <div
