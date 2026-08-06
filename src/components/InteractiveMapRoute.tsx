@@ -172,9 +172,6 @@ export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRou
           
           {/* Card 1: En voiture */}
           <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs hover:shadow-md hover:border-[#C4A475]/30 transition-all flex flex-col items-center text-center">
-            <div className="w-12 h-12 rounded-full bg-[#FAF7F2] border border-[#C4A475]/20 flex items-center justify-center mb-1">
-              <Car className="w-5 h-5 text-[#C4A475]" />
-            </div>
             <h4 className="font-display font-semibold text-lg text-[#13263B]">
               En Voiture
             </h4>
@@ -185,9 +182,6 @@ export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRou
 
           {/* Card 2: En train */}
           <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs hover:shadow-md hover:border-[#3B6FA0]/30 transition-all flex flex-col items-center text-center">
-            <div className="w-12 h-12 rounded-full bg-[#F5F8FA] border border-[#3B6FA0]/20 flex items-center justify-center mb-1">
-              <Train className="w-5 h-5 text-[#3B6FA0]" />
-            </div>
             <h4 className="font-display font-semibold text-lg text-[#13263B]">
               En Train
             </h4>
@@ -198,9 +192,6 @@ export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRou
 
           {/* Card 3: Entre les lieux */}
           <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs hover:shadow-md hover:border-[#C4A475]/30 transition-all flex flex-col items-center text-center">
-            <div className="w-12 h-12 rounded-full bg-[#FAF7F2] border border-[#C4A475]/20 flex items-center justify-center mb-1">
-              <MapPin className="w-5 h-5 text-[#C4A475]" />
-            </div>
             <h4 className="font-display font-semibold text-lg text-[#13263B]">
               Entre les Lieux
             </h4>

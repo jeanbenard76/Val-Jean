@@ -244,6 +244,11 @@ export default function App() {
               </div>
             </section>
 
+            {/* Elegant Divider */}
+            <div className="w-full flex justify-center py-4">
+              <div className="w-64 h-[1px] bg-gradient-to-r from-transparent via-[#C4A475] to-transparent opacity-50"></div>
+            </div>
+
             {/* 2. ALBUM SOUVENIR SECTION */}
             <section id="home-content" className="py-6 sm:py-8 px-4 max-w-5xl mx-auto overflow-hidden">
               <DynamicPhotoStack />
