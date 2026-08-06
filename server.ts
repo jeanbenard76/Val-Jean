@@ -18,6 +18,7 @@ import {
   updateFamilyInvitations,
   clearAllRSVPs,
   addFamilies,
+  deleteFamily,
 } from "./server/db";
 import { sendRSVPNotificationEmail } from "./server/mailer";
 
@@ -152,6 +153,18 @@ async function startServer() {
         return res.status(400).json({ error: "Un tableau de familles est requis" });
       }
       const result = addFamilies(families);
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // Delete a family
+  app.delete("/api/admin/families/:id", requireAdmin, (req, res) => {
+    try {
+      const familyId = req.params.id;
+      if (!familyId) return res.status(400).json({ error: "L'ID de la famille est requis" });
+      const result = deleteFamily(familyId);
       res.json(result);
     } catch (err: any) {
       res.status(500).json({ error: err.message });

@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'motion/react';
-import { Database, Download, FileSpreadsheet, ShieldCheck, RefreshCw, Search, Users, Baby, Utensils, MessageSquare, Check, X, ArrowLeft } from 'lucide-react';
+import { Database, Download, FileSpreadsheet, ShieldCheck, RefreshCw, Search, Users, Baby, Utensils, MessageSquare, Check, X, ArrowLeft, Trash2 } from 'lucide-react';
 import { GuestFamily, RSVPStats } from '../types';
 import { getStoredFamilies, clearLocalStorageRSVPs } from '../utils/rsvpStorage';
 import AdminAddFamily from './AdminAddFamily';
@@ -159,14 +159,41 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
     }
   };
 
+  const handleDeleteFamily = async (famId: string, famName: string) => {
+    if (window.confirm(`Êtes-vous sûr de vouloir supprimer la famille ${famName} ? Toutes les réponses associées seront effacées.`)) {
+      try {
+        const res = await fetch(`/api/admin/families/${famId}`, {
+          method: 'DELETE',
+          headers: adminHeaders()
+        });
+        if (res.ok) {
+          fetchFamilies();
+          fetchStats();
+        } else {
+          alert("Erreur lors de la suppression.");
+        }
+      } catch (err) {
+        alert("Erreur lors de la suppression.");
+      }
+    }
+  };
+
   // Compute breakdown of Adults & Children per Event
   const eventBreakdown = useMemo(() => {
     let vinAdults = 0, vinChildren = 0;
     let repasAdults = 0, repasChildren = 0;
     let brunchAdults = 0, brunchChildren = 0;
     let totalAdultsAttending = 0, totalChildrenAttending = 0;
+    let vinInvited = 0, repasInvited = 0, brunchInvited = 0;
 
     families.forEach((fam) => {
+      fam.members.forEach((m) => {
+        // Un membre est invité par défaut au vin d'honneur s'il n'y a pas de donnée explicite
+        if (m.invitedTo?.vinHonneur !== false && m.events?.vinHonneur !== false) vinInvited++;
+        if (m.invitedTo?.repasNoces || m.events?.repasNoces) repasInvited++;
+        if (m.invitedTo?.brunchLendemain || m.events?.brunchLendemain) brunchInvited++;
+      });
+
       const isResponded = Boolean(
         fam.hasResponded ||
         fam.respondedAt ||
@@ -207,6 +234,9 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
       repasChildren,
       brunchAdults,
       brunchChildren,
+      vinInvited,
+      repasInvited,
+      brunchInvited
     };
   }, [families]);
 
@@ -338,7 +368,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
               <span className="font-display text-3xl font-bold text-[#13263B]">
                 {eventBreakdown.vinAdults + eventBreakdown.vinChildren}
               </span>
-              <span className="text-xs font-serif italic text-[#3B6FA0]">invités</span>
+              <span className="text-xs font-mono text-slate-500">/ {eventBreakdown.vinInvited} invités</span>
             </div>
             <div className="pt-2 border-t border-slate-100 text-xs text-[#5A5040] font-sans space-y-0.5">
               <div className="flex justify-between">
@@ -361,7 +391,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
               <span className="font-display text-3xl font-bold text-[#C4A475]">
                 {eventBreakdown.repasAdults + eventBreakdown.repasChildren}
               </span>
-              <span className="text-xs font-serif italic text-[#3B6FA0]">couverts</span>
+              <span className="text-xs font-mono text-slate-500">/ {eventBreakdown.repasInvited} invités</span>
             </div>
             <div className="pt-2 border-t border-slate-100 text-xs text-[#5A5040] font-sans space-y-0.5">
               <div className="flex justify-between">
@@ -384,7 +414,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
               <span className="font-display text-3xl font-bold text-amber-800">
                 {eventBreakdown.brunchAdults + eventBreakdown.brunchChildren}
               </span>
-              <span className="text-xs font-serif italic text-amber-700">convives</span>
+              <span className="text-xs font-mono text-slate-500">/ {eventBreakdown.brunchInvited} invités</span>
             </div>
             <div className="pt-2 border-t border-slate-100 text-xs text-[#5A5040] font-sans space-y-0.5">
               <div className="flex justify-between">
@@ -414,16 +444,16 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
           </div>
 
           {/* Filter Toolbar */}
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap flex-col sm:flex-row items-stretch sm:items-center gap-2 mt-4 md:mt-0 w-full md:w-auto">
             {/* Search Input */}
-            <div className="relative">
+            <div className="relative w-full sm:w-auto">
               <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Chercher par nom..."
-                className="pl-8 pr-3 py-1.5 bg-[#FAF7F2] border border-slate-200 rounded-xl text-xs text-[#13263B] focus:outline-none focus:border-[#C4A475] w-44"
+                className="pl-8 pr-3 py-2 sm:py-1.5 bg-[#FAF7F2] border border-slate-200 rounded-xl text-xs text-[#13263B] focus:outline-none focus:border-[#C4A475] w-full sm:w-44"
               />
             </div>
 
@@ -431,7 +461,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
             <select
               value={filterStatus}
               onChange={(e: any) => setFilterStatus(e.target.value)}
-              className="px-3 py-1.5 bg-[#FAF7F2] border border-slate-200 rounded-xl text-xs text-[#13263B] focus:outline-none font-sans cursor-pointer"
+              className="px-3 py-2 sm:py-1.5 bg-[#FAF7F2] border border-slate-200 rounded-xl text-xs text-[#13263B] focus:outline-none font-sans cursor-pointer w-full sm:w-auto"
             >
               <option value="all">Tous statuts</option>
               <option value="attending">Présents uniquement</option>
@@ -443,7 +473,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
             <select
               value={filterEvent}
               onChange={(e: any) => setFilterEvent(e.target.value)}
-              className="px-3 py-1.5 bg-[#FAF7F2] border border-slate-200 rounded-xl text-xs text-[#13263B] focus:outline-none font-sans cursor-pointer"
+              className="px-3 py-2 sm:py-1.5 bg-[#FAF7F2] border border-slate-200 rounded-xl text-xs text-[#13263B] focus:outline-none font-sans cursor-pointer w-full sm:w-auto"
             >
               <option value="all">Tous événements</option>
               <option value="vin">Présents au Vin</option>
@@ -481,7 +511,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
                       )}
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2 mt-2 sm:mt-0">
                       {isResponded ? (
                         <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full font-sans">
                           ✓ Répondu {fam.respondedAt ? `le ${formatDate(fam.respondedAt)}` : ''} ({attendingMembers.length} présent(s) / {absentMembers.length} absent(s))
@@ -491,6 +521,10 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
                           ⏳ En attente de réponse
                         </span>
                       )}
+                      
+                      <button onClick={() => handleDeleteFamily(fam.id, fam.familyName)} className="p-1 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer" title="Supprimer la famille">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
                     </div>
                   </div>
 

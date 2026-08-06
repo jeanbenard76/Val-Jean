@@ -536,3 +536,15 @@ export function addFamilies(families: any[]) {
   saveDatabaseToDisk();
   return { success: true, count: addedCount };
 }
+
+/**
+ * Delete a family and all its members and RSVPs.
+ */
+export function deleteFamily(familyId: string) {
+  if (!db) throw new Error('Database not initialized');
+  db.run("DELETE FROM members WHERE family_id = ?", [familyId]);
+  db.run("DELETE FROM families WHERE id = ?", [familyId]);
+  db.run("DELETE FROM rsvps WHERE family_id = ?", [familyId]);
+  saveDatabaseToDisk();
+  return { success: true };
+}
