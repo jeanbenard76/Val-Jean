@@ -170,7 +170,7 @@ export default function OurStory() {
         <span className="text-[10px] sm:text-[11px] tracking-[0.3em] font-sans uppercase font-bold text-[#C4A475] block mb-3">
           CARNET D'AVENTURES &amp; CHRONOLOGIE
         </span>
-        <h2 className="font-script text-[clamp(3rem,6vw,5rem)] text-[#13263B] leading-tight pt-2">
+        <h2 className="font-script text-[clamp(2.5rem,4.5vw,7rem)] text-[#13263B] leading-tight pt-2">
           L'Histoire de Valentine &amp; Jean
         </h2>
         <div className="w-20 h-[1px] bg-[#C4A475] mx-auto my-2" />
@@ -179,8 +179,9 @@ export default function OurStory() {
         </p>
       </div>
 
-      {/* 2. EXACT HAND-DRAWN LOOPING SVG THREAD (MATCHING USER DRAWING SKETCH) */}
-      <div className="hidden lg:block absolute inset-x-0 top-[240px] bottom-[80px] pointer-events-none z-0">
+      <div className="relative w-full">
+        {/* 2. EXACT HAND-DRAWN LOOPING SVG THREAD (MATCHING USER DRAWING SKETCH) */}
+        <div className="hidden lg:block absolute inset-x-0 top-0 bottom-[80px] pointer-events-none z-0">
         <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1400 2400">
           {/* Wild cursive loops starting top-left, looping around screen edges & steps */}
           <motion.path
@@ -212,7 +213,7 @@ export default function OurStory() {
       </div>
 
       {/* 3. RESPONSIVE LEFT THREAD FOR IPHONE / MOBILE */}
-      <div className="lg:hidden absolute left-6 top-[240px] bottom-[80px] w-[2px] pointer-events-none z-0">
+      <div className="lg:hidden absolute left-6 top-0 bottom-[80px] w-[2px] pointer-events-none z-0">
         <motion.div
           className="w-full bg-gradient-to-b from-[#C4A475]/20 via-[#C4A475] to-[#C4A475]/20 origin-top"
           style={{ height: mobileHeight }}
@@ -372,7 +373,7 @@ export default function OurStory() {
           );
         })}
       </div>
-
+      </div>
     </section>
   );
 }
