@@ -189,17 +189,17 @@ export default function App() {
               <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center text-center">
                 
                 {/* Parents & Larger Center Logo Row */}
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6 w-full max-w-3xl mx-auto px-4 border-b border-[#C4A475]/30 pb-10 sm:pb-14 mb-8 sm:mb-10">
-                  <span className="text-[11px] sm:text-xs font-serif tracking-widest uppercase text-[#13263B]/70 text-center sm:text-left font-medium">
-                    Anne et Visith Chem-Lenhof
+                <div className="flex flex-row items-center justify-between gap-2 sm:gap-6 w-full max-w-3xl mx-auto px-2 sm:px-4 border-b border-[#C4A475]/30 pb-10 sm:pb-14 mb-8 sm:mb-10">
+                  <span className="text-[9px] sm:text-xs font-serif tracking-widest uppercase text-[#13263B]/70 text-center sm:text-left font-medium leading-relaxed">
+                    Anne et Visith <br /> Chem-Lenhof
                   </span>
 
-                  <div className="p-1.5 bg-[#FAF7F2] rounded-full border border-[#C4A475]/35 shadow-xs shrink-0 my-1 sm:my-0">
-                    <WeddingLogo size="lg" className="w-12 h-12 sm:w-16 sm:h-16" themeColor="gold" />
+                  <div className="p-1 sm:p-1.5 bg-[#FAF7F2] rounded-full border border-[#C4A475]/35 shadow-xs shrink-0 mx-1 sm:mx-0">
+                    <WeddingLogo size="lg" className="w-10 h-10 sm:w-16 sm:h-16" themeColor="gold" />
                   </div>
 
-                  <span className="text-[11px] sm:text-xs font-serif tracking-widest uppercase text-[#13263B]/70 text-center sm:text-right font-medium">
-                    Anny-Claude et Marc Bénard
+                  <span className="text-[9px] sm:text-xs font-serif tracking-widest uppercase text-[#13263B]/70 text-center sm:text-right font-medium leading-relaxed">
+                    Anny-Claude et Marc <br /> Bénard
                   </span>
                 </div>
               </div>
