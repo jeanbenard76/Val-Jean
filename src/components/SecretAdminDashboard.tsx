@@ -188,8 +188,8 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
 
     families.forEach((fam) => {
       fam.members.forEach((m) => {
-        // Un membre est invité par défaut au vin d'honneur s'il n'y a pas de donnée explicite
-        if (m.invitedTo?.vinHonneur !== false && m.events?.vinHonneur !== false) vinInvited++;
+        // Un membre est invité par défaut au vin d'honneur s'il n'y a pas d'exclusion explicite
+        if (m.invitedTo?.vinHonneur !== false) vinInvited++;
         if (m.invitedTo?.repasNoces || m.events?.repasNoces) repasInvited++;
         if (m.invitedTo?.brunchLendemain || m.events?.brunchLendemain) brunchInvited++;
       });
