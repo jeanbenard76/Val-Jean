@@ -14,6 +14,8 @@ interface LodgingCard {
   image: string;
   description: string;
   price: string;
+  minNights: number;
+  capacity: number;
   highlights: string[];
   link: string;
 }
@@ -27,10 +29,12 @@ const LODGING_CAROUSEL: LodgingCard[] = [
     name: "L'Essentiel",
     category: "CHAMBRE D'HÔTES",
     distance: "À 4 MIN (1,8 KM)",
-    image: "/images/essentiel.jpg",
-    description: "Pour 2 personnes. Un charmant Bed & Breakfast situé dans le village d'Oherville, à deux pas du Manoir.",
+    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80",
+    description: "Un charmant Bed & Breakfast situé dans le village d'Oherville, à deux pas du Manoir.",
     price: "35€ / pers / nuit",
-    highlights: ["2 personnes", "Linge à disposition", "Proche Manoir"],
+    minNights: 1,
+    capacity: 2,
+    highlights: ["Linge à disposition", "Proche Manoir", "Petit-déjeuner"],
     link: "https://www.booking.com/hotel/fr/essentiel-oherville.fr.html?aid=304142&label=gen173nr-10CAQoggJCGHNlYXJjaF9vaGVydmlsbGUsIGZyYW5jZUgNWARoTYgBAZgBM7gBF8gBDNgBA-gBAfgBAYgCAagCAbgC2O7S0wbAAgHSAiRiMGJkZTc2Yi1mYmNlLTQyZTUtOWE4ZS03ZGIxNWYxMTFlNTPYAgHgAgE&ucfs=1&checkin=2027-04-17&checkout=2027-04-18&dest_id=-1455744&dest_type=city&group_adults=2&no_rooms=1&group_children=0&srpvid=7da0746cd4340596&srepoch=1786034165&all_sr_blocks=1349142501_407252890_2_2_0&highlighted_blocks=1349142501_407252890_2_2_0&matching_block_id=1349142501_407252890_2_2_0&atlas_src=sr_iw_title",
   },
   {
@@ -38,10 +42,12 @@ const LODGING_CAROUSEL: LodgingCard[] = [
     name: "Gîte de la Durdent",
     category: "GÎTE DE CHARME",
     distance: "À 7 MIN (4,1 KM)",
-    image: "/images/durdent.jpg",
-    description: "Pour 6 personnes (3 chambres). Gîte tout confort avec jardin situé au cœur d'Oherville.",
-    price: "22€ / pers (133€)",
-    highlights: ["6 personnes (3 ch.)", "Parking privé", "Jardin"],
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80",
+    description: "Gîte tout confort (3 chambres) avec jardin situé au cœur d'Oherville.",
+    price: "22€ / pers / nuit",
+    minNights: 1,
+    capacity: 6,
+    highlights: ["3 chambres", "Parking privé", "Jardin"],
     link: "https://www.booking.com/hotel/fr/gite-de-la-durdent.fr.html?aid=304142&label=gen173nr-10CAQoggJCGHNlYXJjaF9vaGVydmlsbGUsIGZyYW5jZUgNWARoTYgBAZgBM7gBF8gBDNgBA-gBAfgBAYgCAagCAbgC2O7S0wbAAgHSAiRiMGJkZTc2Yi1mYmNlLTQyZTUtOWE4ZS03ZGIxNWYxMTFlNTPYAgHgAgE&ucfs=1&checkin=2027-04-17&checkout=2027-04-18&dest_id=-1455744&dest_type=city&group_adults=2&no_rooms=1&group_children=0&srpvid=7da0746cd4340596&srepoch=1786034165&all_sr_blocks=1176860701_390210577_6_0_0&highlighted_blocks=1176860701_390210577_6_0_0&matching_block_id=1176860701_390210577_6_0_0&atlas_src=sr_iw_title",
   },
   {
@@ -49,10 +55,12 @@ const LODGING_CAROUSEL: LodgingCard[] = [
     name: "Le Colvert",
     category: "GÎTES DE FRANCE",
     distance: "À 7 MIN (4,1 KM)",
-    image: "/images/colvert.png",
-    description: "Pour 5 personnes (2 chambres). Une authentique demeure normande. 2 nuits minimum.",
+    image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80",
+    description: "Une authentique demeure normande avec Spa & Sauna (2 chambres).",
     price: "71€ / pers / nuit",
-    highlights: ["5 personnes (2 ch.)", "2 nuits min.", "Spa & Sauna"],
+    minNights: 2,
+    capacity: 5,
+    highlights: ["2 chambres", "2 nuits min.", "Spa & Sauna"],
     link: "https://www.gites.fr/d/58617284?searchId=60e3f93c-7bfe-48e3-9f37-f218bea72ba7&checkin=2027-04-16&checkout=2027-04-18&searchTerm=Oherville%2C+Normandie%2C+France&pageSize=21&asyncSubscriptions=true&hasGConfig=true&searchMultiUnits=true&locale=fr-FR&currency=EUR&selectedPriceRateId=DEFAULT&adults=2&_gl=1*ewhmp*_up*MQ..*_gs*MQ..&gclid=CjwKCAjw4dDTBhAqEiwAkHYmSvsTtul6elsZJ87Yl92fUokK3a0ABCLtyigW1SaS34ofrXkAfuV5-hoCh0YQAvD_BwE&ctx=SdCmdvc89R",
   },
   {
@@ -60,10 +68,12 @@ const LODGING_CAROUSEL: LodgingCard[] = [
     name: "La Petite Écurie",
     category: "GÎTES DE FRANCE",
     distance: "À 14 MIN (8,9 KM)",
-    image: "/images/ecurie.jpg",
-    description: "Pour 6 personnes (2 chambres). Hébergement chaleureux et accueillant. 2 nuits minimum.",
+    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=600&q=80",
+    description: "Hébergement chaleureux et accueillant (2 chambres), très au calme.",
     price: "23€ / pers / nuit",
-    highlights: ["6 personnes (2 ch.)", "2 nuits min.", "Très calme"],
+    minNights: 2,
+    capacity: 6,
+    highlights: ["2 chambres", "2 nuits min.", "Très calme"],
     link: "https://www.gites.fr/d/59010073?searchId=60e3f93c-7bfe-48e3-9f37-f218bea72ba7&checkin=2027-04-16&checkout=2027-04-18&searchTerm=Oherville%2C+Normandie%2C+France&pageSize=21&asyncSubscriptions=true&hasGConfig=true&searchMultiUnits=true&locale=fr-FR&currency=EUR&selectedPriceRateId=DEFAULT&adults=2&_gl=1*ewhmp*_up*MQ..*_gs*MQ..&gclid=CjwKCAjw4dDTBhAqEiwAkHYmSvsTtul6elsZJ87Yl92fUokK3a0ABCLtyigW1SaS34ofrXkAfuV5-hoCh0YQAvD_BwE&ctx=SdCmdvc89R",
   },
 ];
@@ -215,9 +225,15 @@ export default function Lodging() {
                   </p>
 
                   {/* Tariff Line */}
-                  <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs mb-2.5">
-                    <span className="text-[#5A5040] font-sans text-[11px]">Tarif indicatif :</span>
-                    <span className="font-mono font-bold text-[#13263B] text-xs">{item.price}</span>
+                  <div className="flex flex-col pt-2 border-t border-slate-100 mb-2.5 space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[#5A5040] font-sans text-[11px]">Tarif indicatif :</span>
+                      <span className="font-mono font-bold text-[#13263B] text-xs">{item.price}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[#5A5040] text-[10px] font-sans italic opacity-80">
+                      <span>{item.minNights} nuit{item.minNights > 1 ? 's' : ''} min.</span>
+                      <span>Capacité : {item.capacity} pers.</span>
+                    </div>
                   </div>
 
                   {/* Highlights Checkmark List */}
