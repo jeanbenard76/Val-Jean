@@ -147,7 +147,7 @@ export default function App() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden fixed top-[73px] left-0 right-0 bg-[#FFFEF5]/95 backdrop-blur-lg border-b border-[#3B6FA0]/15 z-30 shadow-xl overflow-hidden flex flex-col p-6 space-y-4 font-serif tracking-widest uppercase text-[#1A3A5C] text-center"
+            className="lg:hidden fixed top-[73px] left-0 right-0 bg-[#FFFEF5]/95 backdrop-blur-lg border-b border-[#3B6FA0]/15 z-[90] shadow-xl overflow-hidden flex flex-col p-6 space-y-4 font-serif tracking-widest uppercase text-[#1A3A5C] text-center"
             id="mobile-navigation-drawer"
           >
             {[
