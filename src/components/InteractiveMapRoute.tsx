@@ -15,10 +15,25 @@ interface InteractiveMapRouteProps {
 export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRouteProps) {
   const [copiedText, setCopiedText] = useState<boolean>(false);
 
-  const copyAddress = () => {
-    navigator.clipboard.writeText("Promenade du Château, 76560 Oherville, France");
-    setCopiedText(true);
-    setTimeout(() => setCopiedText(false), 2500);
+  const copyAddress = async () => {
+    const text = "Manoir d'Auffay, Promenade du Château, 76560 Oherville, France";
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        // Fallback for non-secure contexts (HTTP)
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        textArea.remove();
+      }
+      setCopiedText(true);
+      setTimeout(() => setCopiedText(false), 2500);
+    } catch (err) {
+      console.error("Erreur lors de la copie:", err);
+    }
   };
 
   const scheduleItems = [
