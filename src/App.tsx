@@ -126,7 +126,7 @@ export default function App() {
         </nav>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex lg:hidden items-center gap-3">
           {/* Mobile navigation trigger */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
