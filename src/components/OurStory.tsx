@@ -183,25 +183,18 @@ export default function OurStory() {
         {/* 2. EXACT HAND-DRAWN LOOPING SVG THREAD (MATCHING USER DRAWING SKETCH) */}
         <div className="hidden lg:block absolute inset-x-0 top-0 bottom-[80px] pointer-events-none z-0">
         <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1400 2400">
-          {/* Wild cursive loops starting top-left, looping around screen edges & steps */}
+          {/* Wild cursive loops starting top-left, looping organically behind the centered cards */}
           <motion.path
             d="
-              M 50,40 
-              C 350,-60 650,80 500,120 
-              C 350,160 300,50 480,40 
-              C 700,30 1350,20 1300,280
-              C 1268,447 1405,495 1280,380
-              C 1150,260 400,600 120,550
-              C -50,500 80,720 220,650
-              C 360,580 180,480 80,580
-              C -20,680 400,920 650,880
-              C 900,840 1380,780 1320,1120
-              C 1280,1347 1449,1216 1250,1150
-              C 1100,1100 400,1420 120,1380
-              C -9,1362 165,1335 80,1420
-              C -20,1520 400,1820 650,1780
-              C 900,1740 1380,1680 1300,2020 
-              C 1220,2360 800,2150 500,2360
+              M 700,0 
+              C 800,50 1100,100 1100,200
+              C 1100,350 400,300 300,450
+              C 200,600 900,550 1000,700
+              C 1100,850 400,800 300,1000
+              C 200,1200 900,1150 1000,1350
+              C 1100,1550 400,1500 300,1700
+              C 200,1900 900,1850 1000,2050
+              C 1100,2250 600,2300 700,2400
             "
             fill="none"
             stroke="#C4A475"
@@ -212,8 +205,8 @@ export default function OurStory() {
         </svg>
       </div>
 
-      {/* 3. RESPONSIVE LEFT THREAD FOR IPHONE / MOBILE */}
-      <div className="lg:hidden absolute left-6 top-0 bottom-[80px] w-[2px] pointer-events-none z-0">
+      {/* 3. RESPONSIVE CENTER THREAD FOR IPHONE / MOBILE */}
+      <div className="lg:hidden absolute left-1/2 -translate-x-1/2 top-0 bottom-[80px] w-[2px] pointer-events-none z-0">
         <motion.div
           className="w-full bg-gradient-to-b from-[#C4A475]/20 via-[#C4A475] to-[#C4A475]/20 origin-top"
           style={{ height: mobileHeight }}
@@ -224,35 +217,6 @@ export default function OurStory() {
       <div className="space-y-16 sm:space-y-24 relative z-10">
         {STORY_STEPS.map((step, idx) => {
           const isActive = activeStepId === step.id;
-
-          // Scattered offsets from left to right across the screen layout
-          const offsetClasses = [
-            'lg:ml-[-5%]',               // Step 1: shifted left
-            'lg:mr-[-6%] lg:ml-auto',     // Step 2: shifted right
-            'lg:ml-[-8%]',               // Step 3: shifted far left
-            'lg:mr-[-5%] lg:ml-auto',     // Step 4: shifted right
-            'lg:ml-[-4%]',               // Step 5: shifted left
-            'lg:mx-auto',                // Step 6: centered finale
-          ][idx % 6];
-
-          // Vertical quote offsets to clear the golden SVG thread line
-          const valentineShift = [
-            'lg:translate-y-4',  // Step 1
-            'lg:-translate-y-6', // Step 2
-            'lg:translate-y-6',  // Step 3
-            'lg:-translate-y-8', // Step 4
-            'lg:translate-y-4',  // Step 5
-            'lg:-translate-y-4', // Step 6
-          ][idx % 6];
-
-          const jeanShift = [
-            'lg:-translate-y-4', // Step 1
-            'lg:translate-y-6',  // Step 2
-            'lg:-translate-y-6', // Step 3
-            'lg:translate-y-8',  // Step 4
-            'lg:-translate-y-4', // Step 5
-            'lg:translate-y-4',  // Step 6
-          ][idx % 6];
 
           return (
             <div
@@ -266,7 +230,7 @@ export default function OurStory() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: false, margin: '-80px' }}
                 transition={{ duration: 0.6, delay: 0.05 }}
-                className={`max-w-5xl transition-all duration-500 relative z-10 ${offsetClasses} ${
+                className={`max-w-6xl mx-auto transition-all duration-500 relative z-10 ${
                   isActive ? 'opacity-100' : 'opacity-85'
                 }`}
               >
@@ -287,13 +251,10 @@ export default function OurStory() {
                 {/* TRIPARTITE GRID: FRAMELESS VALENTINE QUOTE | OPAQUE WHITE CENTER CARD | FRAMELESS JEAN QUOTE */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
                   
-                  {/* 1. LEFT COLUMN: VALENTINE'S PERSPECTIVE (FRAMELESS & CUSTOM HEIGHT SHIFT) */}
-                  <div className={`lg:col-span-3 order-2 lg:order-1 flex flex-col justify-center ${valentineShift}`}>
+                  {/* 1. LEFT COLUMN: VALENTINE'S PERSPECTIVE (FRAMELESS) */}
+                  <div className={`lg:col-span-3 order-2 lg:order-1 flex flex-col justify-center`}>
                     <div className="p-3 space-y-1.5 text-left relative z-20">
                       <div className="flex items-center gap-2 border-b border-amber-400/50 pb-1 w-fit">
-                        <span className="w-4 h-4 rounded-full bg-amber-100 text-amber-800 font-display text-[9px] font-bold flex items-center justify-center border border-amber-300 shrink-0">
-                          V
-                        </span>
                         <span className="text-[11px] font-bold tracking-wider uppercase text-amber-800 font-sans">
                           Valentine
                         </span>
@@ -348,15 +309,12 @@ export default function OurStory() {
                     </div>
                   </div>
 
-                  {/* 3. RIGHT COLUMN: JEAN'S PERSPECTIVE (FRAMELESS & CUSTOM HEIGHT SHIFT) */}
-                  <div className={`lg:col-span-3 order-3 flex flex-col justify-center ${jeanShift}`}>
+                  {/* 3. RIGHT COLUMN: JEAN'S PERSPECTIVE (FRAMELESS) */}
+                  <div className={`lg:col-span-3 order-3 flex flex-col justify-center`}>
                     <div className="p-3 space-y-1.5 text-right relative z-20">
                       <div className="flex items-center justify-end gap-2 border-b border-blue-400/50 pb-1 w-fit ml-auto">
                         <span className="text-[11px] font-bold tracking-wider uppercase text-blue-800 font-sans">
                           Jean
-                        </span>
-                        <span className="w-4 h-4 rounded-full bg-blue-100 text-blue-800 font-display text-[9px] font-bold flex items-center justify-center border border-blue-300 shrink-0">
-                          J
                         </span>
                       </div>
 
