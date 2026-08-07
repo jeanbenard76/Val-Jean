@@ -4,6 +4,10 @@
  */
 
 import React, { useRef } from 'react';
+import essentielImg from '../assets/images/essentiel.jpg';
+import durdentImg from '../assets/images/durdent.jpg';
+import colvertImg from '../assets/images/colvert.jpg';
+import ecurieImg from '../assets/images/ecurie.jpg';
 import { Bed, Hotel, ExternalLink, ChevronLeft, ChevronRight, Check, MapPin, Info } from 'lucide-react';
 
 interface LodgingCard {
@@ -29,7 +33,7 @@ const LODGING_CAROUSEL: LodgingCard[] = [
     name: "L'Essentiel",
     category: "CHAMBRE D'HÔTES",
     distance: "À 4 MIN (1,8 KM)",
-    image: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=600&q=80",
+    image: essentielImg,
     description: "Un charmant Bed & Breakfast situé dans le village d'Oherville, à deux pas du Manoir.",
     price: "35€ / pers / nuit",
     minNights: 1,
@@ -42,7 +46,7 @@ const LODGING_CAROUSEL: LodgingCard[] = [
     name: "Gîte de la Durdent",
     category: "GÎTE DE CHARME",
     distance: "À 7 MIN (4,1 KM)",
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80",
+    image: durdentImg,
     description: "Gîte tout confort (3 chambres) avec jardin situé au cœur d'Oherville.",
     price: "22€ / pers / nuit",
     minNights: 1,
@@ -55,7 +59,7 @@ const LODGING_CAROUSEL: LodgingCard[] = [
     name: "Le Colvert",
     category: "GÎTES DE FRANCE",
     distance: "À 7 MIN (4,1 KM)",
-    image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80",
+    image: colvertImg,
     description: "Une authentique demeure normande avec Spa & Sauna (2 chambres).",
     price: "71€ / pers / nuit",
     minNights: 2,
@@ -68,7 +72,7 @@ const LODGING_CAROUSEL: LodgingCard[] = [
     name: "La Petite Écurie",
     category: "GÎTES DE FRANCE",
     distance: "À 14 MIN (8,9 KM)",
-    image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=600&q=80",
+    image: ecurieImg,
     description: "Hébergement chaleureux et accueillant (2 chambres), très au calme.",
     price: "23€ / pers / nuit",
     minNights: 2,
