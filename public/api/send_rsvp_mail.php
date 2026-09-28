@@ -1,143 +1,99 @@
 <?php
-/**
- * Script PHP d'envoi d'emails RSVP pour hébergement classique (OVHcloud, Infomaniak, o2switch, Gandi)
- * Envoie un mail HTML formaté à valentinetjean@etik.com
- */
+// public/api/send_rsvp_mail.php
 
-header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['error' => 'Méthode non autorisée. Utilisez POST.']);
-    exit();
+$data = json_decode(file_get_contents("php://input"), true);
+if (empty($data)) {
+    $data = $_POST;
 }
 
-$rawInput = file_get_contents('php://input');
-$data = json_decode($rawInput, true);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-if (!$data || !isset($data['familyName']) || !isset($data['members'])) {
-    http_response_code(400);
-    echo json_encode(['error' => 'Données JSON invalides ou incomplètes.']);
-    exit();
-}
+    $familyName = strip_tags(trim($data["familyName"] ?? 'Famille Inconnue'));
+    $email = filter_var(trim($data["email"] ?? ''), FILTER_SANITIZE_EMAIL);
+    $message = strip_tags(trim($data["message"] ?? ''));
+    $members = $data["members"] ?? [];
 
-$familyName = htmlspecialchars($data['familyName']);
-$guestEmail = htmlspecialchars($data['email'] ?? 'Non renseigné');
-$guestMessage = htmlspecialchars($data['message'] ?? '');
-$members = $data['members'];
-
-$to = 'valentinetjean@etik.com';
-$fromEmail = 'no-reply@' . ($_SERVER['SERVER_NAME'] ?? 'valentine-et-jean.fr');
-$subject = "=?UTF-8?B?" . base64_encode("💍 Confirmation RSVP : Famille " . $familyName) . "?=";
-
-// Count attendance
-$attendingCount = 0;
-$totalCount = count($members);
-$membersRows = '';
-
-foreach ($members as $m) {
-    $firstName = htmlspecialchars($m['firstName'] ?? '');
-    $lastName = htmlspecialchars($m['lastName'] ?? '');
-    $isChild = !empty($m['isChild']) ? 'Enfant' : 'Adulte';
-    $isAttending = !empty($m['isAttending']);
+    $admin_email = "valentinetjean+rsvp@etik.com";
+    $server_sender = "no-reply@valentine-et-jean.fr";
+    $unique_id = substr(md5(time()), 0, 5);
     
-    if ($isAttending) {
-        $attendingCount++;
-        $statusText = '<span style="color: #2e7d32; font-weight: bold;">✅ PRÉSENT(E)</span>';
-        
-        $events = [];
-        if (!empty($m['events']['vinHonneur'])) $events[] = "Vin d'Honneur";
-        if (!empty($m['events']['repasNoces'])) $events[] = "Repas de Noces";
-        if (!empty($m['events']['brunchLendemain'])) $events[] = "Brunch";
-        $eventsText = count($events) > 0 ? implode(', ', $events) : 'Aucun événement';
-    } else {
-        $statusText = '<span style="color: #c62828; font-weight: bold;">❌ ABSENT(E)</span>';
-        $eventsText = '-';
+    $attendingCount = 0;
+    if (is_array($members)) {
+        foreach ($members as $m) {
+            if (!empty($m['isAttending'])) {
+                $attendingCount++;
+            }
+        }
     }
 
-    $dietary = !empty($m['dietaryNotes']) ? htmlspecialchars($m['dietaryNotes']) : '-';
+    $status_global = $attendingCount > 0 ? "Présent(s)" : "Absent(s)";
 
-    $membersRows .= "
-        <tr style='border-bottom: 1px solid #eee;'>
-            <td style='padding: 10px; font-weight: bold; color: #13263B;'>{$firstName} {$lastName} ({$isChild})</td>
-            <td style='padding: 10px;'>{$statusText}</td>
-            <td style='padding: 10px; color: #555;'>{$eventsText}</td>
-            <td style='padding: 10px; color: #555;'>{$dietary}</td>
-        </tr>
-    ";
-}
+    $email_subject = "[RSVP - $status_global] Mise à jour : $familyName";
+    
+    $email_content = "Bonjour,\n\n";
+    $email_content .= "Vous avez reçu une nouvelle réponse (ou mise à jour) pour le mariage de la part de : $familyName.\n";
+    if (!empty($email)) {
+        $email_content .= "Email de contact : $email\n";
+    }
+    
+    $email_content .= "\n=======================================\n";
+    $email_content .= "DÉTAIL DES INVITÉS :\n";
+    $email_content .= "=======================================\n\n";
 
-$htmlBody = "
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-</head>
-<body style='font-family: Arial, sans-serif; background-color: #faf7f2; padding: 20px; margin: 0;'>
-    <div style='max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 24px; border: 1px solid #e2e8f0;'>
-        <h2 style='color: #13263B; border-bottom: 2px solid #C4A475; padding-bottom: 8px; margin-top: 0;'>
-            💍 Nouvelle Confirmation RSVP
-        </h2>
-        <p style='font-size: 15px; color: #333;'>
-            La <strong>Famille {$familyName}</strong> a validé sa réponse sur le site !
-        </p>
+    if (is_array($members) && count($members) > 0) {
+        foreach ($members as $index => $m) {
+            $firstName = strip_tags($m['firstName'] ?? '');
+            $lastName = strip_tags($m['lastName'] ?? '');
+            $isAttending = !empty($m['isAttending']) ? '✅ PRÉSENT(E)' : '❌ ABSENT(E)';
+            $isChild = !empty($m['isChild']) ? '(Enfant)' : '(Adulte)';
+            $dietary = strip_tags($m['dietaryRequirements'] ?? '');
 
-        <div style='background-color: #faf7f2; padding: 15px; border-radius: 8px; margin: 15px 0; border: 1px solid #e0dcd5;'>
-            <p style='margin: 4px 0;'><strong>Famille :</strong> {$familyName}</p>
-            <p style='margin: 4px 0;'><strong>Email de contact :</strong> <a href='mailto:{$guestEmail}'>{$guestEmail}</a></p>
-            <p style='margin: 4px 0;'><strong>Bilan présence :</strong> {$attendingCount} présent(s) sur {$totalCount} invité(s)</p>
-            " . ($guestMessage ? "<p style='margin: 10px 0 0 0; padding-top: 8px; border-top: 1px italic #eee;'><strong>Message des invités :</strong><br><em style='color: #3B6FA0;'>« {$guestMessage} »</em></p>" : "") . "
-        </div>
+            $email_content .= "- $firstName $lastName $isChild : $isAttending\n";
+            if (!empty($dietary) && !empty($m['isAttending'])) {
+                $email_content .= "  Régime/Allergies : $dietary\n";
+            }
+            $email_content .= "\n";
+        }
+    } else {
+        $email_content .= "Aucun détail d'invité fourni.\n";
+    }
 
-        <h3 style='color: #13263B; font-size: 16px;'>Détails des personnes :</h3>
-        <table style='width: 100%; border-collapse: collapse; font-size: 13px;'>
-            <thead>
-                <tr style='background-color: #13263B; color: #ffffff; text-align: left;'>
-                    <th style='padding: 10px;'>Invité</th>
-                    <th style='padding: 10px;'>Statut</th>
-                    <th style='padding: 10px;'>Événements</th>
-                    <th style='padding: 10px;'>Régime / Allergies</th>
-                </tr>
-            </thead>
-            <tbody>
-                {$membersRows}
-            </tbody>
-        </table>
+    $email_content .= "=======================================\n";
+    if (!empty($message)) {
+        $email_content .= "MESSAGE LAISSÉ PAR LES INVITÉS :\n";
+        $email_content .= "$message\n";
+        $email_content .= "=======================================\n";
+    }
 
-        <p style='font-size: 11px; color: #888; text-align: center; margin-top: 25px;'>
-            Notification automatique envoyée à <strong>{$to}</strong> via le script PHP du site Valentine &amp; Jean.
-        </p>
-    </div>
-</body>
-</html>
-";
+    $email_content .= "\nCeci est un email automatique généré par votre site de mariage.\n";
 
-$headers = [];
-$headers[] = 'MIME-Version: 1.0';
-$headers[] = 'Content-type: text/html; charset=utf-8';
-$headers[] = 'From: Mariage Valentine & Jean <' . $fromEmail . '>';
-$headers[] = 'Reply-To: ' . ($guestEmail !== 'Non renseigné' ? $guestEmail : $fromEmail);
-$headers[] = 'X-Mailer: PHP/' . phpversion();
+    $headers_admin = "From: $familyName <$server_sender>" . "\r\n";
+    if (!empty($email)) {
+        $headers_admin .= "Reply-To: $email" . "\r\n";
+    }
+    $headers_admin .= "MIME-Version: 1.0" . "\r\n";
+    $headers_admin .= "Content-Type: text/plain; charset=UTF-8" . "\r\n";
+    $headers_admin .= "X-Mailer: PHP/" . phpversion();
 
-$sent = mail($to, $subject, $htmlBody, implode("\r\n", $headers));
+    if (mail($admin_email, $email_subject, $email_content, $headers_admin)) {
+        http_response_code(200);
+        echo json_encode(["status" => "success", "message" => "RSVP notifié avec succès."]);
+    } else {
+        http_response_code(500);
+        echo json_encode(["status" => "error", "message" => "Erreur d'envoi du mail RSVP."]);
+    }
 
-if ($sent) {
-    echo json_encode([
-        'success' => true,
-        'message' => 'Email transmis avec succès à ' . $to . ' via PHP mail()'
-    ]);
 } else {
-    http_response_code(500);
-    echo json_encode([
-        'success' => false,
-        'error' => 'Erreur lors de l\'envoi de l\'email via la fonction mail() de PHP.'
-    ]);
+    http_response_code(405);
+    echo json_encode(["status" => "error", "message" => "Méthode non autorisée."]);
 }
+?>

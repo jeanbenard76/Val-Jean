@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { ExternalLink, Copy, Check, MapPin, Car, Train } from 'lucide-react';
-import normandyMapImg from '../assets/images/normandy_map_artwork.jpg';
+import normandyMapImg from '../assets/images/cartes_normandie.jpg';
 
 interface InteractiveMapRouteProps {
   onShowLodging?: () => void;
@@ -14,9 +14,12 @@ interface InteractiveMapRouteProps {
 
 export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRouteProps) {
   const [copiedText, setCopiedText] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<'ceremony' | 'reception'>('ceremony');
 
   const copyAddress = async () => {
-    const text = "Manoir d'Auffay, Promenade du Château, 76560 Oherville, France";
+    const text = activeTab === 'ceremony' 
+      ? "Église catholique Notre-Dame-de-l'Assomption, 76880 Arques-la-Bataille, France" 
+      : "Manoir d'Auffay, Promenade du Château, 76560 Oherville, France";
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(text);
@@ -40,7 +43,7 @@ export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRou
     {
       time: '14H00',
       title: 'Cérémonie religieuse',
-      location: 'Église Saint-Ribert à Torcy-Le-Grand',
+      location: "Église catholique Notre-Dame-de-l'Assomption, Arques-la-Bataille",
     },
     {
       time: '17H00',
@@ -137,7 +140,7 @@ export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRou
           <div className="relative w-full h-full min-h-[340px] overflow-hidden rounded-3xl shadow-2xs border border-[#3B6FA0]/15">
             <img
               src={normandyMapImg}
-              alt="Carte de Normandie du Mariage - Torcy-Le-Grand & Manoir d'Auffay"
+              alt="Carte de Normandie du Mariage - Arques-la-Bataille & Manoir d'Auffay"
               className="w-full h-full object-cover object-center rounded-3xl hover:scale-102 transition-transform duration-700"
             />
           </div>
@@ -149,74 +152,106 @@ export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRou
       <div className="space-y-8 max-w-5xl mx-auto pt-4">
         
         {/* Editorial Header */}
+        
+        {/* Editorial Header */}
         <div className="text-center space-y-2">
           <span className="font-serif italic text-xs text-[#C4A475] tracking-widest uppercase block">
-            — Venir en Normandie —
+            - Venir en Normandie -
           </span>
           <h3 className="font-display text-2xl sm:text-4xl text-[#13263B] font-light tracking-wide">
             Accès & Transports
           </h3>
-          <p className="text-xs sm:text-sm text-[#5A5040] font-serif italic max-w-md mx-auto">
-            Manoir d'Auffay, Promenade du Château, 76560 Oherville
+
+          {/* Custom Toggle */}
+          <div className="flex justify-center pt-3 pb-2">
+            <div className="bg-[#13263B]/5 p-1 rounded-full flex gap-1 border border-[#13263B]/10">
+              <button 
+                onClick={() => setActiveTab('ceremony')}
+                className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${activeTab === 'ceremony' ? 'bg-[#13263B] text-white shadow-sm' : 'text-[#13263B] hover:bg-[#13263B]/10'}`}
+              >
+                La Cérémonie
+              </button>
+              <button 
+                onClick={() => setActiveTab('reception')}
+                className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${activeTab === 'reception' ? 'bg-[#13263B] text-white shadow-sm' : 'text-[#13263B] hover:bg-[#13263B]/10'}`}
+              >
+                La Réception
+              </button>
+            </div>
+          </div>
+
+          <p className="text-xs sm:text-sm text-[#5A5040] font-serif italic max-w-md mx-auto pt-1">
+            {activeTab === 'ceremony' ? "Église catholique Notre-Dame-de-l'Assomption, 76880 Arques-la-Bataille" : "Manoir d'Auffay, Promenade du Château, 76560 Oherville"}
           </p>
 
-          {/* Chic Action Links */}
-          <div className="flex flex-row w-full sm:w-auto items-center justify-center gap-2 sm:gap-3 pt-3">
+          {/* Action Links */}
+          <div className="flex flex-row flex-wrap w-full sm:w-auto items-center justify-center gap-2 sm:gap-3 pt-3">
             <a
-              href="https://maps.google.com/?q=Manoir+d'Auffay+Oherville+France"
+              href={activeTab === 'ceremony' ? "https://www.google.com/maps/place/%C3%89glise+catholique+Notre-Dame-de-l%E2%80%99Assomption+%C3%A0+Arques-la-Bataille/@49.8822638,1.1252296,17z/data=!3m1!4b1!4m6!3m5!1s0x47e0a3f76c667795:0x176b7fdf93356bb9!8m2!3d49.8822604!4d1.1278045!16s%2Fg%2F11bx1bydzc?entry=ttu&g_ep=EgoyMDI2MDkyMy4wIKXMDSoASAFQAw%3D%3D" : "https://maps.google.com/?q=Manoir+d'Auffay+Oherville+France"}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3 sm:px-5 py-2.5 bg-[#13263B] hover:bg-[#C4A475] text-white hover:text-[#13263B] text-[11px] sm:text-xs font-semibold rounded-full transition-all cursor-pointer shadow-2xs text-center"
-            >
-              <span>Google Maps</span>
+              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 sm:px-6 py-2.5 bg-[#13263B] hover:bg-[#C4A475] text-white text-[11px] sm:text-xs font-semibold rounded-full transition-all cursor-pointer shadow-sm text-center whitespace-nowrap"        >
+              <span>{activeTab === 'ceremony' ? "L'Église sur Maps" : "Le Manoir sur Maps"}</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
 
             <button
               onClick={copyAddress}
-              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3 sm:px-5 py-2.5 bg-white/90 hover:bg-white text-[#13263B] border border-[#C4A475]/35 text-[11px] sm:text-xs font-semibold rounded-full transition-all cursor-pointer shadow-2xs text-center"
+              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-4 sm:px-6 py-2.5 bg-white/90 hover:bg-white text-[#13263B] border border-[#C4A475]/50 text-[11px] sm:text-xs font-semibold rounded-full transition-all cursor-pointer shadow-sm text-center whitespace-nowrap"
             >
               {copiedText ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-[#3B6FA0]" />}
-              <span>{copiedText ? 'Copiée !' : 'Copier'}</span>
+              <span>{copiedText ? 'Copié !' : 'Copier l\'adresse'}</span>
             </button>
           </div>
         </div>
 
-        {/* 3 Soft Paper Letterpress Cards with Full Borders */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left pt-2">
-          
-          {/* Card 1: En voiture */}
-          <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs hover:shadow-md hover:border-[#C4A475]/30 transition-all flex flex-col items-center text-center">
-            <h4 className="font-display font-semibold text-lg text-[#13263B]">
-              En Voiture
-            </h4>
-            <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
-              Depuis Paris (2h30). Un grand <strong>parking privé et gratuit</strong> de 150 places est disponible dans l'enceinte du Manoir.
-            </p>
-          </div>
-
-          {/* Card 2: En train */}
-          <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs hover:shadow-md hover:border-[#3B6FA0]/30 transition-all flex flex-col items-center text-center">
-            <h4 className="font-display font-semibold text-lg text-[#13263B]">
-              En Train
-            </h4>
-            <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
-              <strong>Gare d'Yvetot (12 min)</strong>. Liaisons directes depuis Paris-St-Lazare (1h40). Taxis disponibles en gare.
-            </p>
-          </div>
-
-          {/* Card 3: Entre les lieux */}
-          <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs hover:shadow-md hover:border-[#C4A475]/30 transition-all flex flex-col items-center text-center">
-            <h4 className="font-display font-semibold text-lg text-[#13263B]">
-              Entre les Lieux
-            </h4>
-            <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
-              Comptez <strong>45 minutes de route</strong> entre l'Église (Torcy-le-Grand) et le Manoir (Oherville).
-            </p>
-          </div>
+        {/* Info Blocks */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left pt-4">
+          {activeTab === 'ceremony' ? (
+            <>
+              <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs flex flex-col items-center text-center">
+                <h4 className="font-display font-semibold text-lg text-[#13263B]">Stationnement</h4>
+                <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
+                  Il est possible de se garer facilement sur la place principale et dans les rues adjacentes à l'église.
+                </p>
+              </div>
+              <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs flex flex-col items-center text-center">
+                <h4 className="font-display font-semibold text-lg text-[#13263B]">Horaires</h4>
+                <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
+                  L'installation dans l'église se fera à partir de 14h15 pour un début de cérémonie à 14h30.
+                </p>
+              </div>
+              <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs flex flex-col items-center text-center">
+                <h4 className="font-display font-semibold text-lg text-[#13263B]">Suite des festivités</h4>
+                <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
+                  Prévoyez environ 45 minutes de route pour rejoindre le lieu de réception après la messe.
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs flex flex-col items-center text-center">
+                <h4 className="font-display font-semibold text-lg text-[#13263B]">Le Parking</h4>
+                <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
+                  Un grand parking privatif et gratuit est à votre disposition directement dans l'enceinte du domaine.
+                </p>
+              </div>
+              <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs flex flex-col items-center text-center">
+                <h4 className="font-display font-semibold text-lg text-[#13263B]">En Train</h4>
+                <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
+                  La gare d'Yvetot se situe à environ 12 minutes de route du Manoir (navettes/taxis possibles).
+                </p>
+              </div>
+              <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs flex flex-col items-center text-center">
+                <h4 className="font-display font-semibold text-lg text-[#13263B]">Taxis & Navettes</h4>
+                <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
+                  Pensez à réserver vos taxis ou navettes bien en avance pour le retour si vous ne dormez pas sur place.
+                </p>
+              </div>
+            </>
+          )}
         </div>
-
-        {/* Lodging Helper Button */}
+{/* Lodging Helper Button */}
         {onShowLodging && (
           <div className="pt-4 text-center">
             <button
@@ -232,3 +267,9 @@ export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRou
     </div>
   );
 }
+
+
+
+
+
+

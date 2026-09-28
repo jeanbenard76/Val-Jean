@@ -22,46 +22,49 @@ export default function Contact() {
   const [subject, setSubject] = useState('question');
   const [message, setMessage] = useState('');
   const [success, setSuccess] = useState(false);
-  const [messagesCount, setMessagesCount] = useState(0);
+  const [honeypot, setHoneypot] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  useEffect(() => {
-    const saved = localStorage.getItem('wedding_contact_messages');
-    if (saved) {
-      try {
-        setMessagesCount(JSON.parse(saved).length);
-      } catch (e) {}
-    }
-  }, []);
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !message) return;
 
-    const newMessage: ContactMessage = {
-      id: Math.random().toString(36).substr(2, 9),
-      name,
-      email,
-      subject,
-      message,
-      date: new Date().toLocaleDateString('fr-FR'),
-    };
+    setIsSubmitting(true);
+    setErrorMessage('');
 
-    const saved = localStorage.getItem('wedding_contact_messages') || '[]';
     try {
-      const parsed = JSON.parse(saved);
-      parsed.push(newMessage);
-      localStorage.setItem('wedding_contact_messages', JSON.stringify(parsed));
-      setMessagesCount(parsed.length);
-    } catch (err) {}
+      const response = await fetch('/contact.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nom: name,
+          email: email,
+          sujet: subject,
+          message: message,
+          website: honeypot
+        })
+      });
 
-    setSuccess(true);
-    setName('');
-    setEmail('');
-    setMessage('');
+      const data = await response.json().catch(() => null);
 
-    setTimeout(() => {
-      setSuccess(false);
-    }, 5000);
+      if (response.ok && data?.status === 'success') {
+        setSuccess(true);
+        setName('');
+        setEmail('');
+        setMessage('');
+        setHoneypot('');
+        setTimeout(() => setSuccess(false), 5000);
+      } else {
+        setErrorMessage(data?.message || "Une erreur s'est produite. Veuillez réessayer.");
+      }
+    } catch (error) {
+      setErrorMessage("Impossible de joindre le serveur. Vérifiez votre connexion.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -183,6 +186,21 @@ export default function Contact() {
             </AnimatePresence>
 
             <form onSubmit={handleSubmit} className="space-y-5 text-left">
+                {errorMessage && (
+                  <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm mb-4 border border-red-200">
+                    {errorMessage}
+                  </div>
+                )}
+                {/* Honeypot field (hidden from real users) */}
+                <input 
+                  type="text" 
+                  name="website" 
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  className="hidden" 
+                  tabIndex={-1} 
+                  autoComplete="off" 
+                />
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="contact-name" className="block text-xs font-serif uppercase tracking-wider text-[#1A3A5C] font-semibold mb-1.5">

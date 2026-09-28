@@ -61,8 +61,11 @@ h1, h2, h3, h4, .font-display {
 
 /* Toile de Jouy Custom Texture Utilities with visible motifs and subtle blur */
 .toile-pattern {
-  background-image: url("/src/assets/images/toile_de_jouy_blue_1783093878722.jpg");
-  background-size: 420px;
+  background-image: 
+    url("/src/assets/images/toile_de_jouy_blue_1783093878722.jpg"),
+    url("/src/assets/images/toile_de_jouy_blue_1783093878722.jpg");
+  background-size: 900px, 1300px;
+  background-position: 0 0, 500px 200px;
   background-repeat: repeat;
   filter: contrast(1.05) brightness(1.02);
 }
@@ -75,8 +78,11 @@ h1, h2, h3, h4, .font-display {
   content: "";
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-image: url("/src/assets/images/toile_de_jouy_blue_1783093878722.jpg");
-  background-size: 380px;
+  background-image: 
+    url("/src/assets/images/toile_de_jouy_blue_1783093878722.jpg"),
+    url("/src/assets/images/toile_de_jouy_blue_1783093878722.jpg");
+  background-size: 850px, 1150px;
+  background-position: 0 0, 400px 300px;
   background-repeat: repeat;
   opacity: 0.12;
   filter: blur(0.5px);
@@ -104,3 +110,5 @@ h1, h2, h3, h4, .font-display {
   background-color: var(--color-wedding-yellow-200);
   color: var(--color-wedding-blue-900);
 }
+
+

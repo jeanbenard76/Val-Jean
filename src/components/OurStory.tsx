@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useSpring, useTransform } from 'motion/react';
+import { motion, useScroll, useSpring } from 'motion/react';
 
 // Default image assets
 import jbsImg from '../assets/images/jbs.png';
@@ -134,23 +134,21 @@ export default function OurStory() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const stepRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
-  // Scroll-driven path length strictly bound to user scroll position!
+  // 1:1 Scroll tracking centered on viewport
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ['start 60%', 'end 85%'],
+    offset: ['start 85%', 'end 85%'],
   });
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 350, damping: 55 });
-  const mobileHeight = useTransform(smoothProgress, [0, 1], ['0%', '100%']);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 2.5;
+      const scrollPosition = window.scrollY + window.innerHeight / 2;
 
       for (let i = STORY_STEPS.length; i >= 1; i--) {
         const el = stepRefs.current[i];
         if (el) {
           const top = el.offsetTop;
-          if (scrollPosition >= top - 140) {
+          if (scrollPosition >= top) {
             setActiveStepId(i);
             break;
           }
@@ -166,7 +164,7 @@ export default function OurStory() {
     <section ref={sectionRef} className="w-full max-w-[1400px] mx-auto px-4 sm:px-8 py-6 sm:py-12 relative overflow-hidden" id="our-story-section">
       
       {/* 1. SECTION HEADER */}
-      <div className="text-center mb-10 sm:mb-16 space-y-2 relative z-10">
+      <div className="text-center mb-6 sm:mb-10 space-y-2 relative z-10">
         <span className="text-[10px] sm:text-[11px] tracking-[0.3em] font-sans uppercase font-bold text-[#C4A475] block mb-3">
           CARNET D'AVENTURES &amp; CHRONOLOGIE
         </span>
@@ -174,206 +172,172 @@ export default function OurStory() {
           L'Histoire de Valentine &amp; Jean
         </h2>
         <div className="w-20 h-[1px] bg-[#C4A475] mx-auto my-2" />
-        <p className="font-serif italic text-xs sm:text-sm text-[#5A5040] max-w-xl mx-auto leading-relaxed">
-          Six grandes étapes, de la prépa PT jusqu'à notre demande en fiançailles aux Buttes-Chaumont.
-        </p>
       </div>
 
       <div className="relative w-full">
-        {/* 2. EXACT HAND-DRAWN LOOPING SVG THREAD (MATCHING USER DRAWING SKETCH) */}
-        <div className="hidden lg:block absolute inset-x-0 top-0 bottom-[80px] pointer-events-none z-0">
-        <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1400 2400">
-          {/* Wild cursive loops starting top-left, looping around screen edges & steps */}
-          <motion.path
-            d="
-              M 50,40 
-              C 350,-60 650,80 500,120 
-              C 350,160 300,50 480,40 
-              C 700,30 1350,20 1300,280
-              C 1268,447 1405,495 1280,380
-              C 1150,260 400,600 120,550
-              C -50,500 80,720 220,650
-              C 360,580 180,480 80,580
-              C -20,680 400,920 650,880
-              C 900,840 1380,780 1320,1120
-              C 1280,1347 1449,1216 1250,1150
-              C 1100,1100 400,1420 120,1380
-              C -9,1362 165,1335 80,1420
-              C -20,1520 400,1820 650,1780
-              C 900,1740 1380,1680 1300,2020 
-              C 1220,2360 800,2150 500,2360
-            "
-            fill="none"
-            stroke="#C4A475"
-            strokeWidth="3.5"
-            strokeDasharray="8 6"
-            style={{ pathLength: smoothProgress }}
+        {/* 2. MATHEMATICALLY PERFECT SVG THREAD 
+            By using grid auto-rows, we guarantee each step takes exactly 1/6th of the height.
+            The SVG viewBox is 1000x6000, so the center of each step is exactly at Y=500, 1500, 2500, 3500, 4500, 5500.
+            This ensures the line passes PERFECTLY behind the center of every single step!
+        */}
+        <div className="hidden lg:block absolute inset-0 pointer-events-none z-0">
+          <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1000 6000">
+            <motion.path
+              d="
+                M -200, 150
+                C 200, 150 500, 200 500, 500
+                C 1400, 800 -400, 1200 500, 1500
+                C -400, 1800 1400, 2200 500, 2500
+                C 1200, 2800 -200, 3200 500, 3500
+                C -200, 3800 1200, 4200 500, 4500
+                C 1400, 4800 -400, 5200 500, 5500
+                Q 500, 5850 1200, 5850
+              "
+              fill="none"
+              stroke="#C4A475"
+              strokeWidth="4"
+              strokeDasharray="12 12"
+              strokeLinecap="round"
+              style={{ pathLength: scrollYProgress }}
+            />
+          </svg>
+        </div>
+
+        {/* RESPONSIVE THREAD FOR MOBILE (Straight line instead of loops) */}
+        <div className="block lg:hidden absolute left-1/2 -translate-x-1/2 top-[50px] bottom-[50px] w-[2px] pointer-events-none z-0">
+          <div className="w-full h-full bg-[#C4A475]/20 rounded-full absolute" />
+          <motion.div
+            className="w-full bg-[#C4A475] rounded-full origin-top"
+            style={{ scaleY: scrollYProgress }}
           />
-        </svg>
-      </div>
+        </div>
 
-      {/* 3. RESPONSIVE LEFT THREAD FOR IPHONE / MOBILE */}
-      <div className="lg:hidden absolute left-6 top-0 bottom-[80px] w-[2px] pointer-events-none z-0">
-        <motion.div
-          className="w-full bg-gradient-to-b from-[#C4A475]/20 via-[#C4A475] to-[#C4A475]/20 origin-top"
-          style={{ height: mobileHeight }}
-        />
-      </div>
 
-      {/* 4. THE 6 CHRONOLOGICAL STEPS (Scattered Layout & Clean White Cards) */}
-      <div className="space-y-16 sm:space-y-24 relative z-10">
-        {STORY_STEPS.map((step, idx) => {
-          const isActive = activeStepId === step.id;
+        {/* 3. THE 6 CHRONOLOGICAL STEPS IN STRICT GRID 
+            auto-rows-fr guarantees that every single step has EXACTLY the same height.
+            This is the secret to making the SVG align perfectly with the DOM elements!
+        */}
+        <div className="grid grid-cols-1 auto-rows-fr w-full relative z-10">
+          {STORY_STEPS.map((step, idx) => {
+            const isActive = activeStepId === step.id;
 
-          // Scattered offsets from left to right across the screen layout
-          const offsetClasses = [
-            'lg:ml-[-5%]',               // Step 1: shifted left
-            'lg:mr-[-6%] lg:ml-auto',     // Step 2: shifted right
-            'lg:ml-[-8%]',               // Step 3: shifted far left
-            'lg:mr-[-5%] lg:ml-auto',     // Step 4: shifted right
-            'lg:ml-[-4%]',               // Step 5: shifted left
-            'lg:mx-auto',                // Step 6: centered finale
-          ][idx % 6];
-
-          // Vertical quote offsets to clear the golden SVG thread line
-          const valentineShift = [
-            'lg:translate-y-4',  // Step 1
-            'lg:-translate-y-6', // Step 2
-            'lg:translate-y-6',  // Step 3
-            'lg:-translate-y-8', // Step 4
-            'lg:translate-y-4',  // Step 5
-            'lg:-translate-y-4', // Step 6
-          ][idx % 6];
-
-          const jeanShift = [
-            'lg:-translate-y-4', // Step 1
-            'lg:translate-y-6',  // Step 2
-            'lg:-translate-y-6', // Step 3
-            'lg:translate-y-8',  // Step 4
-            'lg:-translate-y-4', // Step 5
-            'lg:translate-y-4',  // Step 6
-          ][idx % 6];
-
-          return (
-            <div
-              key={step.id}
-              ref={(el) => (stepRefs.current[step.id] = el)}
-              id={`story-step-${step.id}`}
-              className="scroll-mt-32 relative z-10"
-            >
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, margin: '-80px' }}
-                transition={{ duration: 0.6, delay: 0.05 }}
-                className={`max-w-5xl transition-all duration-500 relative z-10 ${offsetClasses} ${
-                  isActive ? 'opacity-100' : 'opacity-85'
-                }`}
+            return (
+              <div
+                key={step.id}
+                ref={(el) => (stepRefs.current[step.id] = el)}
+                id={`story-step-${step.id}`}
+                className="scroll-mt-32 relative z-10 flex flex-col justify-center py-16 sm:py-24"
               >
-                {/* ELEGANT MINIMAL HEADER: YEAR, LOCATION & FINE LINE */}
-                <div className="flex flex-col items-center justify-center mb-6 max-w-sm mx-auto text-center">
-                  <div className="flex items-center justify-center gap-2.5 text-[#13263B]">
-                    <span className="font-serif text-sm sm:text-base font-semibold tracking-wider text-[#13263B]">
-                      {step.date}
-                    </span>
-                    <span className="text-[#C4A475] font-light">•</span>
-                    <span className="font-serif italic text-xs sm:text-sm text-slate-500">
-                      {step.location}
-                    </span>
-                  </div>
-                  <div className="w-12 h-[1px] bg-[#C4A475]/60 mt-2.5" />
-                </div>
-
-                {/* TRIPARTITE GRID: FRAMELESS VALENTINE QUOTE | OPAQUE WHITE CENTER CARD | FRAMELESS JEAN QUOTE */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                  
-                  {/* 1. LEFT COLUMN: VALENTINE'S PERSPECTIVE (FRAMELESS & CUSTOM HEIGHT SHIFT) */}
-                  <div className={`lg:col-span-3 order-2 lg:order-1 flex flex-col justify-center ${valentineShift}`}>
-                    <div className="p-3 space-y-1.5 text-left relative z-20">
-                      <div className="flex items-center gap-2 border-b border-amber-400/50 pb-1 w-fit">
-                        <span className="w-4 h-4 rounded-full bg-amber-100 text-amber-800 font-display text-[9px] font-bold flex items-center justify-center border border-amber-300 shrink-0">
-                          V
-                        </span>
-                        <span className="text-[11px] font-bold tracking-wider uppercase text-amber-800 font-sans">
-                          Valentine
-                        </span>
-                      </div>
-
-                      <p className="font-serif italic text-xs sm:text-sm text-amber-900 leading-relaxed drop-shadow-2xs">
-                        &ldquo;{step.valentineSays}&rdquo;
-                      </p>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, margin: '-80px' }}
+                  transition={{ duration: 0.6, delay: 0.05 }}
+                  className={`max-w-6xl mx-auto w-full transition-all duration-500 relative z-10 ${
+                    isActive ? 'opacity-100 scale-100' : 'opacity-85 scale-[0.98]'
+                  }`}
+                >
+                  {/* ELEGANT MINIMAL HEADER: YEAR, LOCATION & FINE LINE */}
+                  <div className="flex flex-col items-center justify-center mb-6 max-w-sm mx-auto text-center">
+                    <div className="flex items-center justify-center gap-2.5 text-[#13263B]">
+                      <span className="font-serif text-sm sm:text-base font-semibold tracking-wider text-[#13263B]">
+                        {step.date}
+                      </span>
+                      <span className="text-[#C4A475] font-light">•</span>
+                      <span className="font-serif italic text-xs sm:text-sm text-slate-500">
+                        {step.location}
+                      </span>
                     </div>
+                    <div className="w-12 h-[1px] bg-[#C4A475]/60 mt-2.5" />
                   </div>
 
-                  {/* 2. CENTER COLUMN: MAIN STEP CORE & POLAROID PHOTO (CLEAN WHITE CARD WITHOUT TOP GRADIENT) */}
-                  <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col items-center">
-                    <div className="bg-white border border-slate-200 rounded-3xl p-6 text-center space-y-4 shadow-md w-full relative z-20 overflow-hidden">
-                      
-                      {/* Title & Subtitle */}
-                      <div>
-                        <h3 className="font-display text-2xl sm:text-3xl text-[#13263B] font-semibold leading-tight">
-                          {step.title}
-                        </h3>
-                        <p className="font-serif italic text-xs sm:text-sm text-[#C4A475] mt-1">
-                          {step.subtitle}
+                  {/* TRIPARTITE GRID: VALENTINE QUOTE | OPAQUE WHITE CENTER CARD | JEAN QUOTE */}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    
+                    {/* 1. LEFT COLUMN: VALENTINE'S PERSPECTIVE */}
+                    <div className="lg:col-span-3 order-2 lg:order-1 flex flex-col justify-center">
+                      <div className="p-2 space-y-2 text-left relative z-20">
+                        <div className="flex items-center gap-2 border-b border-amber-300/50 pb-1.5 w-fit">
+                          <span className="text-[11px] font-bold tracking-wider uppercase text-amber-800 font-sans">
+                            Valentine
+                          </span>
+                        </div>
+                        <p 
+                          className="font-serif italic text-sm text-amber-950 font-semibold leading-relaxed" 
+                          style={{ textShadow: "0 0 10px white, 0 0 20px white, 0 0 30px white" }}
+                        >
+                          &ldquo;{step.valentineSays}&rdquo;
                         </p>
                       </div>
+                    </div>
 
-                      {/* Polaroid Photo Frame */}
-                      <div className="flex justify-center py-1">
-                        <div
-                          className="bg-white p-2.5 rounded-xl shadow-xs border border-slate-200 transition-transform duration-300 hover:rotate-0 max-w-[200px] sm:max-w-[210px] w-full relative group"
-                          style={{ transform: `rotate(${step.rotateDeg})` }}
-                        >
-                          {/* Scotch Tape effect */}
-                          <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-[#FAF7F2]/90 border border-amber-200/60 rotate-[-1deg] opacity-80 pointer-events-none" />
+                    {/* 2. CENTER COLUMN: MAIN STEP CORE & POLAROID PHOTO */}
+                    <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col items-center">
+                      <div className="bg-white border border-slate-200 rounded-3xl p-6 text-center space-y-4 shadow-md w-full relative z-20 overflow-hidden">
+                        
+                        {/* Title & Subtitle */}
+                        <div>
+                          <h3 className="font-display text-2xl sm:text-3xl text-[#13263B] font-semibold leading-tight">
+                            {step.title}
+                          </h3>
+                          <p className="font-serif italic text-xs sm:text-sm text-[#C4A475] mt-1">
+                            {step.subtitle}
+                          </p>
+                        </div>
 
-                          <div className="w-full aspect-4/3 rounded-lg bg-slate-50 overflow-hidden relative">
-                            <img
-                              src={step.defaultImage}
-                              alt={step.title}
-                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            />
+                        {/* Polaroid Photo Frame */}
+                        <div className="flex justify-center py-1">
+                          <div
+                            className="bg-white p-2.5 rounded-xl shadow-xs border border-slate-200 transition-transform duration-300 hover:rotate-0 max-w-[200px] sm:max-w-[210px] w-full relative group"
+                            style={{ transform: `rotate(${step.rotateDeg})` }}
+                          >
+                            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-[#FAF7F2]/90 border border-amber-200/60 rotate-[-1deg] opacity-80 pointer-events-none" />
+                            <div className="w-full aspect-4/3 rounded-lg bg-slate-50 overflow-hidden relative">
+                              <img
+                                src={step.defaultImage}
+                                alt={step.title}
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Récit Global sur Fond Blanc */}
-                      <div className="bg-white p-4 rounded-xl border border-slate-100 text-left">
-                        <p className="font-serif text-xs sm:text-sm text-[#13263B] leading-relaxed">
-                          {step.recitGlobal}
+                        {/* Récit Global sur Fond Blanc */}
+                        <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 text-left">
+                          <p className="font-serif text-sm text-[#13263B] leading-relaxed">
+                            {step.recitGlobal}
+                          </p>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    {/* 3. RIGHT COLUMN: JEAN'S PERSPECTIVE */}
+                    <div className="lg:col-span-3 order-3 flex flex-col justify-center">
+                      <div className="p-2 space-y-2 text-right relative z-20">
+                        <div className="flex items-center justify-end gap-2 border-b border-blue-300/50 pb-1.5 w-fit ml-auto">
+                          <span className="text-[11px] font-bold tracking-wider uppercase text-blue-800 font-sans">
+                            Jean
+                          </span>
+                        </div>
+                        <p 
+                          className="font-serif italic text-sm text-blue-950 font-semibold leading-relaxed"
+                          style={{ textShadow: "0 0 10px white, 0 0 20px white, 0 0 30px white" }}
+                        >
+                          &ldquo;{step.jeanSays}&rdquo;
                         </p>
                       </div>
-
                     </div>
+
                   </div>
-
-                  {/* 3. RIGHT COLUMN: JEAN'S PERSPECTIVE (FRAMELESS & CUSTOM HEIGHT SHIFT) */}
-                  <div className={`lg:col-span-3 order-3 flex flex-col justify-center ${jeanShift}`}>
-                    <div className="p-3 space-y-1.5 text-right relative z-20">
-                      <div className="flex items-center justify-end gap-2 border-b border-blue-400/50 pb-1 w-fit ml-auto">
-                        <span className="text-[11px] font-bold tracking-wider uppercase text-blue-800 font-sans">
-                          Jean
-                        </span>
-                        <span className="w-4 h-4 rounded-full bg-blue-100 text-blue-800 font-display text-[9px] font-bold flex items-center justify-center border border-blue-300 shrink-0">
-                          J
-                        </span>
-                      </div>
-
-                      <p className="font-serif italic text-xs sm:text-sm text-blue-900 leading-relaxed drop-shadow-2xs">
-                        &ldquo;{step.jeanSays}&rdquo;
-                      </p>
-                    </div>
-                  </div>
-
-                </div>
-
-              </motion.div>
-            </div>
-          );
-        })}
-      </div>
+                </motion.div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
 }
+
+
