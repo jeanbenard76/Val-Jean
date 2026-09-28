@@ -1,5 +1,5 @@
 import React from 'react';
-import logoImg from '../assets/images/logo.jpg';
+import logoImg from '../assets/images/logo.png';
 
 interface WeddingLogoProps {
   className?: string;
@@ -28,6 +28,7 @@ export default function WeddingLogo({
     </div>
   );
 }
+
 
 
 
