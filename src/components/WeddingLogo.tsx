@@ -1,5 +1,5 @@
 import React from 'react';
-import logoImg from '../assets/images/logo.png';
+import logoImg from '../assets/images/logo.jpg';
 
 interface WeddingLogoProps {
   className?: string;
@@ -23,9 +23,10 @@ export default function WeddingLogo({
         src={logoImg}
         alt="Valentine & Jean Logo"
         className={`${sizeClasses[size]} object-contain transition-all duration-300 rounded-full`}
-        style={{ mixBlendMode: 'multiply' }}
+        
       />
     </div>
   );
 }
+
 
