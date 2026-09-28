@@ -173,7 +173,7 @@ export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRou
               </button>
               <button 
                 onClick={() => setActiveTab('reception')}
-                className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${activeTab === 'reception' ? 'bg-[#13263B] text-white shadow-sm' : 'text-[#13263B] hover:bg-[#13263B]/10'}`}
+                className={`px-6 py-2 rounded-full text-sm font-semibold transition-all ${activeTab === 'reception' ? 'bg-[#F5C842] text-[#13263B] shadow-sm' : 'text-[#13263B] hover:bg-[#13263B]/10'}`}
               >
                 La Réception
               </button>
@@ -267,6 +267,7 @@ export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRou
     </div>
   );
 }
+
 
 
 
