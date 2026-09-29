@@ -2,7 +2,9 @@
 FROM node:22-bookworm-slim AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm install
+# --include=dev : Coolify peut injecter NODE_ENV=production au build, ce qui
+# ferait sauter les devDependencies (esbuild, typescript…) nécessaires au build.
+RUN npm install --include=dev
 COPY . .
 RUN npm run build
 
