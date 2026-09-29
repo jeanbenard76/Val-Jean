@@ -4,6 +4,8 @@ Site de mariage avec formulaire RSVP, liste de cadeaux et espace admin pour les 
 
 > ⚠️ **Ne pas resynchroniser ce dépôt depuis Google AI Studio** : cela écrase les correctifs de sécurité et de déploiement appliqués sur `main` (c'est déjà arrivé). Travailler directement sur ce dépôt Git.
 
+> 🤖 **Si tu codes avec une IA (Antigravity…)** : les règles qu'elle doit respecter pour ne pas casser le déploiement sont dans [AGENTS.md](AGENTS.md). Garder ce fichier à jour si l'infra change.
+
 ---
 
 ## 1. Architecture technique
@@ -42,11 +44,13 @@ Le déploiement se déclenche par le bouton **Deploy/Redeploy** dans Coolify (ou
 ### Le Dockerfile (2 étapes)
 
 ```
-Étape "build"  : node:22-bookworm-slim → npm ci → npm run build
+Étape "build"  : node:22-bookworm-slim → npm install --include=dev → npm run build
                  (vite build → dist/ ; esbuild server.ts → dist/server.cjs)
-Étape finale   : node:22-bookworm-slim → npm ci --omit=dev
+Étape finale   : node:22-bookworm-slim → npm install --omit=dev
                  + copie de dist/ et src/data/ → CMD node dist/server.cjs
 ```
+
+`--include=dev` à l'étape de build : `NODE_ENV=production` est défini dans Coolify, et sans ce flag npm sauterait les devDependencies (esbuild, typescript…) nécessaires au build.
 
 L'image finale ne contient que les dépendances de production. `src/data/registry_gifts.json` est copié car la route `/api/registry` le lit/écrit à l'exécution.
 
@@ -92,6 +96,7 @@ La base est réinitialisée (5 familles d'exemple re-semées) **uniquement** si 
 - **Test de bonne santé après chaque changement d'infra** : `https://<domaine>/api/health` doit renvoyer `{"status":"ok","db":"wedding.db active"}`.
 - Les binaires natifs Linux (Rollup, Tailwind, LightningCSS, esbuild) sont épinglés en `optionalDependencies` dans [package.json](package.json) pour contourner un bug npm ([npm/cli#4828](https://github.com/npm/cli/issues/4828)) qui cassait `npm ci` dans Docker. Ne pas les supprimer.
 - **Un binaire natif propre à une plateforme (`@esbuild/win32-x64`, `@rollup/rollup-win32-x64-msvc`, `…-darwin-…`) ne va jamais dans `dependencies`**, seulement dans `optionalDependencies`. En `dependencies`, npm refuse de l'installer sur le serveur Linux (`EBADPLATFORM: Unsupported platform`) et le build Coolify échoue. Les binaires Windows y sont déjà pour le poste Windows.
+- **Pas de PHP** : le conteneur ne fait tourner que Node. Un fichier `.php` placé dans `public/` n'est pas exécuté ; il est servi tel quel (code source lisible par tous) et un `POST` dessus renvoie 404. Toute logique serveur passe par une route Express dans [server.ts](server.ts).
 - Gestionnaire de paquets : **npm** (`package-lock.json`). Ne pas réintroduire `yarn.lock`/`bun.lock`.
 - Une seule instance : sql.js réécrit tout le fichier à chaque écriture — deux replicas se corrompraient mutuellement.
 - Les images référencées par des **chemins en dur** (registry_gifts.json, etc.) doivent être dans `public/images/` et référencées par `/images/...`. Les chemins `/src/assets/...` ne fonctionnent qu'en dev.
