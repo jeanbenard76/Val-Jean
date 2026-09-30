@@ -322,6 +322,52 @@ async function startServer() {
     });
   }
 
+  // --- Millemercis Participation Scraper ---
+  const syncMillemercis = async () => {
+    try {
+      const jsonPath = path.join(process.cwd(), "src", "data", "registry_gifts.json");
+      if (fs.existsSync(jsonPath)) {
+        const rawData = fs.readFileSync(jsonPath, "utf-8");
+        const gifts = JSON.parse(rawData);
+        let updated = false;
+
+        for (const gift of gifts) {
+          if (gift.actionUrl && gift.actionUrl.includes("millemercismariage.com")) {
+            try {
+              const res = await fetch(gift.actionUrl);
+              const html = await res.text();
+              const match = html.match(/Reste \u00e0 offrir\s*:\s*([\d\s]+(?:,\d+)?)\s*\u20ac/i);
+              if (match) {
+                const remainingStr = match[1].replace(/\s/g, "").replace(",", ".");
+                const remaining = parseFloat(remainingStr);
+                if (!isNaN(remaining)) {
+                  const newCurrentAmount = Math.max(0, gift.targetAmount - remaining);
+                  if (gift.currentAmount !== newCurrentAmount) {
+                    gift.currentAmount = newCurrentAmount;
+                    updated = true;
+                  }
+                }
+              }
+            } catch (err) {
+              console.error(`Erreur récupération de la participation pour ${gift.title}:`, err);
+            }
+          }
+        }
+        
+        if (updated) {
+          fs.writeFileSync(jsonPath, JSON.stringify(gifts, null, 2), "utf-8");
+          console.log("[Mariage Server] Participations Millemercis synchronisées avec succès.");
+        }
+      }
+    } catch (err) {
+      console.error("Erreur lors de la synchronisation Millemercis:", err);
+    }
+  };
+
+  // Lancement initial de la synchro puis toutes les 15 minutes
+  syncMillemercis();
+  setInterval(syncMillemercis, 15 * 60 * 1000);
+
   app.listen(PORT, "0.0.0.0", () => {
     console.log(
       `[Mariage Server] Serveur démarré avec SQLite wedding.db sur http://localhost:${PORT}`

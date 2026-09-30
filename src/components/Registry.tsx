@@ -229,14 +229,14 @@ export default function Registry() {
                   {/* Option 1: Real Wedding Registry Link */}
                   <div className="p-4 sm:p-5 bg-[#FAF7F2] rounded-xl text-left">
                     <h5 className="font-display font-semibold text-xs sm:text-sm text-[#13263B] mb-1 flex items-center gap-1.5">
-                      <span>Option A : Notre cagnotte en ligne</span>
+                      <span>Notre liste MilleMercisMariage</span>
                     </h5>
                     <p className="text-xs text-[#5A5040] font-serif italic mb-3.5 leading-relaxed">
-                      Participez par carte bancaire de façon entièrement sécurisée et sans frais sur notre vraie liste de mariage Zankyou.
+                      Participez par carte bancaire de façon entièrement sécurisée et sans frais sur notre vraie liste de mariage.
                     </p>
 
                     <a
-                      href={realRegistryUrl}
+                      href={selectedItem.actionUrl || realRegistryUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full py-3 bg-[#13263B] hover:bg-[#1C3854] text-white text-xs uppercase font-semibold rounded-lg flex items-center justify-center gap-2 shadow-2xs transition-colors"
@@ -244,32 +244,6 @@ export default function Registry() {
                       <span>Accéder au paiement CB sécurisé</span>
                       <ExternalLink className="w-3.5 h-3.5 text-[#C4A475]" />
                     </a>
-                  </div>
-
-                  {/* Option 2: Bank Transfer (IBAN) */}
-                  <div className="p-4 sm:p-5 bg-[#FAF7F2] rounded-xl text-left border border-slate-200">
-                    <h5 className="font-display font-semibold text-xs sm:text-sm text-[#13263B] mb-1">
-                      Option B : Virement bancaire direct (IBAN)
-                    </h5>
-                    <p className="text-xs text-[#5A5040] font-serif italic mb-3 leading-relaxed">
-                      Vous préférez effectuer un virement bancaire directement sur le compte des mariés ?
-                    </p>
-
-                    <div className="bg-white p-3 rounded-lg border border-slate-200 flex items-center justify-between gap-2">
-                      <div className="overflow-hidden">
-                        <span className="block text-[9px] uppercase font-bold text-slate-400">IBAN Valentine &amp; Jean</span>
-                        <code className="text-xs font-mono font-bold text-[#13263B] truncate block">
-                          FR76 3000 4000 0012 3456 7890 123
-                        </code>
-                      </div>
-                      <button
-                        onClick={handleCopyIBAN}
-                        className="px-3 py-1.5 bg-[#FAF7F2] hover:bg-slate-200 text-[#13263B] rounded text-xs font-semibold shrink-0 flex items-center gap-1 transition-colors cursor-pointer"
-                      >
-                        {copiedIBAN ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-[#3B6FA0]" />}
-                        <span>{copiedIBAN ? 'Copié !' : 'Copier'}</span>
-                      </button>
-                    </div>
                   </div>
                 </div>
 

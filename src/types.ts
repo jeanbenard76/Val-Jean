@@ -18,9 +18,10 @@ export interface RegistryItem {
   description: string;
   targetAmount: number;
   currentAmount: number;
-  category: 'honeymoon' | 'home' | 'tableware' | 'charity';
+  category: 'honeymoon' | 'home' | 'tableware' | 'charity' | 'high-tech';
   imageUrl?: string;
-  characteristics: string[];
+  actionUrl?: string;
+  characteristics?: string[];
   personalNote: string;
 }
 
