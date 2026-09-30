@@ -38,7 +38,7 @@ function esc(value: unknown): string {
  * Supports direct Node dispatch, Resend API, and native PHP mail() script relay!
  */
 export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
-  const recipient = "valentinetjean@etik.com";
+  const recipient = "valentinetjean+rsvp@etik.com";
   const subject = `💍 Nouvelle réponse RSVP : Famille ${data.familyName}`;
 
   const attendingCount = data.members.filter((m) => m.isAttending).length;
@@ -154,7 +154,7 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
 }
 
 export async function sendContactNotificationEmail(data: { name: string; email: string; subject: string; message: string; }) {
-  const recipient = "valentinetjean@etik.com";
+  const recipient = "valentinetjean+contactmariage@etik.com";
   const subject = `💌 Nouveau message de contact de ${data.name} : ${data.subject}`;
 
   const htmlBody = `
