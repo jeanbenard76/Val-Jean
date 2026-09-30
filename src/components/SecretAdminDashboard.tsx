@@ -216,6 +216,9 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
     let brunchAdults = 0, brunchChildren = 0;
     let totalAdultsAttending = 0, totalChildrenAttending = 0;
     let vinInvited = 0, repasInvited = 0, brunchInvited = 0;
+    let totalRespondedMembers = 0;
+    let totalNotRespondedMembers = 0;
+    let totalAbsentAdults = 0, totalAbsentChildren = 0;
 
     families.forEach((fam) => {
       fam.members.forEach((m) => {
@@ -235,6 +238,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
       // ONLY count attendance metrics for families that HAVE RESPONDED
       if (isResponded) {
         fam.members.forEach((m) => {
+          totalRespondedMembers++;
           if (m.isAttending) {
             if (m.isChild) totalChildrenAttending++;
             else totalAdultsAttending++;
@@ -251,7 +255,14 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
               if (m.isChild) brunchChildren++;
               else brunchAdults++;
             }
+          } else {
+            if (m.isChild) totalAbsentChildren++;
+            else totalAbsentAdults++;
           }
+        });
+      } else {
+        fam.members.forEach(() => {
+          totalNotRespondedMembers++;
         });
       }
     });
@@ -267,7 +278,11 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
       brunchChildren,
       vinInvited,
       repasInvited,
-      brunchInvited
+      brunchInvited,
+      totalRespondedMembers,
+      totalNotRespondedMembers,
+      totalAbsentAdults,
+      totalAbsentChildren
     };
   }, [families]);
 
@@ -364,12 +379,37 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
           <span>Décompte par Type de Repas (Adultes vs Enfants)</span>
         </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
           
+          {/* Card 0: État des réponses */}
+          <div className="bg-white p-5 rounded-2xl border border-indigo-200 shadow-2xs flex flex-col justify-between space-y-2">
+            <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-indigo-700 block">
+              📊 ÉTAT DES RÉPONSES
+            </span>
+            <div className="flex items-baseline justify-between">
+              <span className="font-display text-3xl font-bold text-indigo-900">
+                {eventBreakdown.totalRespondedMembers}
+              </span>
+              <span className="text-xs font-mono text-slate-500">
+                / {stats?.totalInvited || 0} ont répondu
+              </span>
+            </div>
+            <div className="pt-2 border-t border-slate-100 text-xs text-[#5A5040] font-sans space-y-0.5">
+              <div className="flex justify-between">
+                <span>En attente :</span>
+                <strong className="text-amber-600">{eventBreakdown.totalNotRespondedMembers}</strong>
+              </div>
+              <div className="flex justify-between">
+                <span>Absents déclarés :</span>
+                <strong className="text-rose-600">{eventBreakdown.totalAbsentAdults + eventBreakdown.totalAbsentChildren}</strong>
+              </div>
+            </div>
+          </div>
+
           {/* Card Total Confirmed */}
           <div className="bg-white p-5 rounded-2xl border border-[#3B6FA0]/20 shadow-2xs flex flex-col justify-between space-y-2">
             <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#3B6FA0] block">
-              TOTAL CONFIRMÉS
+              ✅ PRÉSENTS (GLOBAL)
             </span>
             <div className="flex items-baseline justify-between">
               <span className="font-display text-3xl font-bold text-[#13263B]">
