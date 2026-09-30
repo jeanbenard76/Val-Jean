@@ -28,7 +28,7 @@
     "targetAmount": 5000,
     "currentAmount": 0,
     "category": "Lune de miel",
-    "imageUrl": "../assets/img/cambodge.jpeg",
+    "imageUrl": "/images/cambodge.png",
     "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633200.html",
     "personalNote": "Mot personnel à ajouter ici."
   },
@@ -39,7 +39,7 @@
     "targetAmount": 73,
     "currentAmount": 0,
     "category": "Art de la table",
-    "imageUrl": "../assets/img/assiette_dinatoire.png",
+    "imageUrl": "/images/assiettes_diner.jpg",
     "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633196.html",
     "personalNote": "Mot personnel à ajouter ici."
   },
@@ -50,7 +50,7 @@
     "targetAmount": 357,
     "currentAmount": 0,
     "category": "Art de la table",
-    "imageUrl": "../assets/img/assiettes.png",
+    "imageUrl": "/images/assiettes_desserts.jpg",
     "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633195.html",
     "personalNote": "Mot personnel à ajouter ici."
   }
