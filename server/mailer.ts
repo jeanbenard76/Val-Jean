@@ -152,3 +152,78 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
 
   return { recipient, subject, success: true };
 }
+
+export async function sendContactNotificationEmail(data: { name: string; email: string; subject: string; message: string; }) {
+  const recipient = "valentinetjean@etik.com";
+  const subject = `💌 Nouveau message de contact de ${data.name} : ${data.subject}`;
+
+  const htmlBody = `
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; rounded: 12px; padding: 24px; background-color: #faf7f2;">
+      <h2 style="color: #13263B; margin-top: 0; border-bottom: 2px solid #C4A475; padding-bottom: 8px;">
+        💌 Nouveau Message
+      </h2>
+      <p style="font-size: 15px; color: #333;">
+        Vous avez reçu un nouveau message depuis le formulaire de contact du site.
+      </p>
+
+      <div style="background-color: #ffffff; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid #e0dcd5;">
+        <p style="margin: 4px 0;"><strong>Nom :</strong> ${esc(data.name)}</p>
+        <p style="margin: 4px 0;"><strong>Email :</strong> <a href="mailto:${esc(data.email)}">${esc(data.email)}</a></p>
+        <p style="margin: 4px 0;"><strong>Sujet :</strong> ${esc(data.subject)}</p>
+        <p style="margin: 12px 0 4px 0; padding-top: 8px; border-top: 1px italic #eee;"><strong>Message :</strong><br><em style="color: #3B6FA0;">« ${esc(data.message)} »</em></p>
+      </div>
+
+      <p style="font-size: 11px; color: #888; text-align: center; margin-top: 24px;">
+        Notification envoyée à <strong>${recipient}</strong> depuis le site de mariage de Valentine &amp; Jean.
+      </p>
+    </div>
+  `;
+
+  console.log(`\n======================================================`);
+  console.log(`📧 ENVOI D'EMAIL CONTACT vers : ${recipient}`);
+  console.log(`Sujet : ${subject}`);
+  console.log(`======================================================\n`);
+
+  // 1. Relay to PHP mail script if PHP_MAIL_URL is set in .env
+  const phpMailUrl = process.env.PHP_MAIL_URL;
+  if (phpMailUrl) {
+    try {
+      await fetch(phpMailUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "contact", // optional parameter to differentiate in PHP if needed
+          ...data
+        }),
+      });
+      console.log(`✅ Email de contact transmis avec succès via le script PHP : ${phpMailUrl}`);
+    } catch (err: any) {
+      console.error("Erreur lors de l'envoi de contact via le script PHP:", err?.message);
+    }
+  }
+
+  // 2. Optional Resend API dispatch
+  const resendApiKey = process.env.RESEND_API_KEY;
+  if (resendApiKey) {
+    try {
+      await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${resendApiKey}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: "Mariage Valentine & Jean <no-reply@valentine-et-jean.fr>",
+          to: [recipient],
+          subject,
+          html: htmlBody,
+        }),
+      });
+      console.log(`✅ Email de contact transmis à ${recipient} via API Resend !`);
+    } catch (err: any) {
+      console.error("Erreur lors de l'envoi direct de l'email de contact:", err?.message);
+    }
+  }
+
+  return { recipient, subject, success: true };
+}

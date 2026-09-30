@@ -22,7 +22,7 @@ import {
   addContactMessage,
   getAllContactMessages,
 } from "./server/db";
-import { sendRSVPNotificationEmail } from "./server/mailer";
+import { sendRSVPNotificationEmail, sendContactNotificationEmail } from "./server/mailer";
 
 async function startServer() {
   const app = express();
@@ -139,6 +139,12 @@ async function startServer() {
         return res.status(400).json({ status: "error", message: "Message trop long." });
       }
       addContactMessage({ name, email: mail, subject, message: text });
+
+      // Transmit contact notification email to valentinetjean@etik.com
+      sendContactNotificationEmail({ name, email: mail, subject, message: text }).catch((err) => {
+        console.error("Erreur envoi notification email contact:", err);
+      });
+
       res.json({ status: "success", message: "Message envoyé avec succès." });
     } catch (err: any) {
       console.error("Erreur enregistrement message de contact dans wedding.db:", err);
