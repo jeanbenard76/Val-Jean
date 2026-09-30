@@ -128,14 +128,14 @@ export default function Registry() {
               >
                 <div>
                   {/* 1. PHOTO OF GIFT */}
-                  <div className="aspect-[16/10] overflow-hidden rounded-xl bg-[#FAF7F2] shadow-2xs relative group mb-4">
+                  <div className="aspect-[4/3] sm:aspect-[16/10] overflow-hidden rounded-xl bg-white shadow-2xs relative group mb-4 border border-[#3B6FA0]/5">
                     <img
                       src={item.imageUrl}
                       alt={item.title}
                       referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-contain p-2 sm:p-4 transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute top-2.5 left-2.5 bg-[#13263B]/90 backdrop-blur-xs text-[#FAF7F2] text-[10px] font-serif italic px-2.5 py-0.5 rounded-full shadow-2xs">
+                    <div className="absolute top-2.5 left-2.5 bg-[#13263B]/90 backdrop-blur-xs text-[#FAF7F2] text-[10px] font-serif italic px-2.5 py-0.5 rounded-full shadow-2xs z-10">
                       {getCategoryLabel(item.category)}
                     </div>
                   </div>
