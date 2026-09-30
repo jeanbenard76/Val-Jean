@@ -334,9 +334,13 @@ async function startServer() {
         for (const gift of gifts) {
           if (gift.actionUrl && gift.actionUrl.includes("millemercismariage.com")) {
             try {
-              const res = await fetch(gift.actionUrl);
+              const res = await fetch(gift.actionUrl, {
+                headers: {
+                  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+                }
+              });
               const html = await res.text();
-              const match = html.match(/Reste \u00e0 offrir\s*:\s*([\d\s]+(?:,\d+)?)\s*\u20ac/i);
+              const match = html.match(/Reste.*?offrir.*?:\s*([\d\s]+(?:,\d+)?)/i);
               if (match) {
                 const remainingStr = match[1].replace(/\s/g, "").replace(",", ".");
                 const remaining = parseFloat(remainingStr);

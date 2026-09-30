@@ -9,5 +9,49 @@
     "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335547/17900207369420e_595.jpg",
     "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633181.html",
     "personalNote": "La musique fait partie intégrante de notre quotidien, cette platine sera la pièce maîtresse de notre salon pour créer une atmosphère chaleureuse."
+  },
+  {
+    "id": "cadeau-3633192",
+    "title": "Cadeau 3633192",
+    "description": "Description à personnaliser.",
+    "targetAmount": 500,
+    "currentAmount": 0,
+    "category": "honeymoon",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790801209boi2a_595.jpeg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633192.html",
+    "personalNote": "Mot personnel à ajouter ici."
+  },
+  {
+    "id": "cadeau-3633200",
+    "title": "Cadeau 3633200",
+    "description": "Description à personnaliser.",
+    "targetAmount": 5500,
+    "currentAmount": 0,
+    "category": "honeymoon",
+    "imageUrl": "https://images.unsplash.com/photo-1517650862521-d580d5348145?w=595&q=80",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633200.html",
+    "personalNote": "Mot personnel à ajouter ici."
+  },
+  {
+    "id": "cadeau-3633196",
+    "title": "Cadeau 3633196",
+    "description": "Description à personnaliser.",
+    "targetAmount": 100,
+    "currentAmount": 0,
+    "category": "tableware",
+    "imageUrl": "https://images.unsplash.com/photo-1577140917170-285929fb55b7?w=595&q=80",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633196.html",
+    "personalNote": "Mot personnel à ajouter ici."
+  },
+  {
+    "id": "cadeau-3633195",
+    "title": "Cadeau 3633195",
+    "description": "Description à personnaliser.",
+    "targetAmount": 400,
+    "currentAmount": 0,
+    "category": "home",
+    "imageUrl": "https://images.unsplash.com/photo-1540932239986-30128078f3c5?w=595&q=80",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633195.html",
+    "personalNote": "Mot personnel à ajouter ici."
   }
 ]
