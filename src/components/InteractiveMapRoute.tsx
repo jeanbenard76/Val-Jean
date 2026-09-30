@@ -212,40 +212,40 @@ export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRou
               <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs flex flex-col items-center text-center">
                 <h4 className="font-display font-semibold text-lg text-[#13263B]">Stationnement</h4>
                 <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
-                  Il est possible de se garer facilement sur la place principale et dans les rues adjacentes à l'église.
+                  Les places aux abords de l'église étant limitées, nous vous invitons à privilégier les rues adjacentes pour vous garer.
                 </p>
               </div>
               <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs flex flex-col items-center text-center">
                 <h4 className="font-display font-semibold text-lg text-[#13263B]">Horaires</h4>
                 <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
-                  L'installation dans l'église se fera à partir de 14h15 pour un début de cérémonie à 14h30.
+                  L'arrivée de Valentine est prévue à 14h30. Vous pourrez tranquillement prendre place dans l'église dès 13h45.
                 </p>
               </div>
               <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs flex flex-col items-center text-center">
                 <h4 className="font-display font-semibold text-lg text-[#13263B]">Suite des festivités</h4>
                 <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
-                  Prévoyez environ 45 minutes de route pour rejoindre le lieu de réception après la messe.
+                  À l'issue de la cérémonie, comptez environ 45 minutes de trajet pour rejoindre le lieu des festivités.
                 </p>
               </div>
             </>
           ) : (
             <>
               <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs flex flex-col items-center text-center">
-                <h4 className="font-display font-semibold text-lg text-[#13263B]">Le Parking</h4>
+                <h4 className="font-display font-semibold text-lg text-[#13263B]">Stationnement</h4>
                 <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
-                  Un grand parking privatif et gratuit est à votre disposition directement dans l'enceinte du domaine.
+                  Un vaste parking privé et gratuit est à votre entière disposition, situé directement sur la promenade du château.
                 </p>
               </div>
               <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs flex flex-col items-center text-center">
-                <h4 className="font-display font-semibold text-lg text-[#13263B]">En Train</h4>
+                <h4 className="font-display font-semibold text-lg text-[#13263B]">Accès</h4>
                 <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
-                  La gare d'Yvetot se situe à environ 12 minutes de route du Manoir (navettes/taxis possibles).
+                  Le Manoir se trouve à environ 12 minutes de route de la gare d'Yvetot. Pour les personnes venant en voiture, l'accès se fait très facilement jusqu'au domaine à travers des départementales.
                 </p>
               </div>
               <div className="bg-white border border-slate-100 rounded-2xl p-6 sm:p-8 space-y-3 shadow-xs flex flex-col items-center text-center">
-                <h4 className="font-display font-semibold text-lg text-[#13263B]">Taxis & Navettes</h4>
+                <h4 className="font-display font-semibold text-lg text-[#13263B]">Hébergements & retours</h4>
                 <p className="text-xs text-[#5A5040] leading-relaxed font-sans">
-                  Pensez à réserver vos taxis ou navettes bien en avance pour le retour si vous ne dormez pas sur place.
+                  Afin de profiter pleinement de la soirée, nous vous conseillons d'anticiper la réservation de vos taxis pour le retour. Vous trouverez également de nombreuses suggestions pour la nuit dans notre rubrique dédiée
                 </p>
               </div>
             </>
