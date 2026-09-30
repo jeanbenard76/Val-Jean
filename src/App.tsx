@@ -116,8 +116,8 @@ export default function App() {
               {item.label}
               {activePage === item.id && (
                 <motion.div
-                  layoutId="activeDot"
-                  className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#C4A475] rounded-full"
+                  layoutId="activeLine"
+                  className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#C4A475]"
                   transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 />
               )}
