@@ -74,6 +74,15 @@ export async function initDatabase(): Promise<Database> {
       message TEXT,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS contact_messages (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      subject TEXT,
+      message TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
   `);
 
   // Migrations for existing databases
@@ -438,6 +447,40 @@ export function getAllRSVPs() {
   if (!db) throw new Error('Database not initialized');
 
   const res = db.exec('SELECT * FROM rsvps ORDER BY created_at DESC');
+  if (!res.length) return [];
+
+  const cols = res[0].columns;
+  return res[0].values.map((row) => {
+    const obj: any = {};
+    cols.forEach((c, idx) => {
+      obj[c] = row[idx];
+    });
+    return obj;
+  });
+}
+
+/**
+ * Save a message sent from the public contact form.
+ */
+export function addContactMessage(data: { name: string; email: string; subject: string; message: string }) {
+  if (!db) throw new Error('Database not initialized');
+
+  const id = `msg-${Date.now()}`;
+  db.run(
+    'INSERT INTO contact_messages (id, name, email, subject, message, created_at) VALUES (?, ?, ?, ?, ?, ?)',
+    [id, data.name, data.email, data.subject, data.message, new Date().toISOString()]
+  );
+  saveDatabaseToDisk();
+  return { success: true, id };
+}
+
+/**
+ * Get all contact form messages, newest first.
+ */
+export function getAllContactMessages() {
+  if (!db) throw new Error('Database not initialized');
+
+  const res = db.exec('SELECT * FROM contact_messages ORDER BY created_at DESC');
   if (!res.length) return [];
 
   const cols = res[0].columns;

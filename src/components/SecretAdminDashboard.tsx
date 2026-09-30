@@ -36,6 +36,23 @@ const formatDate = (dateStr?: string | null) => {
   }
 };
 
+interface ContactMessage {
+  id: string;
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+  created_at: string;
+}
+
+// Same values as the <select> of the contact form (Contact.tsx)
+const CONTACT_SUBJECT_LABELS: Record<string, string> = {
+  question: "Question sur l'organisation",
+  lodging: 'Question hébergement',
+  surprise: "Préparation d'une surprise",
+  'sweet-word': 'Un mot doux pour les mariés',
+};
+
 // Admin token kept in memory only for the current visit — never stored,
 // so the password is asked again on every visit to the admin page.
 let currentToken = '';
@@ -52,6 +69,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'attending' | 'absent' | 'dietary'>('all');
   const [filterEvent, setFilterEvent] = useState<'all' | 'vin' | 'repas' | 'brunch'>('all');
+  const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
 
   // Authentication gate: null = checking, true = dashboard (native browser prompt)
   const [authed, setAuthed] = useState<boolean | null>(null);
@@ -113,6 +131,18 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
     setLoading(false);
   };
 
+  const fetchContactMessages = async () => {
+    try {
+      const res = await fetch('/api/admin/contact-messages', { headers: adminHeaders() });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) setContactMessages(data);
+      }
+    } catch (e) {
+      console.error('Erreur chargement messages de contact:', e);
+    }
+  };
+
   // On every visit: ask the password via the native browser prompt (never stored)
   useEffect(() => {
     (async () => {
@@ -140,6 +170,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
       setAuthed(true);
       fetchStats();
       fetchFamilies();
+      fetchContactMessages();
     })();
   }, []);
 
@@ -313,6 +344,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
               setLoading(true);
               fetchStats();
               fetchFamilies();
+              fetchContactMessages();
             }}
             className="px-4 py-2 bg-[#13263B] hover:bg-[#C4A475] hover:text-[#13263B] text-white text-xs font-semibold rounded-xl transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
           >
@@ -608,6 +640,47 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
             </p>
           )}
         </div>
+      </div>
+
+      {/* 3.5 MESSAGES RECEIVED THROUGH THE CONTACT FORM */}
+      <div className="bg-white rounded-3xl border border-[#3B6FA0]/15 p-6 space-y-5 shadow-xs">
+        <div className="border-b border-slate-100 pb-4">
+          <h3 className="font-display text-xl text-[#13263B] font-semibold flex items-center gap-2">
+            <MessageSquare className="w-5 h-5 text-[#C4A475]" />
+            <span>Messages reçus ({contactMessages.length})</span>
+          </h3>
+          <p className="text-xs text-[#5A5040] font-serif italic">
+            Envoyés depuis le formulaire « Écrire aux Mariés ». Répondez par e-mail à l'adresse indiquée.
+          </p>
+        </div>
+
+        {contactMessages.length > 0 ? (
+          <div className="space-y-3 max-h-[500px] overflow-y-auto pr-1">
+            {contactMessages.map((msg) => (
+              <div key={msg.id} className="p-4 bg-[#FAF7F2] rounded-2xl border border-slate-200 space-y-2">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="font-display font-semibold text-[#13263B]">{msg.name}</span>
+                    <a href={`mailto:${msg.email}`} className="text-xs font-mono text-[#3B6FA0] hover:text-[#13263B] underline">
+                      {msg.email}
+                    </a>
+                  </div>
+                  <span className="text-[10px] font-mono text-slate-500">{formatDate(msg.created_at)}</span>
+                </div>
+                {msg.subject && (
+                  <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-[#C4A475]">
+                    {CONTACT_SUBJECT_LABELS[msg.subject] || msg.subject}
+                  </span>
+                )}
+                <p className="text-sm text-[#13263B] whitespace-pre-line">{msg.message}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-xs text-slate-500 font-serif italic text-center py-8">
+            Aucun message reçu pour le moment.
+          </p>
+        )}
       </div>
 
       {/* 4. FILE DOWNLOAD BUTTONS & RESET ACTION */}

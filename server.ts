@@ -19,6 +19,8 @@ import {
   clearAllRSVPs,
   addFamilies,
   deleteFamily,
+  addContactMessage,
+  getAllContactMessages,
 } from "./server/db";
 import { sendRSVPNotificationEmail } from "./server/mailer";
 
@@ -49,7 +51,7 @@ async function startServer() {
     res.status(401).json({ error: "Accès non autorisé." });
   };
 
-  // Basic in-memory rate limit on RSVP submissions (anti-spam)
+  // Basic in-memory rate limit on RSVP & contact form submissions (anti-spam)
   const rsvpHits = new Map<string, number[]>();
   const rsvpRateLimit: express.RequestHandler = (req, res, next) => {
     const ip = req.ip || "unknown";
@@ -115,6 +117,34 @@ async function startServer() {
     res.status(500).json({ error: err.message });
   }
 });
+
+  // Contact form: messages are saved in wedding.db and read by the couple in the admin dashboard
+  // (no email service configured on the server).
+  app.post("/api/contact", rsvpRateLimit, (req, res) => {
+    try {
+      const { nom, email, sujet, message, website } = req.body || {};
+      if (website) {
+        return res.status(400).json({ status: "error", message: "Spam détecté." });
+      }
+      const name = typeof nom === "string" ? nom.trim() : "";
+      const mail = typeof email === "string" ? email.trim() : "";
+      const text = typeof message === "string" ? message.trim() : "";
+      const subject = typeof sujet === "string" ? sujet.trim().slice(0, 50) : "";
+      if (!name || !text || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) {
+        return res
+          .status(400)
+          .json({ status: "error", message: "Veuillez remplir tous les champs correctement." });
+      }
+      if (name.length > 200 || mail.length > 200 || text.length > 5000) {
+        return res.status(400).json({ status: "error", message: "Message trop long." });
+      }
+      addContactMessage({ name, email: mail, subject, message: text });
+      res.json({ status: "success", message: "Message envoyé avec succès." });
+    } catch (err: any) {
+      console.error("Erreur enregistrement message de contact dans wedding.db:", err);
+      res.status(500).json({ status: "error", message: "Une erreur est survenue lors de l'envoi." });
+    }
+  });
 
   // Update invitation scopes (Vin / Repas / Brunch) for a family
   app.post("/api/admin/update-invitation", requireAdmin, (req, res) => {
@@ -215,6 +245,15 @@ async function startServer() {
     try {
       const rsvps = getAllRSVPs();
       res.json(rsvps);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // Get all contact form messages
+  app.get("/api/admin/contact-messages", requireAdmin, (req, res) => {
+    try {
+      res.json(getAllContactMessages());
     } catch (err: any) {
       res.status(500).json({ error: err.message });
     }

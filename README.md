@@ -28,7 +28,7 @@ Conteneur Docker (port 3000)
 - **Front** : React 19 + Vite 6 + Tailwind 4 ([src/](src/)). Buildé en fichiers statiques dans `dist/`.
 - **Back** : Express ([server.ts](server.ts)), bundlé en un seul fichier `dist/server.cjs` par esbuild. Un seul processus sert le front **et** l'API.
 - **Base de données** : SQLite chargée en mémoire par [sql.js](https://github.com/sql-js/sql.js) ([server/db.ts](server/db.ts)). Chaque écriture ré-enregistre le fichier complet sur disque (`saveDatabaseToDisk`). Adapté à l'échelle d'un mariage ; **une seule instance de l'app doit tourner** (ne jamais scaler à plusieurs replicas).
-- **Emails** : [server/mailer.ts](server/mailer.ts) envoie une notification à chaque RSVP via l'API Resend **si** `RESEND_API_KEY` est configurée. Sinon, les réponses restent simplement consultables dans le dashboard.
+- **Emails** : aucun service d'envoi n'est configuré (pas de `RESEND_API_KEY`). Les RSVP **et les messages du formulaire de contact** sont enregistrés dans la base et consultables dans l'Espace Mariés (section « Messages reçus » pour le contact). [server/mailer.ts](server/mailer.ts) enverrait une notification RSVP via Resend si la clé était ajoutée un jour.
 
 ## 2. Comment le site est déployé
 
@@ -87,7 +87,7 @@ La base est réinitialisée (5 familles d'exemple re-semées) **uniquement** si 
 
 - Routes protégées par `ADMIN_TOKEN` (header `x-admin-token` ou `?key=` pour les liens de téléchargement) : `/api/admin/*`, `GET /api/rsvps`, `POST /api/registry`.
 - **Espace Mariés** : lien « Admin » dans le pied de page → le navigateur demande le mot de passe (prompt natif) **à chaque visite**, vérifié côté serveur via `GET /api/admin/verify`. Jamais stocké côté navigateur.
-- Routes publiques (nécessaires au formulaire invité) : `GET /api/families` (recherche du nom), `GET /api/stats`, `POST /api/rsvp` (limité à 10 envois / 10 min / IP), `GET /api/registry`, `GET /api/health`.
+- Routes publiques (nécessaires au formulaire invité) : `GET /api/families` (recherche du nom), `GET /api/stats`, `POST /api/rsvp` et `POST /api/contact` (limités ensemble à 10 envois / 10 min / IP), `GET /api/registry`, `GET /api/health`.
 - Le HTML des emails échappe les saisies des invités ; les requêtes SQL sont paramétrées.
 
 ## 5. Pièges connus (lire avant de toucher au déploiement)
