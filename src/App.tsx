@@ -227,7 +227,7 @@ export default function App() {
                   </div>
                   
                   <div className="text-xs sm:text-sm font-serif text-[#13263B] pt-1 space-y-0.5">
-                    <p className="font-medium">à 14 heures, en l'église Saint-Ribert à Torcy-Le-Grand</p>
+                    <p className="font-medium">à 14 heures, en l'église Notre-Dame-de-l'Assomption à Arques-la-Bataille</p>
                     <p className="text-[11px] sm:text-xs italic text-[#3B6FA0]">Suivi de la réception au Manoir d'Auffay, Oherville</p>
                   </div>
 

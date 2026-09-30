@@ -8,14 +8,14 @@ import { motion, useInView } from 'motion/react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 // 8 Souvenir Image assets
-import coupleImg from '../assets/images/wedding_couple_watercolor_1783093896603.jpg';
-import chateauImg from '../assets/images/chateau_wedding_venue_1783093909311.jpg';
-import vergerImg from '../assets/images/verger_pommier_1783094439600.jpg';
-import amalfiImg from '../assets/images/amalfi_watercolor_1783094452174.jpg';
-import tableImg from '../assets/images/wedding_table_setup_1783093924449.jpg';
-import buttesImg from '../assets/images/buttes_chaumont.png';
-import retrouvaillesImg from '../assets/images/retrouvailles.png';
-import tourEiffelImg from '../assets/images/toureiffel.png';
+import img1 from '../assets/images/Winner.png';
+import img2 from '../assets/images/camping.jpeg';
+import img3 from '../assets/images/mariage_amis.jpeg';
+import img4 from '../assets/images/course_a_pied.jpeg';
+import img5 from '../assets/images/30ans_mariage.jpg';
+import img6 from '../assets/images/annecy.jpeg';
+import img7 from '../assets/images/parc_naturels.jpeg';
+import img8 from '../assets/images/saumur.jpeg';
 
 interface PhotoCard {
   id: number;
@@ -29,66 +29,66 @@ interface PhotoCard {
 const PHOTOS: PhotoCard[] = [
   {
     id: 1,
-    src: coupleImg,
-    alt: "Valentine & Jean",
-    title: "Valentine & Jean",
-    caption: "Leur grande union, Avril 2027",
+    src: img1,
+    alt: "Winner",
+    title: "Victoire !",
+    caption: "L'esprit de compétition",
     rotation: -3,
   },
   {
     id: 2,
-    src: chateauImg,
-    alt: "Le Manoir d'Auffay",
-    title: "Manoir d'Auffay",
-    caption: "Oherville, Seine-Maritime",
+    src: img2,
+    alt: "Camping",
+    title: "Camping",
+    caption: "Aventures en nature",
     rotation: 4,
   },
   {
     id: 3,
-    src: vergerImg,
-    alt: "Verger Normand",
-    title: "Douceur Normande",
-    caption: "Pommiers en fleurs & terroir",
+    src: img3,
+    alt: "Mariage amis",
+    title: "Mariage des amis",
+    caption: "Célébrations",
     rotation: -2,
   },
   {
     id: 4,
-    src: amalfiImg,
-    alt: "Escale en Italie",
-    title: "Escapade Amalfi",
-    caption: "Souvenirs de voyages",
+    src: img4,
+    alt: "Course à pied",
+    title: "Course à pied",
+    caption: "Dépassement de soi",
     rotation: 3,
   },
   {
     id: 5,
-    src: tableImg,
-    alt: "La Table de Fête",
-    title: "L'Art de Recevoir",
-    caption: "Détails de fête & vaisselle",
+    src: img5,
+    alt: "30 ans mariage",
+    title: "Noces de perle",
+    caption: "30 ans de mariage",
     rotation: -4,
   },
   {
     id: 6,
-    src: buttesImg,
-    alt: "Les Buttes-Chaumont",
-    title: "Buttes-Chaumont",
-    caption: "Le rocher de la demande",
+    src: img6,
+    alt: "Annecy",
+    title: "Annecy",
+    caption: "Escapade au lac",
     rotation: 5,
   },
   {
     id: 7,
-    src: retrouvaillesImg,
-    alt: "Retrouvailles à Paris",
-    title: "Retrouvailles",
-    caption: "Même toit à Paris",
+    src: img7,
+    alt: "Parcs naturels",
+    title: "Parcs naturels",
+    caption: "Les grands espaces",
     rotation: -3,
   },
   {
     id: 8,
-    src: tourEiffelImg,
-    alt: "Balades Parisiennes",
-    title: "Flâneries",
-    caption: "Paris & crêperies",
+    src: img8,
+    alt: "Saumur",
+    title: "Saumur",
+    caption: "Escapade",
     rotation: 2,
   },
 ];
