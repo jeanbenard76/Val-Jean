@@ -452,28 +452,30 @@ export default function RSVPForm() {
                         <div
                           key={fam.id}
                           onClick={() => handleSelectFamily(fam)}
-                          className="p-3.5 hover:bg-[#FAF7F2] cursor-pointer transition-colors flex items-center justify-between group"
+                          className="p-3.5 hover:bg-[#FAF7F2] cursor-pointer transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-2 group"
                         >
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <Users className="w-4 h-4 text-[#C4A475]" />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <Users className="w-4 h-4 text-[#C4A475] shrink-0" />
                               <span className="font-display font-semibold text-sm text-[#13263B]">
                                 Famille {fam.familyName}
                               </span>
                               {fam.hasResponded && (
-                                <span className="text-[9px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+                                <span className="text-[9px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full shrink-0">
                                   ✓ Déjà répondu
                                 </span>
                               )}
                             </div>
-                            <p className="text-xs text-[#5A5040] font-sans italic mt-0.5 ml-6">
+                            <p className="text-xs text-[#5A5040] font-sans italic mt-0.5 ml-6 truncate">
                               {fam.members.map((m) => `${m.firstName}${m.isChild ? ' (enfant)' : ''}`).join(', ')}
                             </p>
                           </div>
-                          <span className="text-xs font-semibold text-[#3B6FA0] group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                            <span>{fam.hasResponded ? 'Mettre à jour' : 'Sélectionner'}</span>
-                            <ChevronRight className="w-3.5 h-3.5" />
-                          </span>
+                          <div className="flex justify-end mt-1 sm:mt-0">
+                            <span className="text-[11px] sm:text-xs font-semibold text-[#3B6FA0] group-hover:translate-x-1 transition-transform flex items-center gap-1 shrink-0">
+                              <span>{fam.hasResponded ? 'Mettre à jour' : 'Sélectionner'}</span>
+                              <ChevronRight className="w-3.5 h-3.5" />
+                            </span>
+                          </div>
                         </div>
                       ))
                     ) : (
