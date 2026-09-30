@@ -11,3 +11,6 @@ coverage/
 # Base de données SQLite (données personnelles des invités — ne jamais versionner)
 wedding.db
 
+# Notes locales (jamais versionnées)
+NOTES-SECURITE-LOCAL.md
+
