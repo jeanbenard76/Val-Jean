@@ -43,8 +43,12 @@ export default function Registry() {
   }, []);
 
   const filteredItems = useMemo(() => {
-    if (activeCategory === 'all') return items;
-    return items.filter((item) => item.category === activeCategory);
+    const result = activeCategory === 'all' ? items : items.filter((item) => item.category === activeCategory);
+    return [...result].sort((a, b) => {
+      const aFullyFunded = a.currentAmount >= a.targetAmount ? 1 : 0;
+      const bFullyFunded = b.currentAmount >= b.targetAmount ? 1 : 0;
+      return aFullyFunded - bFullyFunded;
+    });
   }, [items, activeCategory]);
 
   const handleCopyIBAN = () => {
@@ -106,6 +110,7 @@ export default function Registry() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
         <AnimatePresence mode="popLayout">
           {filteredItems.map((item) => {
+            const isFullyFunded = item.currentAmount >= item.targetAmount;
             const percentage = item.currentAmount ? Math.round((item.currentAmount / item.targetAmount) * 100) : 0;
 
             return (
@@ -116,7 +121,9 @@ export default function Registry() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white/75 backdrop-blur-md border-0 rounded-2xl p-4 sm:p-6 shadow-xs hover:shadow-md transition-all duration-300 relative overflow-hidden flex flex-col justify-between"
+                className={`bg-white/75 backdrop-blur-md border-0 rounded-2xl p-4 sm:p-6 shadow-xs transition-all duration-300 relative overflow-hidden flex flex-col justify-between ${
+                  isFullyFunded ? 'grayscale-[80%] opacity-60' : 'hover:shadow-md'
+                }`}
                 id={`registry-item-block-${item.id}`}
               >
                 <div>
@@ -154,17 +161,26 @@ export default function Registry() {
                         </span>
                       </div>
 
-                      {/* Funding Gauge */}
-                      <div className="w-full bg-[#3B6FA0]/10 rounded-full h-2 overflow-hidden border border-[#3B6FA0]/15">
-                        <div
-                          className="bg-gradient-to-r from-[#C4A475] to-[#AE8E5C] h-full rounded-full transition-all duration-1000 shadow-xs"
-                          style={{ width: `${Math.min(percentage, 100)}%` }}
-                        />
-                      </div>
-                      <div className="flex items-center justify-between text-[11px] text-[#5A5040] mt-1 font-sans">
-                        <span>Financé à <strong>{percentage}%</strong></span>
-                        <span>{item.currentAmount?.toLocaleString('fr-FR') || 0} € récoltés</span>
-                      </div>
+                      {/* Funding Gauge / Fully Funded Banner */}
+                      {isFullyFunded ? (
+                        <div className="mt-2 text-center py-1.5 text-emerald-700 font-bold text-xs bg-emerald-50 rounded-lg border border-emerald-100 flex items-center justify-center gap-1.5">
+                          <Check className="w-3.5 h-3.5" />
+                          Ce cadeau a été entièrement offert !
+                        </div>
+                      ) : (
+                        <>
+                          <div className="w-full bg-[#3B6FA0]/10 rounded-full h-2 overflow-hidden border border-[#3B6FA0]/15">
+                            <div
+                              className="bg-gradient-to-r from-[#C4A475] to-[#AE8E5C] h-full rounded-full transition-all duration-1000 shadow-xs"
+                              style={{ width: `${Math.min(percentage, 100)}%` }}
+                            />
+                          </div>
+                          <div className="flex items-center justify-between text-[11px] text-[#5A5040] mt-1 font-sans">
+                            <span>Financé à <strong>{percentage}%</strong></span>
+                            <span>{item.currentAmount?.toLocaleString('fr-FR') || 0} € récoltés</span>
+                          </div>
+                        </>
+                      )}
                     </div>
 
                     {/* Newlyweds note (Larger & Gold/Yellow) */}
@@ -180,13 +196,20 @@ export default function Registry() {
 
                 {/* Contribute Action Trigger */}
                 <div className="pt-3 border-t border-[#3B6FA0]/10 mt-2 flex justify-start">
-                  <button
-                    onClick={() => setSelectedItem(item)}
-                    className="w-full sm:w-auto px-6 py-2.5 bg-[#13263B] hover:bg-[#C4A475] text-white hover:text-[#13263B] text-xs font-semibold rounded-full transition-all duration-300 cursor-pointer shadow-2xs flex items-center justify-center gap-2 group"
-                  >
-                    <span>Participer</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </button>
+                  {isFullyFunded ? (
+                    <div className="w-full sm:w-auto px-6 py-2.5 bg-slate-200 text-slate-500 text-xs font-bold rounded-full flex items-center justify-center gap-2 cursor-default">
+                      <Check className="w-3.5 h-3.5" />
+                      <span>Déjà offert</span>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setSelectedItem(item)}
+                      className="w-full sm:w-auto px-6 py-2.5 bg-[#13263B] hover:bg-[#C4A475] text-white hover:text-[#13263B] text-xs font-semibold rounded-full transition-all duration-300 cursor-pointer shadow-2xs flex items-center justify-center gap-2 group"
+                    >
+                      <span>Participer</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </button>
+                  )}
                 </div>
               </motion.div>
             );
