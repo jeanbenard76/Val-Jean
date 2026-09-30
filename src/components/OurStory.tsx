@@ -6,7 +6,7 @@ import jbsImg from '../assets/images/jbs.png';
 import tourEiffelImg from '../assets/images/toureiffel.png';
 import voituresImg from '../assets/images/voitures.png';
 import oursImg from '../assets/images/ours.png';
-import retrouvaillesImg from '../assets/images/retrouvailles.png';
+import retrouvaillesImg from '../assets/images/toureiffel.png';
 import buttesChaumontImg from '../assets/images/buttes_chaumont.png';
 
 export interface StoryStep {

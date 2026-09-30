@@ -12,7 +12,7 @@ import img1 from '../assets/images/Winner.png';
 import img2 from '../assets/images/camping.jpeg';
 import img3 from '../assets/images/mariage_amis.jpeg';
 import img4 from '../assets/images/course_a_pied.jpeg';
-import img5 from '../assets/images/30ans_mariage.jpg';
+import img5 from '../assets/images/30ans_mariages.jpg';
 import img6 from '../assets/images/annecy.jpeg';
 import img7 from '../assets/images/parc_naturels.jpeg';
 import img8 from '../assets/images/saumur.jpeg';
