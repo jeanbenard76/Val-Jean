@@ -18,7 +18,7 @@ export interface RegistryItem {
   description: string;
   targetAmount: number;
   currentAmount: number;
-  category: 'honeymoon' | 'home' | 'tableware' | 'charity' | 'high-tech';
+  category: string;
   imageUrl?: string;
   actionUrl?: string;
   characteristics?: string[];

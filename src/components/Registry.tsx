@@ -10,12 +10,7 @@ import { RegistryItem } from '../types';
 
 import defaultGiftsData from '../data/registry_gifts.json';
 
-const CATEGORIES = [
-  { id: 'all', label: 'Tous les cadeaux', icon: Sparkles },
-  { id: 'honeymoon', label: 'Lune de Miel', icon: Compass },
-  { id: 'tableware', label: 'Art de la Table', icon: Utensils },
-  { id: 'home', label: 'Maison & Jardin', icon: Home },
-];
+
 
 export default function Registry() {
   const [items, setItems] = useState<RegistryItem[]>(defaultGiftsData as RegistryItem[]);
@@ -57,14 +52,19 @@ export default function Registry() {
     setTimeout(() => setCopiedIBAN(false), 2500);
   };
 
-  const getCategoryLabel = (category: string) => {
-    switch (category) {
-      case 'honeymoon': return 'Lune de Miel';
-      case 'tableware': return 'Art de la Table';
-      case 'home': return 'Maison & Jardin';
-      default: return 'Cadeau';
-    }
-  };
+  const dynamicCategories = useMemo(() => {
+    const uniqueCats = Array.from(new Set(items.map((i) => i.category)));
+    const mappedCats = uniqueCats.map((cat) => {
+      let icon = Gift;
+      if (cat.toLowerCase().includes('miel') || cat === 'honeymoon') icon = Compass;
+      else if (cat.toLowerCase().includes('table') || cat === 'tableware') icon = Utensils;
+      else if (cat.toLowerCase().includes('maison') || cat === 'home') icon = Home;
+      else if (cat.toLowerCase().includes('hifi') || cat.toLowerCase().includes('audio')) icon = Sparkles;
+      
+      return { id: cat, label: cat, icon };
+    });
+    return [{ id: 'all', label: 'Tous les cadeaux', icon: Sparkles }, ...mappedCats];
+  }, [items]);
 
   return (
     <div className="w-full max-w-5xl mx-auto px-3 sm:px-4 py-6 sm:py-8" id="wedding-registry-section">
@@ -83,7 +83,7 @@ export default function Registry() {
 
       {/* ELEGANT CATEGORY FILTER PILLS */}
       <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap mb-8 sm:mb-10 max-w-3xl mx-auto">
-        {CATEGORIES.map((cat) => {
+        {dynamicCategories.map((cat) => {
           const Icon = cat.icon;
           const isActive = activeCategory === cat.id;
           const count = cat.id === 'all' ? items.length : items.filter((item) => item.category === cat.id).length;
@@ -136,7 +136,7 @@ export default function Registry() {
                       className="w-full h-full object-contain p-6 sm:p-10 transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute top-2.5 left-2.5 bg-[#13263B]/90 backdrop-blur-xs text-[#FAF7F2] text-[10px] font-serif italic px-2.5 py-0.5 rounded-full shadow-2xs z-10">
-                      {getCategoryLabel(item.category)}
+                      {item.category}
                     </div>
                   </div>
 
