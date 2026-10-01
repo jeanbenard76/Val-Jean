@@ -28,7 +28,7 @@ Conteneur Docker (port 3000)
 - **Front** : React 19 + Vite 6 + Tailwind 4 ([src/](src/)). Buildé en fichiers statiques dans `dist/`.
 - **Back** : Express ([server.ts](server.ts)), bundlé en un seul fichier `dist/server.cjs` par esbuild. Un seul processus sert le front **et** l'API.
 - **Base de données** : SQLite chargée en mémoire par [sql.js](https://github.com/sql-js/sql.js) ([server/db.ts](server/db.ts)). Chaque écriture ré-enregistre le fichier complet sur disque (`saveDatabaseToDisk`). Adapté à l'échelle d'un mariage ; **une seule instance de l'app doit tourner** (ne jamais scaler à plusieurs replicas).
-- **Emails** : aucun service d'envoi n'est configuré (pas de `RESEND_API_KEY`). Les RSVP **et les messages du formulaire de contact** sont enregistrés dans la base et consultables dans l'Espace Mariés (section « Messages reçus » pour le contact). [server/mailer.ts](server/mailer.ts) enverrait une notification RSVP via Resend si la clé était ajoutée un jour.
+- **Emails** : [server/mailer.ts](server/mailer.ts) envoie via le **SMTP Infomaniak** (`mail.infomaniak.com:587`, STARTTLS) avec l'adresse `@etik.com` des mariés. À chaque RSVP et à chaque message de contact : un mail aux mariés (on peut y répondre directement à l'invité) **et** un mail de confirmation à l'invité. Les RSVP et messages sont de toute façon enregistrés en base et visibles dans l'Espace Mariés : si l'envoi échoue, rien n'est perdu (erreur visible dans les logs Coolify, lignes `[Mail]`).
 
 ## 2. Comment le site est déployé
 
@@ -70,7 +70,8 @@ L'image finale ne contient que les dépendances de production. `src/data/registr
 | `NODE_ENV=production` | oui | mode production du serveur |
 | `ADMIN_TOKEN` | oui | mot de passe de l'Espace Mariés et des routes admin. Sans elle, les routes admin renvoient 503 (bloquées par défaut). |
 | `DB_PATH=/data/wedding.db` | oui | emplacement du fichier SQLite **sur le volume persistant** |
-| `RESEND_API_KEY` | non | notifications email des réponses RSVP |
+| `EMAIL_ADDRESS` | oui (pour les mails) | adresse Infomaniak qui envoie, ex. `valentinetjean@etik.com` |
+| `EMAIL_PASSWORD` | oui (pour les mails) | **mot de passe d'application** Infomaniak (Manager → Service Mail → l'adresse → Appareils → Ajouter un appareil), pas le mot de passe principal. Sans ces deux variables, aucun mail ne part mais le site fonctionne. |
 
 ## 3. Persistance des données (important)
 

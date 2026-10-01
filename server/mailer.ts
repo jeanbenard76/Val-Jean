@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import nodemailer, { type Transporter } from "nodemailer";
+
 export interface RSVPMailPayload {
   familyName: string;
   email: string;
@@ -21,6 +23,25 @@ export interface RSVPMailPayload {
   }>;
 }
 
+export interface ContactMailPayload {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+// Couple's inboxes (Infomaniak, "+" sub-addresses of valentinetjean@etik.com)
+const COUPLE_RSVP_ADDRESS = "valentinetjean+rsvp@etik.com";
+const COUPLE_CONTACT_ADDRESS = "valentinetjean+contactmariage@etik.com";
+
+// Same values as the <select> of the contact form (src/components/Contact.tsx)
+const CONTACT_SUBJECT_LABELS: Record<string, string> = {
+  question: "Question sur l'organisation",
+  lodging: "Question hébergement",
+  surprise: "Préparation d'une surprise",
+  "sweet-word": "Un mot doux pour les mariés",
+};
+
 /**
  * Escape user-provided strings before injecting them into the HTML email body.
  */
@@ -33,14 +54,74 @@ function esc(value: unknown): string {
     .replace(/'/g, "&#39;");
 }
 
+// --- SMTP Infomaniak transport ---
+// EMAIL_ADDRESS / EMAIL_PASSWORD: Infomaniak address + app password (Coolify env vars).
+// Without them, emails are skipped (logged only) and everything else keeps working.
+let transporter: Transporter | null = null;
+
+function getTransporter(): Transporter | null {
+  if (!process.env.EMAIL_ADDRESS || !process.env.EMAIL_PASSWORD) return null;
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || "mail.infomaniak.com",
+      port: 587,
+      secure: false, // STARTTLS
+      requireTLS: true,
+      auth: { user: process.env.EMAIL_ADDRESS, pass: process.env.EMAIL_PASSWORD },
+    });
+  }
+  return transporter;
+}
+
+async function sendMail(mail: { to: string; subject: string; html: string; replyTo?: string }) {
+  const smtp = getTransporter();
+  if (!smtp) {
+    console.log(`[Mail] EMAIL_ADDRESS / EMAIL_PASSWORD absents : email non envoyé à ${mail.to} (« ${mail.subject} »)`);
+    return;
+  }
+  await smtp.sendMail({
+    from: { name: "Mariage Valentine & Jean", address: process.env.EMAIL_ADDRESS! },
+    ...mail,
+  });
+  console.log(`[Mail] ✅ Email envoyé à ${mail.to} (« ${mail.subject} »)`);
+}
+
 /**
- * Sends a formatted RSVP notification email to valentinetjean@etik.com
- * Supports direct Node dispatch, Resend API, and native PHP mail() script relay!
+ * Send all emails in parallel; one failure (e.g. a mistyped guest address)
+ * must not prevent the others from being sent.
+ */
+async function sendAll(mails: Parameters<typeof sendMail>[0][]) {
+  const results = await Promise.allSettled(mails.map(sendMail));
+  results.forEach((r, i) => {
+    if (r.status === "rejected") {
+      console.error(`[Mail] ❌ Échec de l'envoi à ${mails[i].to}:`, r.reason?.message || r.reason);
+    }
+  });
+}
+
+function layout(title: string, content: string) {
+  return `
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; background-color: #faf7f2;">
+      <h2 style="color: #13263B; margin-top: 0; border-bottom: 2px solid #C4A475; padding-bottom: 8px;">
+        ${title}
+      </h2>
+      ${content}
+    </div>
+  `;
+}
+
+function eventsOf(m: RSVPMailPayload["members"][number]) {
+  const events = [];
+  if (m.events?.vinHonneur) events.push("Vin d'Honneur");
+  if (m.events?.repasNoces) events.push("Repas de Noces");
+  if (m.events?.brunchLendemain) events.push("Brunch");
+  return events.length > 0 ? events.join(", ") : "Aucun";
+}
+
+/**
+ * RSVP: notification to the couple + confirmation to the guest.
  */
 export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
-  const recipient = "valentinetjean+rsvp@etik.com";
-  const subject = `💍 Nouvelle réponse RSVP : Famille ${data.familyName}`;
-
   const attendingCount = data.members.filter((m) => m.isAttending).length;
   const totalCount = data.members.length;
 
@@ -48,33 +129,20 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
     .map((m) => {
       const status = m.isAttending ? "✅ PRÉSENT(E)" : "❌ ABSENT(E)";
       const type = m.isChild ? "Enfant" : "Adulte";
-
-      let eventsList = [];
-      if (m.isAttending && m.events) {
-        if (m.events.vinHonneur) eventsList.push("Vin d'Honneur");
-        if (m.events.repasNoces) eventsList.push("Repas de Noces");
-        if (m.events.brunchLendemain) eventsList.push("Brunch");
-      }
-
-      const eventsText = eventsList.length > 0 ? eventsList.join(", ") : "Aucun";
       const dietaryText = m.dietaryNotes ? `<b>Régime :</b> ${esc(m.dietaryNotes)}` : "-";
 
       return `
         <tr style="border-bottom: 1px solid #eee;">
           <td style="padding: 10px; font-weight: bold; color: #13263B;">${esc(m.firstName)} ${esc(m.lastName)} (${type})</td>
           <td style="padding: 10px; font-weight: bold; color: ${m.isAttending ? '#2e7d32' : '#c62828'};">${status}</td>
-          <td style="padding: 10px; color: #555;">${m.isAttending ? eventsText : '-'}</td>
+          <td style="padding: 10px; color: #555;">${m.isAttending ? eventsOf(m) : '-'}</td>
           <td style="padding: 10px; color: #555;">${dietaryText}</td>
         </tr>
       `;
     })
     .join("");
 
-  const htmlBody = `
-    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; rounded: 12px; padding: 24px; background-color: #faf7f2;">
-      <h2 style="color: #13263B; margin-top: 0; border-bottom: 2px solid #C4A475; padding-bottom: 8px;">
-        💍 Nouvelle Confirmation RSVP
-      </h2>
+  const coupleHtml = layout("💍 Nouvelle Confirmation RSVP", `
       <p style="font-size: 15px; color: #333;">
         La <strong>Famille ${esc(data.familyName)}</strong> vient de soumettre sa réponse sur le site !
       </p>
@@ -83,7 +151,7 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
         <p style="margin: 4px 0;"><strong>Famille :</strong> Famille ${esc(data.familyName)}</p>
         <p style="margin: 4px 0;"><strong>Email de contact :</strong> <a href="mailto:${esc(data.email)}">${esc(data.email)}</a></p>
         <p style="margin: 4px 0;"><strong>Bilan :</strong> ${attendingCount} présent(s) sur ${totalCount} invité(s)</p>
-        ${data.message ? `<p style="margin: 12px 0 4px 0; padding-top: 8px; border-top: 1px italic #eee;"><strong>Message des invités :</strong><br><em style="color: #3B6FA0;">« ${esc(data.message)} »</em></p>` : ''}
+        ${data.message ? `<p style="margin: 12px 0 4px 0; padding-top: 8px; border-top: 1px solid #eee;"><strong>Message des invités :</strong><br><em style="color: #3B6FA0;">« ${esc(data.message)} »</em></p>` : ''}
       </div>
 
       <h3 style="color: #13263B; font-size: 16px; margin-top: 20px;">Détails des invités :</h3>
@@ -100,130 +168,86 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
           ${membersHtml}
         </tbody>
       </table>
+  `);
 
-      <p style="font-size: 11px; color: #888; text-align: center; margin-top: 24px;">
-        Notification envoyée à <strong>${recipient}</strong> depuis le site de mariage de Valentine &amp; Jean.
+  const guestRecap = data.members
+    .map((m) =>
+      `<li style="margin: 4px 0;"><strong>${esc(m.firstName)} ${esc(m.lastName)}</strong> : ${
+        m.isAttending ? `présent(e) — ${eventsOf(m)}` : "absent(e)"
+      }</li>`
+    )
+    .join("");
+
+  const guestHtml = layout("💍 Votre réponse est bien enregistrée", `
+      <p style="font-size: 15px; color: #333;">Bonjour Famille ${esc(data.familyName)},</p>
+      <p style="font-size: 15px; color: #333;">
+        Merci pour votre réponse ! Voici le récapitulatif de ce que vous nous avez indiqué :
       </p>
-    </div>
-  `;
+      <ul style="background-color: #ffffff; padding: 16px 16px 16px 32px; border-radius: 8px; border: 1px solid #e0dcd5; font-size: 14px; color: #13263B;">
+        ${guestRecap}
+      </ul>
+      <p style="font-size: 14px; color: #333;">
+        Une erreur ou un changement ? Répondez simplement à cet email.
+      </p>
+      <p style="font-size: 15px; color: #13263B;">Avec toute notre affection,<br><strong>Valentine &amp; Jean</strong></p>
+  `);
 
-  console.log(`\n======================================================`);
-  console.log(`📧 ENVOI D'EMAIL RSVP vers : ${recipient}`);
-  console.log(`Sujet : ${subject}`);
-  console.log(`======================================================\n`);
-
-  // 1. Relay to PHP mail script if PHP_MAIL_URL is set in .env (e.g. https://votre-domaine.fr/api/send_rsvp_mail.php)
-  const phpMailUrl = process.env.PHP_MAIL_URL;
-  if (phpMailUrl) {
-    try {
-      await fetch(phpMailUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      console.log(`✅ Email transmis avec succès via le script PHP : ${phpMailUrl}`);
-    } catch (err: any) {
-      console.error("Erreur lors de l'envoi via le script PHP:", err?.message);
-    }
-  }
-
-  // 2. Optional Resend API dispatch
-  const resendApiKey = process.env.RESEND_API_KEY;
-  if (resendApiKey) {
-    try {
-      await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${resendApiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          from: "Mariage Valentine & Jean <no-reply@valentine-et-jean.fr>",
-          to: [recipient],
-          subject,
-          html: htmlBody,
-        }),
-      });
-      console.log(`✅ Email transmis à ${recipient} via API Resend !`);
-    } catch (err: any) {
-      console.error("Erreur lors de l'envoi direct de l'email:", err?.message);
-    }
-  }
-
-  return { recipient, subject, success: true };
+  await sendAll([
+    {
+      to: COUPLE_RSVP_ADDRESS,
+      replyTo: data.email,
+      subject: `💍 Nouvelle réponse RSVP : Famille ${data.familyName}`,
+      html: coupleHtml,
+    },
+    {
+      to: data.email,
+      replyTo: COUPLE_RSVP_ADDRESS,
+      subject: "Votre réponse au mariage de Valentine & Jean",
+      html: guestHtml,
+    },
+  ]);
 }
 
-export async function sendContactNotificationEmail(data: { name: string; email: string; subject: string; message: string; }) {
-  const recipient = "valentinetjean+contactmariage@etik.com";
-  const subject = `💌 Nouveau message de contact de ${data.name} : ${data.subject}`;
+/**
+ * Contact form: notification to the couple + acknowledgement to the sender.
+ */
+export async function sendContactNotificationEmail(data: ContactMailPayload) {
+  const subjectLabel = CONTACT_SUBJECT_LABELS[data.subject] || data.subject || "Message";
 
-  const htmlBody = `
-    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; rounded: 12px; padding: 24px; background-color: #faf7f2;">
-      <h2 style="color: #13263B; margin-top: 0; border-bottom: 2px solid #C4A475; padding-bottom: 8px;">
-        💌 Nouveau Message
-      </h2>
+  const coupleHtml = layout("💌 Nouveau Message", `
       <p style="font-size: 15px; color: #333;">
         Vous avez reçu un nouveau message depuis le formulaire de contact du site.
       </p>
-
       <div style="background-color: #ffffff; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid #e0dcd5;">
         <p style="margin: 4px 0;"><strong>Nom :</strong> ${esc(data.name)}</p>
         <p style="margin: 4px 0;"><strong>Email :</strong> <a href="mailto:${esc(data.email)}">${esc(data.email)}</a></p>
-        <p style="margin: 4px 0;"><strong>Sujet :</strong> ${esc(data.subject)}</p>
-        <p style="margin: 12px 0 4px 0; padding-top: 8px; border-top: 1px italic #eee;"><strong>Message :</strong><br><em style="color: #3B6FA0;">« ${esc(data.message)} »</em></p>
+        <p style="margin: 4px 0;"><strong>Sujet :</strong> ${esc(subjectLabel)}</p>
+        <p style="margin: 12px 0 4px 0; padding-top: 8px; border-top: 1px solid #eee; white-space: pre-line;"><strong>Message :</strong><br><em style="color: #3B6FA0;">« ${esc(data.message)} »</em></p>
       </div>
+      <p style="font-size: 12px; color: #888;">Répondez directement à cet email pour écrire à ${esc(data.name)}.</p>
+  `);
 
-      <p style="font-size: 11px; color: #888; text-align: center; margin-top: 24px;">
-        Notification envoyée à <strong>${recipient}</strong> depuis le site de mariage de Valentine &amp; Jean.
+  const guestHtml = layout("💌 Message bien reçu", `
+      <p style="font-size: 15px; color: #333;">Bonjour ${esc(data.name)},</p>
+      <p style="font-size: 15px; color: #333;">
+        Merci de nous avoir écrit ! Nous avons bien reçu votre message et nous vous répondrons très vite.
       </p>
-    </div>
-  `;
+      <div style="background-color: #ffffff; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid #e0dcd5; white-space: pre-line; color: #3B6FA0; font-style: italic;">« ${esc(data.message)} »</div>
+      <p style="font-size: 15px; color: #13263B;">Avec toute notre affection,<br><strong>Valentine &amp; Jean</strong></p>
+  `);
 
-  console.log(`\n======================================================`);
-  console.log(`📧 ENVOI D'EMAIL CONTACT vers : ${recipient}`);
-  console.log(`Sujet : ${subject}`);
-  console.log(`======================================================\n`);
-
-  // 1. Relay to PHP mail script if PHP_MAIL_URL is set in .env
-  const phpMailUrl = process.env.PHP_MAIL_URL;
-  if (phpMailUrl) {
-    try {
-      await fetch(phpMailUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "contact", // optional parameter to differentiate in PHP if needed
-          ...data
-        }),
-      });
-      console.log(`✅ Email de contact transmis avec succès via le script PHP : ${phpMailUrl}`);
-    } catch (err: any) {
-      console.error("Erreur lors de l'envoi de contact via le script PHP:", err?.message);
-    }
-  }
-
-  // 2. Optional Resend API dispatch
-  const resendApiKey = process.env.RESEND_API_KEY;
-  if (resendApiKey) {
-    try {
-      await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${resendApiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          from: "Mariage Valentine & Jean <no-reply@valentine-et-jean.fr>",
-          to: [recipient],
-          subject,
-          html: htmlBody,
-        }),
-      });
-      console.log(`✅ Email de contact transmis à ${recipient} via API Resend !`);
-    } catch (err: any) {
-      console.error("Erreur lors de l'envoi direct de l'email de contact:", err?.message);
-    }
-  }
-
-  return { recipient, subject, success: true };
+  await sendAll([
+    {
+      to: COUPLE_CONTACT_ADDRESS,
+      replyTo: data.email,
+      subject: `💌 Message de ${data.name} : ${subjectLabel}`,
+      html: coupleHtml,
+    },
+    {
+      to: data.email,
+      replyTo: COUPLE_CONTACT_ADDRESS,
+      subject: "Votre message à Valentine & Jean",
+      html: guestHtml,
+    },
+  ]);
 }
