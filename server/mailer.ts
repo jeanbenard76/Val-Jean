@@ -187,44 +187,46 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
   `);
 
   const guestRecap = data.members
-    .map((m) =>
-      `<li style="margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between;">
-        <strong style="display: inline-block;">${esc(m.firstName)} ${esc(m.lastName)}</strong> 
-        <span style="color: ${m.isAttending ? '#13263B' : '#718096'}; font-style: ${m.isAttending ? 'normal' : 'italic'};">
-          ${m.isAttending ? `Présent(e) — ${eventsOf(m)}` : "Ne sera pas présent(e)"}
-        </span>
-      </li>`
-    )
+    .map((m) => {
+      const presence = m.isAttending ? `Sera parmi nous (${eventsOf(m)})` : "Ne pourra malheureusement pas se joindre à nous";
+      return `<div style="margin-bottom: 12px; font-size: 15px;">
+        <span style="font-weight: 500; color: #1c2833;">${esc(m.firstName)} ${esc(m.lastName)}</span><br>
+        <span style="color: #6c7a89; font-size: 14px; font-style: italic;">${presence}</span>
+      </div>`;
+    })
     .join("");
 
   const guestHtml = `
-    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #faf7f2; overflow: hidden; border: 1px solid #e2e8f0; border-radius: 8px;">
-      <img src="cid:toileDeJouy" alt="Mariage de Valentine & Jean" style="width: 100%; height: auto; display: block;" />
-      
-      <div style="padding: 40px 30px;">
-        <h2 style="color: #13263B; font-size: 20px; font-weight: normal; margin-top: 0; text-align: center; letter-spacing: 0.5px;">
-          Merci pour votre réponse !
-        </h2>
-        
-        <p style="font-size: 15px; color: #4a5568; line-height: 1.6; text-align: center; margin-bottom: 30px; margin-top: 20px;">
-          Nous avons bien enregistré votre retour pour notre mariage. Voici le récapitulatif de ce que vous nous avez indiqué :
-        </p>
-        
-        <div style="background-color: #ffffff; padding: 20px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-          <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; color: #13263B;">
-            ${guestRecap}
-          </ul>
-        </div>
-        
-        <p style="font-size: 13px; color: #718096; margin-top: 30px; text-align: center; line-height: 1.5;">
-          Un changement de programme ? Il vous suffit de répondre directement à cet email.
-        </p>
-        
-        <div style="text-align: center; margin-top: 40px;">
-          <p style="font-size: 14px; color: #13263B; margin: 0;">Avec toute notre affection,</p>
-          <p style="font-size: 16px; color: #13263B; font-weight: bold; margin: 5px 0 0 0;">Valentine & Jean</p>
-        </div>
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 540px; margin: 0 auto; padding: 40px 20px; color: #1c2833; background-color: #ffffff;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <img src="cid:toileDeJouy" alt="Valentine & Jean" style="max-width: 100%; height: auto; border-radius: 4px;" />
       </div>
+      
+      <p style="font-size: 15px; font-weight: 300; margin-bottom: 24px; line-height: 1.8;">
+        Chère famille ${esc(data.familyName)},
+      </p>
+      
+      <p style="font-size: 15px; font-weight: 300; margin-bottom: 24px; line-height: 1.8;">
+        C’est avec une immense joie que nous avons pris connaissance de votre réponse. Nous vous remercions chaleureusement pour votre retour !
+      </p>
+      
+      <p style="font-size: 15px; font-weight: 300; margin-bottom: 16px; line-height: 1.8;">
+        À titre de confirmation, voici ce que nous avons noté :
+      </p>
+      
+      <div style="margin: 0 0 32px 16px; border-left: 1px solid #e2e8f0; padding-left: 20px;">
+        ${guestRecap}
+      </div>
+      
+      <p style="font-size: 15px; font-weight: 300; margin-bottom: 40px; line-height: 1.8;">
+        Si le moindre imprévu venait modifier ces informations, n’hésitez pas à nous en faire part en répondant simplement à ce courriel.
+      </p>
+      
+      <p style="font-size: 15px; font-weight: 300; line-height: 1.8;">
+        Dans l’attente de célébrer ce moment précieux à vos côtés,<br><br>
+        Très affectueusement,<br><br>
+        <span style="font-size: 17px; font-weight: 400; letter-spacing: 0.5px; color: #13263B;">Valentine & Jean</span>
+      </p>
     </div>
   `;
 
@@ -265,31 +267,32 @@ export async function sendContactNotificationEmail(data: ContactMailPayload) {
   `);
 
   const guestHtml = `
-    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #faf7f2; overflow: hidden; border: 1px solid #e2e8f0; border-radius: 8px;">
-      <img src="cid:toileDeJouy" alt="Mariage de Valentine & Jean" style="width: 100%; height: auto; display: block;" />
-      
-      <div style="padding: 40px 30px;">
-        <h2 style="color: #13263B; font-size: 20px; font-weight: normal; margin-top: 0; text-align: center; letter-spacing: 0.5px;">
-          Message bien reçu !
-        </h2>
-        
-        <p style="font-size: 15px; color: #4a5568; line-height: 1.6; text-align: center; margin-bottom: 10px; margin-top: 20px;">
-          Bonjour ${esc(data.name)},
-        </p>
-        
-        <p style="font-size: 15px; color: #4a5568; line-height: 1.6; text-align: center; margin-bottom: 30px; margin-top: 0;">
-          Merci de nous avoir écrit. Nous avons bien reçu votre message et reviendrons vers vous rapidement.
-        </p>
-        
-        <div style="background-color: #ffffff; padding: 20px; border-radius: 6px; border: 1px solid #e0dcd5; font-style: italic; color: #4a5568; font-size: 14px; white-space: pre-line; text-align: center;">
-          « ${esc(data.message)} »
-        </div>
-        
-        <div style="text-align: center; margin-top: 40px;">
-          <p style="font-size: 14px; color: #13263B; margin: 0;">À très vite,</p>
-          <p style="font-size: 16px; color: #13263B; font-weight: bold; margin: 5px 0 0 0;">Valentine & Jean</p>
-        </div>
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 540px; margin: 0 auto; padding: 40px 20px; color: #1c2833; background-color: #ffffff;">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <img src="cid:toileDeJouy" alt="Valentine & Jean" style="max-width: 100%; height: auto; border-radius: 4px;" />
       </div>
+      
+      <p style="font-size: 15px; font-weight: 300; margin-bottom: 24px; line-height: 1.8;">
+        Bonjour ${esc(data.name)},
+      </p>
+      
+      <p style="font-size: 15px; font-weight: 300; margin-bottom: 32px; line-height: 1.8;">
+        Nous avons bien reçu votre message. Un grand merci de nous avoir écrit ! Nous en prenons soin et vous répondrons dans les plus brefs délais.
+      </p>
+      
+      <p style="font-size: 14px; font-weight: 300; margin-bottom: 16px; line-height: 1.8; color: #6c7a89;">
+        Pour rappel, voici la teneur de votre message :
+      </p>
+      
+      <div style="margin: 0 0 40px 16px; border-left: 1px solid #e2e8f0; padding-left: 20px; font-style: italic; color: #4a5568; line-height: 1.8; white-space: pre-line; font-size: 15px;">
+        ${esc(data.message)}
+      </div>
+      
+      <p style="font-size: 15px; font-weight: 300; line-height: 1.8;">
+        À très bientôt,<br><br>
+        Très affectueusement,<br><br>
+        <span style="font-size: 17px; font-weight: 400; letter-spacing: 0.5px; color: #13263B;">Valentine & Jean</span>
+      </p>
     </div>
   `;
 
