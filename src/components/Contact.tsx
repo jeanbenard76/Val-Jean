@@ -87,7 +87,7 @@ export default function Contact() {
         <div className="lg:col-span-5 flex flex-col">
           <div className="bg-[#FFFEF5] border border-[#3B6FA0]/15 rounded-2xl p-6 sm:p-8 shadow-sm flex-1">
             <h4 className="font-display text-2xl text-[#1A3A5C] font-semibold mb-6 border-b border-[#3B6FA0]/10 pb-3">
-              L'Équipe du Jour J
+              Vos Contacts
             </h4>
 
             <div className="space-y-6">
@@ -143,7 +143,7 @@ export default function Contact() {
                   <p className="text-xs text-[#5A5040] font-serif italic mt-0.5">Pour les questions logistiques</p>
                   <a href="tel:+33642751588" className="inline-flex items-center gap-1.5 mt-2 text-xs font-mono font-semibold text-[#3B6FA0] hover:text-[#1A3A5C] transition-colors">
                     <Phone className="w-3.5 h-3.5" />
-                    <span>06 42 75 15 88</span>
+                    <span>+33 6 42 75 15 88</span>
                   </a>
                 </div>
               </div>
