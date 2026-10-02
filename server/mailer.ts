@@ -239,33 +239,33 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
         }
         
         const formatAttending = (evs: string[]) => {
-          if (evs.length === 1) return \`au \${evs[0]}\`;
-          if (evs.length === 2) return \`au \${evs[0]} et au \${evs[1]}\`;
-          return \`au \${evs[0]}, au \${evs[1]} et au \${evs[2]}\`;
+          if (evs.length === 1) return `au ${evs[0]}`;
+          if (evs.length === 2) return `au ${evs[0]} et au ${evs[1]}`;
+          return `au ${evs[0]}, au ${evs[1]} et au ${evs[2]}`;
         };
         
         const formatDeclined = (evs: string[]) => {
-          if (evs.length === 1) return \`au \${evs[0]}\`;
-          if (evs.length === 2) return \`au \${evs[0]} ni au \${evs[1]}\`;
-          return \`au \${evs[0]}, au \${evs[1]} ni au \${evs[2]}\`;
+          if (evs.length === 1) return `au ${evs[0]}`;
+          if (evs.length === 2) return `au ${evs[0]} ni au ${evs[1]}`;
+          return `au ${evs[0]}, au ${evs[1]} ni au ${evs[2]}`;
         };
         
         if (attendingEvents.length > 0) {
-          presenceHtml += \`Sera parmi nous \${formatAttending(attendingEvents)}\`;
+          presenceHtml += `Sera parmi nous ${formatAttending(attendingEvents)}`;
         }
         
         if (declinedEvents.length > 0) {
           if (presenceHtml !== "") presenceHtml += "<br>";
-          presenceHtml += \`Ne sera pas parmi nous \${formatDeclined(declinedEvents)}\`;
+          presenceHtml += `Ne sera pas parmi nous ${formatDeclined(declinedEvents)}`;
         }
         
         if (presenceHtml === "") presenceHtml = "Sera parmi nous";
       }
 
-      return \`<div style="margin-bottom: 16px; font-size: 15px;">
-        <span style="font-weight: 500; color: #1c2833;">\${esc(m.firstName)} \${esc(m.lastName)}</span><br>
-        <span style="color: #6c7a89; font-size: 14px; font-style: italic; line-height: 1.5; display: inline-block; margin-top: 2px;">\${presenceHtml}</span>
-      </div>\`;
+      return `<div style="margin-bottom: 16px; font-size: 15px;">
+        <span style="font-weight: 500; color: #1c2833;">${esc(m.firstName)} ${esc(m.lastName)}</span><br>
+        <span style="color: #6c7a89; font-size: 14px; font-style: italic; line-height: 1.5; display: inline-block; margin-top: 2px;">${presenceHtml}</span>
+      </div>`;
     })
     .join("");
 
