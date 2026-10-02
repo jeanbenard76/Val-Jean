@@ -493,10 +493,6 @@ export default function RSVPForm() {
                     )}
                   </div>
                 )}
-                
-                <p className="text-[10px] sm:text-[11px] text-[#5A5040] font-serif italic mt-2 leading-relaxed">
-                  Saisissez au moins 3 lettres de votre prénom ou nom de famille ci-dessus pour retrouver votre foyer et confirmer votre présence en quelques clics. Si votre famille n'apparaît pas, veuillez nous en excuser et transmettre votre réponse via le formulaire de contact. S'il manque un membre, vous pouvez l'ajouter grâce au bouton « Ajouter un membre ou un accompagnant non listé ».
-                </p>
               </div>
 
               {/* BANNÈRE RAPPEL : SI LE FOYER A DÉJÀ RÉPONDU */}
@@ -812,8 +808,8 @@ export default function RSVPForm() {
               {!selectedFamily && members.length === 0 && (
                 <div className="p-6 bg-white/60 backdrop-blur-sm shadow-sm border border-dashed border-[#3B6FA0]/20 rounded-2xl text-center space-y-2">
                   <Heart className="w-5 h-5 text-[#C4A475] mx-auto" />
-                  <p className="font-serif italic text-xs text-[#5A5040]">
-                    Entrez votre nom de famille ci-dessus (ex. <strong>Bénard</strong>, <strong>Chem-Lenhof</strong>, <strong>Dubois</strong>, <strong>Martin</strong>...) pour pré-remplir les membres de votre foyer et confirmer votre présence en quelques clics.
+                  <p className="font-serif italic text-xs text-[#5A5040] leading-relaxed">
+                    Saisissez au moins 3 lettres de votre prénom ou nom de famille ci-dessus pour retrouver votre foyer et confirmer votre présence en quelques clics. Si votre famille n'apparaît pas, veuillez nous en excuser et transmettre votre réponse via le formulaire de contact. S'il manque un membre, vous pouvez l'ajouter grâce au bouton « Ajouter un membre ou un accompagnant non listé ».
                   </p>
                 </div>
               )}
