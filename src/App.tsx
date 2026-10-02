@@ -181,7 +181,7 @@ export default function App() {
         {activePage === 'home' && (
           <div id="home-page" className="animate-fade-in">
             {/* 1. INITIAL ENTRY HERO SCREEN (Simple, elegant, Toile de Jouy) */}
-            <section className="relative flex flex-col items-center text-center px-4 pt-10 sm:pt-14 pb-8 overflow-hidden bg-[#FAF7F2] min-h-[calc(100dvh-73px)]">
+            <section className="relative flex flex-col items-center justify-center text-center px-4 py-6 sm:py-10 overflow-hidden bg-[#FAF7F2] min-h-[calc(100dvh-73px)]">
               {/* Richer Toile de Jouy Background Overlay with soft blur */}
               <div className="absolute inset-0 toile-pattern opacity-[0.14] blur-[0.3px] pointer-events-none" />
               
@@ -189,13 +189,13 @@ export default function App() {
               <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center text-center">
                 
                 {/* Parents & Larger Center Logo Row */}
-                <div className="flex flex-row items-center justify-between gap-2 sm:gap-6 w-full max-w-3xl mx-auto px-2 sm:px-4 border-b border-[#C4A475]/30 pb-10 sm:pb-14 mb-8 sm:mb-10">
+                <div className="flex flex-row items-center justify-between gap-2 sm:gap-6 w-full max-w-3xl mx-auto px-2 sm:px-4 border-b border-[#C4A475]/30 pb-6 sm:pb-8 mb-6 sm:mb-8">
                   <span className="text-[9px] sm:text-xs font-serif tracking-widest uppercase text-[#13263B]/70 text-center sm:text-left font-medium leading-relaxed">
                     Anne et Visith <br /> Chem-Lenhof
                   </span>
 
                   <div className="p-1 sm:p-1.5 bg-[#FAF7F2] rounded-full border border-[#C4A475]/35 shadow-xs shrink-0 mx-1 sm:mx-0">
-                    <WeddingLogo size="lg" className="w-10 h-10 sm:w-16 sm:h-16" themeColor="gold" />
+                    <WeddingLogo size="lg" className="w-10 h-10 sm:w-14 sm:h-14" themeColor="gold" />
                   </div>
 
                   <span className="text-[9px] sm:text-xs font-serif tracking-widest uppercase text-[#13263B]/70 text-center sm:text-right font-medium leading-relaxed">
@@ -205,20 +205,20 @@ export default function App() {
               </div>
 
               {/* Main Content Centered in remaining space */}
-              <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto space-y-3 pb-8">
+              <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center w-full max-w-4xl mx-auto space-y-2 sm:space-y-3 pb-2 sm:pb-4">
                 {/* Invitation phrase */}
-                <p className="text-xs sm:text-sm font-serif italic text-[#3B6FA0] tracking-wider pt-1 mb-4 sm:mb-6">
+                <p className="text-[10px] sm:text-sm font-serif italic text-[#3B6FA0] tracking-wider mb-2 sm:mb-4">
                   sont heureux de vous inviter au mariage de leurs enfants
                 </p>
 
                 {/* Main Script Heading */}
-                <h1 className="font-script text-[clamp(3.5rem,8vw,7rem)] text-[#13263B] my-2 leading-tight drop-shadow-xs select-none">
+                <h1 className="font-script text-[clamp(3rem,7vw,7rem)] text-[#13263B] my-1 sm:my-2 leading-tight drop-shadow-xs select-none">
                   Valentine <span className="font-serif italic text-[#C4A475]">&amp;</span> Jean
                 </h1>
 
                 {/* Simple & Authentic Date Display */}
-                <div className="mt-3 flex flex-col items-center space-y-1.5 pb-2">
-                  <div className="inline-flex items-center gap-4 text-xl sm:text-2xl font-display text-[#13263B] tracking-widest border-y border-[#C4A475]/40 py-1.5 px-6">
+                <div className="mt-2 sm:mt-3 flex flex-col items-center space-y-1.5 pb-2">
+                  <div className="inline-flex items-center gap-2 sm:gap-4 text-lg sm:text-2xl font-display text-[#13263B] tracking-widest border-y border-[#C4A475]/40 py-1 sm:py-1.5 px-4 sm:px-6">
                     <span>17</span>
                     <span className="text-[#C4A475] font-light">|</span>
                     <span>04</span>
@@ -226,16 +226,16 @@ export default function App() {
                     <span>2027</span>
                   </div>
                   
-                  <div className="text-xs sm:text-sm font-serif text-[#13263B] pt-1 space-y-0.5">
+                  <div className="text-[10px] sm:text-sm font-serif text-[#13263B] pt-1 space-y-0.5">
                     <p className="font-medium">à 14 heures, en l'église Notre-Dame-de-l'Assomption à Arques-la-Bataille</p>
-                    <p className="text-[11px] sm:text-xs italic text-[#3B6FA0]">Suivi de la réception au Manoir d'Auffay, Oherville</p>
+                    <p className="text-[9px] sm:text-xs italic text-[#3B6FA0]">Suivi de la réception au Manoir d'Auffay, Oherville</p>
                   </div>
 
                   {/* Authentic Underlined Link (No AI button outline!) */}
-                  <div className="pt-3">
+                  <div className="pt-2 sm:pt-4">
                     <button
                       onClick={() => handlePageChange('rsvp')}
-                      className="font-serif italic text-base sm:text-lg text-[#13263B] hover:text-[#C4A475] underline decoration-[#C4A475] underline-offset-4 cursor-pointer transition-colors"
+                      className="font-serif italic text-sm sm:text-lg text-[#13263B] hover:text-[#C4A475] underline decoration-[#C4A475] underline-offset-4 cursor-pointer transition-colors"
                     >
                       Confirmer votre présence &rarr;
                     </button>
