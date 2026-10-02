@@ -328,18 +328,18 @@ export default function RSVPForm() {
   }, [families, adminFilter, adminSearch]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-4 sm:py-8 pb-12 sm:pb-16" id="rsvp-section">
+    <div className="w-full max-w-5xl 2xl:max-w-6xl mx-auto px-4 lg:px-8 py-4 sm:py-8 pb-12 sm:pb-16" id="rsvp-section">
       
       {/* Editorial Header */}
-      <div className="text-center mb-6 sm:mb-8">
-        <span className="font-serif italic text-xs sm:text-sm text-[#C4A475] tracking-wider uppercase block mb-4">
+      <div className="text-center mb-6 sm:mb-8 xl:mb-12">
+        <span className="font-serif italic text-xs sm:text-sm xl:text-base text-[#C4A475] tracking-wider uppercase block mb-4">
           Réponse Souhaitée Avant le 15 Février 2027
         </span>
-        <h2 className="font-script text-[clamp(3rem,6vw,5rem)] text-[#13263B] leading-tight pt-2">
+        <h2 className="font-script text-[clamp(2.5rem,5vw,4rem)] xl:text-[4.5rem] 2xl:text-[5rem] text-[#13263B] leading-tight pt-2">
           Confirmation de Présence
         </h2>
-        <div className="w-16 h-[1px] bg-[#C4A475] mx-auto my-3" />
-        <p className="font-serif italic text-[#3B6FA0] text-xs sm:text-base max-w-xl mx-auto leading-relaxed">
+        <div className="w-16 h-[1px] bg-[#C4A475] mx-auto my-3 sm:my-4" />
+        <p className="font-serif italic text-[#3B6FA0] text-xs sm:text-base xl:text-lg max-w-xl xl:max-w-2xl 2xl:max-w-3xl mx-auto leading-relaxed">
           Afin d’organiser au mieux notre réception au Manoir d'Auffay, merci d’indiquer ci-dessous les membres de votre foyer qui participeront à notre grand jour.
         </p>
       </div>

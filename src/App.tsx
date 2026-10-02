@@ -212,7 +212,7 @@ export default function App() {
                 </p>
 
                 {/* Main Script Heading */}
-                <h1 className="font-script text-[clamp(3rem,7vw,7rem)] text-[#13263B] my-1 sm:my-2 leading-tight drop-shadow-xs select-none">
+                <h1 className="font-script text-[clamp(3rem,5vw,5rem)] 2xl:text-[7rem] text-[#13263B] my-1 sm:my-2 leading-tight drop-shadow-xs select-none">
                   Valentine <span className="font-serif italic text-[#C4A475]">&amp;</span> Jean
                 </h1>
 
