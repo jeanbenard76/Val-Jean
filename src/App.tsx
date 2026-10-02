@@ -109,7 +109,7 @@ export default function App() {
               onClick={() => handlePageChange(item.id as PageType)}
               className={`py-1 transition-colors cursor-pointer relative ${
                 item.isSpecial
-                  ? `font-bold text-[#C4A475] hover:text-[#13263B] ${activePage === item.id ? 'underline decoration-[#C4A475] underline-offset-4' : ''}`
+                  ? `font-bold text-[#C4A475] hover:text-[#13263B]`
                   : `hover:text-[#C4A475] ${activePage === item.id ? 'text-[#C4A475] font-semibold' : 'text-[#1A3A5C]'}`
               }`}
             >
