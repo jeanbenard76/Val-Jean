@@ -95,10 +95,9 @@ export default function Contact() {
               <div className="flex items-start gap-4">
                 <div>
                   <h5 className="font-display font-semibold text-base text-[#1A3A5C]">
-                    Valentine <span className="text-xs text-[#5A5040]/70 font-serif italic">(La Mariée)</span>
+                    Valentine Chem-Lenhof <span className="text-xs text-[#5A5040]/70 font-serif italic">(La Mariée)</span>
                   </h5>
-                  <p className="text-xs text-[#5A5040] font-serif italic mt-0.5">Pour les questions de déroulement, robe, RSVP</p>
-                  <a href="tel:+33612345678" className="inline-flex items-center gap-1.5 mt-2 text-xs font-mono font-semibold text-[#3B6FA0] hover:text-[#1A3A5C] transition-colors">
+                  <a href="tel:+33612345678" className="inline-flex items-center gap-1.5 mt-1 text-xs font-mono font-semibold text-[#3B6FA0] hover:text-[#1A3A5C] transition-colors">
                     <Phone className="w-3.5 h-3.5" />
                     <span>+33 6 12 34 56 78</span>
                   </a>
@@ -109,10 +108,9 @@ export default function Contact() {
               <div className="flex items-start gap-4">
                 <div>
                   <h5 className="font-display font-semibold text-base text-[#1A3A5C]">
-                    Jean <span className="text-xs text-[#5A5040]/70 font-serif italic">(Le Marié)</span>
+                    Jean Benard <span className="text-xs text-[#5A5040]/70 font-serif italic">(Le Marié)</span>
                   </h5>
-                  <p className="text-xs text-[#5A5040] font-serif italic mt-0.5">Pour le cortège automobile, logistique, liste</p>
-                  <a href="tel:+33687654321" className="inline-flex items-center gap-1.5 mt-2 text-xs font-mono font-semibold text-[#3B6FA0] hover:text-[#1A3A5C] transition-colors">
+                  <a href="tel:+33687654321" className="inline-flex items-center gap-1.5 mt-1 text-xs font-mono font-semibold text-[#3B6FA0] hover:text-[#1A3A5C] transition-colors">
                     <Phone className="w-3.5 h-3.5" />
                     <span>+33 6 87 65 43 21</span>
                   </a>
@@ -126,9 +124,9 @@ export default function Contact() {
               <div className="flex items-start gap-4">
                 <div>
                   <h5 className="font-display font-semibold text-base text-[#1A3A5C]">
-                    Juliette <span className="text-xs text-[#5A5040]/70 font-serif italic">(Témoin général)</span>
+                    Juliette Chem-Lenhof <span className="text-xs text-[#5A5040]/70 font-serif italic">(Témoin de Valentine)</span>
                   </h5>
-                  <p className="text-xs text-[#5A5040] font-serif italic mt-0.5">Pour organiser des surprises, discours, animations</p>
+                  <p className="text-xs text-[#5A5040] font-serif italic mt-0.5">Pour organiser des surprises, discours et animations</p>
                   <a href="tel:+33611223344" className="inline-flex items-center gap-1.5 mt-2 text-xs font-mono font-semibold text-[#3B6FA0] hover:text-[#1A3A5C] transition-colors">
                     <Phone className="w-3.5 h-3.5" />
                     <span>+33 6 11 22 33 44</span>
@@ -136,16 +134,16 @@ export default function Contact() {
                 </div>
               </div>
 
-              {/* Hugo */}
+              {/* Eloïse */}
               <div className="flex items-start gap-4">
                 <div>
                   <h5 className="font-display font-semibold text-base text-[#1A3A5C]">
-                    Hugo <span className="text-xs text-[#5A5040]/70 font-serif italic">(Témoin général)</span>
+                    Eloïse Benard <span className="text-xs text-[#5A5040]/70 font-serif italic">(Témoin de Jean)</span>
                   </h5>
-                  <p className="text-xs text-[#5A5040] font-serif italic mt-0.5">Pour gérer les questions logistiques le Jour J</p>
-                  <a href="tel:+33699887766" className="inline-flex items-center gap-1.5 mt-2 text-xs font-mono font-semibold text-[#3B6FA0] hover:text-[#1A3A5C] transition-colors">
+                  <p className="text-xs text-[#5A5040] font-serif italic mt-0.5">Pour les questions logistiques</p>
+                  <a href="tel:+33642751588" className="inline-flex items-center gap-1.5 mt-2 text-xs font-mono font-semibold text-[#3B6FA0] hover:text-[#1A3A5C] transition-colors">
                     <Phone className="w-3.5 h-3.5" />
-                    <span>+33 6 99 88 77 66</span>
+                    <span>06 42 75 15 88</span>
                   </a>
                 </div>
               </div>
