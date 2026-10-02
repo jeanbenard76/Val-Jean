@@ -258,49 +258,49 @@ export default function App() {
 
         {/* OUR STORY PAGE */}
         {activePage === 'story' && (
-          <div id="story-page" className="py-8 animate-fade-in">
+          <div id="story-page" className="py-2 sm:py-8 animate-fade-in">
             <OurStory />
           </div>
         )}
 
         {/* PROGRAMME & ITINERARY PAGE */}
         {activePage === 'itinerary' && (
-          <div id="itinerary-page" className="py-8 animate-fade-in">
+          <div id="itinerary-page" className="py-2 sm:py-8 animate-fade-in">
             <InteractiveMapRoute onShowLodging={() => handlePageChange('lodging')} />
           </div>
         )}
 
         {/* LODGING PAGE */}
         {activePage === 'lodging' && (
-          <div id="lodging-page" className="py-8 animate-fade-in">
+          <div id="lodging-page" className="py-2 sm:py-8 animate-fade-in">
             <Lodging />
           </div>
         )}
 
         {/* REGISTRY PAGE */}
         {activePage === 'registry' && (
-          <div id="registry-page" className="py-8 animate-fade-in">
+          <div id="registry-page" className="py-2 sm:py-8 animate-fade-in">
             <Registry />
           </div>
         )}
 
         {/* RSVP FORM PAGE */}
         {activePage === 'rsvp' && (
-          <div id="rsvp-page" className="py-8 animate-fade-in">
+          <div id="rsvp-page" className="py-2 sm:py-8 animate-fade-in">
             <RSVPForm />
           </div>
         )}
 
         {/* CONTACT PAGE */}
         {activePage === 'contact' && (
-          <div id="contact-page" className="py-8 animate-fade-in">
+          <div id="contact-page" className="py-2 sm:py-8 animate-fade-in">
             <Contact />
           </div>
         )}
 
         {/* SECRET BRIDE & GROOM DASHBOARD PAGE */}
         {activePage === 'admin' && (
-          <div id="admin-dashboard-page" className="py-8 animate-fade-in">
+          <div id="admin-dashboard-page" className="py-2 sm:py-8 animate-fade-in">
             <SecretAdminDashboard onBackToHome={() => handlePageChange('home')} />
           </div>
         )}
