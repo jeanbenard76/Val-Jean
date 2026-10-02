@@ -273,11 +273,11 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
     <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 540px; margin: 0 auto; padding: 40px 20px; color: #1c2833; background-color: #ffffff;">
       
       <p style="font-size: 15px; font-weight: 300; margin-bottom: 24px; line-height: 1.8;">
-        Chère famille ${esc(data.familyName)},
+        Bonjour,
       </p>
       
       <p style="font-size: 15px; font-weight: 300; margin-bottom: 24px; line-height: 1.8;">
-        C’est avec une immense joie que nous avons pris connaissance de votre réponse. Nous vous remercions chaleureusement pour votre retour !
+        C’est avec une grande joie que nous avons pris connaissance de votre réponse. Nous vous remercions pour votre retour !
       </p>
       
       <p style="font-size: 15px; font-weight: 300; margin-bottom: 16px; line-height: 1.8;">
@@ -289,12 +289,11 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
       </div>
       
       <p style="font-size: 15px; font-weight: 300; margin-bottom: 40px; line-height: 1.8;">
-        Si le moindre imprévu venait modifier ces informations, n’hésitez pas à nous en faire part en répondant simplement à ce courriel.
+        Si le moindre imprévu venait modifier ces informations, n’hésitez pas à nous en faire part sur le site internet ou en répondant simplement à ce courriel.
       </p>
       
       <p style="font-size: 15px; font-weight: 300; line-height: 1.8;">
         Dans l’attente de célébrer ce moment précieux à vos côtés,<br><br>
-        Très affectueusement,<br><br>
         <span style="font-size: 17px; font-weight: 400; letter-spacing: 0.5px; color: #13263B;">Valentine & Jean</span>
       </p>
     </div>
@@ -364,7 +363,6 @@ export async function sendContactNotificationEmail(data: ContactMailPayload) {
       
       <p style="font-size: 15px; font-weight: 300; line-height: 1.8;">
         À très bientôt,<br><br>
-        Très affectueusement,<br><br>
         <span style="font-size: 17px; font-weight: 400; letter-spacing: 0.5px; color: #13263B;">Valentine & Jean</span>
       </p>
     </div>
