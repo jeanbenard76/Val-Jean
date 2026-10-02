@@ -215,7 +215,7 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
       let presenceHtml = "";
       
       if (!m.isAttending) {
-        presenceHtml = `<strong style="color: #991b1b;">❌ Ne sera malheureusement pas des nôtres</strong>`;
+        presenceHtml = `<span style="font-weight: 500; color: #64748B;">Ne sera malheureusement pas des nôtres</span>`;
       } else {
         const attendingEvents: string[] = [];
         const declinedEvents: string[] = [];
@@ -226,7 +226,7 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
           else declinedEvents.push("Vin d'Honneur");
         }
         
-        const invitedRepas = m.invitedTo?.repasNoces !== false; // In RSVP, default is often true if invitedTo is missing, but actually it's provided by the front
+        const invitedRepas = m.invitedTo?.repasNoces !== false;
         if (invitedRepas) {
           if (m.events?.repasNoces) attendingEvents.push("Repas de Noces");
           else declinedEvents.push("Repas de Noces");
@@ -251,15 +251,15 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
         };
         
         if (attendingEvents.length > 0) {
-          presenceHtml += `<strong style="color: #166534;">✅ Sera présent(e)</strong> ${formatAttending(attendingEvents)}`;
+          presenceHtml += `<span style="font-weight: 500; color: #13263B;">Sera présent(e)</span> ${formatAttending(attendingEvents)}`;
         }
         
         if (declinedEvents.length > 0) {
           if (presenceHtml !== "") presenceHtml += "<br>";
-          presenceHtml += `<strong style="color: #991b1b;">❌ Ne sera pas présent(e)</strong> ${formatDeclined(declinedEvents)}`;
+          presenceHtml += `<span style="font-weight: 500; color: #64748B;">Ne sera pas présent(e)</span> ${formatDeclined(declinedEvents)}`;
         }
         
-        if (presenceHtml === "") presenceHtml = `<strong style="color: #166534;">✅ Sera présent(e)</strong>`;
+        if (presenceHtml === "") presenceHtml = `<span style="font-weight: 500; color: #13263B;">Sera présent(e)</span>`;
       }
 
       return `<div style="margin-bottom: 16px; font-size: 15px;">
@@ -269,6 +269,11 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
     })
     .join("");
 
+  const anyAttending = data.members.some(m => m.isAttending);
+  const introText = anyAttending
+    ? "C’est avec une grande joie que nous avons pris connaissance de votre réponse. Nous vous remercions pour votre retour !"
+    : "Nous avons bien pris note de votre réponse. Nous regrettons de ne pas pouvoir vous compter parmi nous, mais nous vous remercions sincèrement d'avoir pris le temps de nous répondre.";
+
   const guestHtml = `
     <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 540px; margin: 0 auto; padding: 40px 20px; color: #1c2833; background-color: #ffffff;">
       
@@ -277,7 +282,7 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
       </p>
       
       <p style="font-size: 15px; font-weight: 300; margin-bottom: 24px; line-height: 1.8;">
-        C’est avec une grande joie que nous avons pris connaissance de votre réponse. Nous vous remercions pour votre retour !
+        ${introText}
       </p>
       
       <p style="font-size: 15px; font-weight: 300; margin-bottom: 16px; line-height: 1.8;">
