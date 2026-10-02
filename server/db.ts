@@ -105,11 +105,7 @@ export async function initDatabase(): Promise<Database> {
  * Sync initial invitation scopes for seeded families in existing database.
  */
 function syncInitialInvitations(database: Database): void {
-  // Famille Bénard: Vin d'Honneur uniquement
-  database.exec("UPDATE members SET invited_vin = 1, invited_repas = 0, invited_brunch = 0, repas_noces = 0, brunch_lendemain = 0 WHERE family_id = 'fam-benard'");
-  
-  // Famille Moreau: Vin d'Honneur et Repas de Noces, mais PAS de Brunch
-  database.exec("UPDATE members SET invited_vin = 1, invited_repas = 1, invited_brunch = 0, brunch_lendemain = 0 WHERE family_id = 'fam-moreau'");
+  // Ne rien faire (plus de familles de démo)
 }
 
 /**
@@ -131,88 +127,7 @@ export function saveDatabaseToDisk(): void {
  * Seed default families if database is empty.
  */
 function seedInitialFamilies(database: Database): void {
-  const res = database.exec('SELECT COUNT(*) as count FROM families');
-  const count = res[0]?.values[0]?.[0] as number;
-
-  if (count > 0) return;
-
-  console.log('[SQLite] Insertion de la liste d\'invités initiale...');
-
-  const initialFamilies = [
-    {
-      id: 'fam-benard',
-      familyName: 'Bénard',
-      email: 'jean.benard@exemple.fr',
-      members: [
-        { id: 'm-b1', firstName: 'Jean', lastName: 'Bénard', isChild: 0, isAttending: 1, vin: 1, repas: 0, brunch: 0 },
-        { id: 'm-b2', firstName: 'Valentine', lastName: 'Bénard', isChild: 0, isAttending: 1, vin: 1, repas: 0, brunch: 0 },
-        { id: 'm-b3', firstName: 'Lucas', lastName: 'Bénard', isChild: 1, age: 8, isAttending: 1, vin: 1, repas: 0, brunch: 0 },
-        { id: 'm-b4', firstName: 'Camille', lastName: 'Bénard', isChild: 1, age: 5, isAttending: 1, vin: 1, repas: 0, brunch: 0 },
-      ],
-    },
-    {
-      id: 'fam-chemlenhof',
-      familyName: 'Chem-Lenhof',
-      email: 'alex.chemlenhof@exemple.fr',
-      members: [
-        { id: 'm-c1', firstName: 'Alexandre', lastName: 'Chem-Lenhof', isChild: 0, isAttending: 1, vin: 1, repas: 1, brunch: 1 },
-        { id: 'm-c2', firstName: 'Élodie', lastName: 'Chem-Lenhof', isChild: 0, isAttending: 1, vin: 1, repas: 1, brunch: 1 },
-        { id: 'm-c3', firstName: 'Gabriel', lastName: 'Chem-Lenhof', isChild: 1, age: 6, isAttending: 1, vin: 1, repas: 1, brunch: 1 },
-      ],
-    },
-    {
-      id: 'fam-dubois',
-      familyName: 'Dubois',
-      email: 'pierre.dubois@exemple.fr',
-      members: [
-        { id: 'm-d1', firstName: 'Pierre', lastName: 'Dubois', isChild: 0, isAttending: 1, vin: 1, repas: 1, brunch: 1 },
-        { id: 'm-d2', firstName: 'Sophie', lastName: 'Dubois', isChild: 0, isAttending: 1, vin: 1, repas: 1, brunch: 1 },
-        { id: 'm-d3', firstName: 'Antoine', lastName: 'Dubois', isChild: 1, age: 11, isAttending: 1, vin: 1, repas: 1, brunch: 1 },
-        { id: 'm-d4', firstName: 'Léa', lastName: 'Dubois', isChild: 1, age: 4, isAttending: 1, vin: 1, repas: 1, brunch: 1 },
-      ],
-    },
-    {
-      id: 'fam-martin',
-      familyName: 'Martin',
-      email: 'nicolas.martin@exemple.fr',
-      members: [
-        { id: 'm-m1', firstName: 'Nicolas', lastName: 'Martin', isChild: 0, isAttending: 1, vin: 1, repas: 1, brunch: 1 },
-        { id: 'm-m2', firstName: 'Claire', lastName: 'Martin', isChild: 0, isAttending: 1, vin: 1, repas: 1, brunch: 1 },
-      ],
-    },
-    {
-      id: 'fam-moreau',
-      familyName: 'Moreau',
-      email: 'thomas.moreau@exemple.fr',
-      members: [
-        { id: 'm-mo1', firstName: 'Thomas', lastName: 'Moreau', isChild: 0, isAttending: 1, vin: 1, repas: 1, brunch: 0 },
-        { id: 'm-mo2', firstName: 'Charlotte', lastName: 'Moreau', isChild: 0, isAttending: 1, vin: 1, repas: 1, brunch: 0 },
-        { id: 'm-mo3', firstName: 'Emma', lastName: 'Moreau', isChild: 1, age: 7, isAttending: 1, vin: 1, repas: 1, brunch: 0 },
-      ],
-    },
-  ];
-
-  for (const fam of initialFamilies) {
-    database.run(
-      'INSERT INTO families (id, family_name, email) VALUES (?, ?, ?)',
-      [fam.id, fam.familyName, fam.email]
-    );
-
-    for (const m of fam.members) {
-      const invitedVin = (m as any).invitedVin !== undefined ? (m as any).invitedVin : ((m as any).vin !== undefined ? (m as any).vin : 1);
-      const invitedRepas = (m as any).invitedRepas !== undefined ? (m as any).invitedRepas : ((m as any).repas !== undefined ? (m as any).repas : 1);
-      const invitedBrunch = (m as any).invitedBrunch !== undefined ? (m as any).invitedBrunch : ((m as any).brunch !== undefined ? (m as any).brunch : 1);
-
-      database.run(
-        `INSERT INTO members (id, family_id, first_name, last_name, is_child, age, is_attending, invited_vin, invited_repas, invited_brunch, vin_honneur, repas_noces, brunch_lendemain)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [m.id, fam.id, m.firstName, m.lastName, m.isChild, m.age || null, m.isAttending, invitedVin, invitedRepas, invitedBrunch, m.vin, m.repas, m.brunch]
-      );
-    }
-  }
-
-  saveDatabaseToDisk();
-  console.log('[SQLite] Liste d\'invités initialisée avec succès dans wedding.db.');
+  // Base de données vierge, aucune famille de démo insérée
 }
 
 /**
