@@ -101,13 +101,20 @@ async function sendAll(mails: Parameters<typeof sendMail>[0][]) {
   });
 }
 
-function layout(title: string, content: string) {
+// Templates pour les emails envoyés aux mariés (fonctionnels et lisibles)
+function coupleLayout(title: string, content: string) {
   return `
-    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; background-color: #faf7f2;">
-      <h2 style="color: #13263B; margin-top: 0; border-bottom: 2px solid #C4A475; padding-bottom: 8px;">
-        ${title}
-      </h2>
-      ${content}
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 650px; margin: 0 auto; padding: 20px; background-color: #f8fafc;">
+      <div style="background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        <div style="background-color: #1e293b; padding: 16px 24px;">
+          <h2 style="color: #ffffff; margin: 0; font-size: 18px; font-weight: 500;">
+            ${title}
+          </h2>
+        </div>
+        <div style="padding: 24px;">
+          ${content}
+        </div>
+      </div>
     </div>
   `;
 }
@@ -143,47 +150,59 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
 
   const membersHtml = data.members
     .map((m) => {
-      const status = m.isAttending ? "✅ PRÉSENT(E)" : "❌ ABSENT(E)";
-      const type = m.isChild ? "Enfant" : "Adulte";
-      const dietaryText = m.dietaryNotes ? `<b>Régime :</b> ${esc(m.dietaryNotes)}` : "-";
+      const statusBadge = m.isAttending 
+        ? `<span style="display: inline-block; padding: 4px 8px; background-color: #dcfce7; color: #166534; border-radius: 4px; font-size: 12px; font-weight: bold;">✅ PRÉSENT(E)</span>` 
+        : `<span style="display: inline-block; padding: 4px 8px; background-color: #fee2e2; color: #991b1b; border-radius: 4px; font-size: 12px; font-weight: bold;">❌ ABSENT(E)</span>`;
+      
+      const type = m.isChild ? `<span style="color: #64748b; font-size: 12px;">(Enfant)</span>` : `<span style="color: #64748b; font-size: 12px;">(Adulte)</span>`;
+      const dietaryText = m.dietaryNotes ? `<span style="color: #b91c1c; font-weight: 500;">⚠️ ${esc(m.dietaryNotes)}</span>` : "-";
 
       return `
-        <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 10px; font-weight: bold; color: #13263B;">${esc(m.firstName)} ${esc(m.lastName)} (${type})</td>
-          <td style="padding: 10px; font-weight: bold; color: ${m.isAttending ? '#2e7d32' : '#c62828'};">${status}</td>
-          <td style="padding: 10px; color: #555;">${m.isAttending ? eventsOf(m) : '-'}</td>
-          <td style="padding: 10px; color: #555;">${dietaryText}</td>
+        <tr style="border-bottom: 1px solid #e2e8f0;">
+          <td style="padding: 12px 8px; color: #0f172a; font-weight: 500;">${esc(m.firstName)} ${esc(m.lastName)} ${type}</td>
+          <td style="padding: 12px 8px;">${statusBadge}</td>
+          <td style="padding: 12px 8px; color: #334155; font-size: 14px;">${m.isAttending ? eventsOf(m) : '-'}</td>
+          <td style="padding: 12px 8px; font-size: 14px;">${dietaryText}</td>
         </tr>
       `;
     })
     .join("");
 
-  const coupleHtml = layout("💍 Nouvelle Confirmation RSVP", `
-      <p style="font-size: 15px; color: #333;">
-        La <strong>Famille ${esc(data.familyName)}</strong> vient de soumettre sa réponse sur le site !
-      </p>
-
-      <div style="background-color: #ffffff; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid #e0dcd5;">
-        <p style="margin: 4px 0;"><strong>Famille :</strong> Famille ${esc(data.familyName)}</p>
-        <p style="margin: 4px 0;"><strong>Email de contact :</strong> <a href="mailto:${esc(data.email)}">${esc(data.email)}</a></p>
-        <p style="margin: 4px 0;"><strong>Bilan :</strong> ${attendingCount} présent(s) sur ${totalCount} invité(s)</p>
-        ${data.message ? `<p style="margin: 12px 0 4px 0; padding-top: 8px; border-top: 1px solid #eee;"><strong>Message des invités :</strong><br><em style="color: #3B6FA0;">« ${esc(data.message)} »</em></p>` : ''}
+  const coupleHtml = coupleLayout(`📝 RSVP : Famille ${esc(data.familyName)}`, `
+      <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
+        <div style="flex: 1; min-width: 200px; background-color: #f1f5f9; padding: 12px 16px; border-radius: 6px;">
+          <p style="margin: 0; font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">Contact</p>
+          <p style="margin: 4px 0 0 0; font-size: 15px; color: #0f172a; font-weight: 500;"><a href="mailto:${esc(data.email)}" style="color: #2563eb; text-decoration: none;">${esc(data.email)}</a></p>
+        </div>
+        <div style="flex: 1; min-width: 150px; background-color: #f1f5f9; padding: 12px 16px; border-radius: 6px;">
+          <p style="margin: 0; font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">Bilan</p>
+          <p style="margin: 4px 0 0 0; font-size: 15px; color: #0f172a; font-weight: 500;">${attendingCount} présent(s) sur ${totalCount}</p>
+        </div>
       </div>
 
-      <h3 style="color: #13263B; font-size: 16px; margin-top: 20px;">Détails des invités :</h3>
-      <table style="width: 100%; border-collapse: collapse; background-color: #ffffff; border-radius: 8px; overflow: hidden; font-size: 13px;">
-        <thead>
-          <tr style="background-color: #13263B; color: #ffffff; text-align: left;">
-            <th style="padding: 10px;">Membre</th>
-            <th style="padding: 10px;">Présence</th>
-            <th style="padding: 10px;">Événements</th>
-            <th style="padding: 10px;">Allergies / Régime</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${membersHtml}
-        </tbody>
-      </table>
+      ${data.message ? `
+        <div style="background-color: #eff6ff; border-left: 4px solid #3b82f6; padding: 16px; margin-bottom: 24px; border-radius: 0 6px 6px 0;">
+          <p style="margin: 0 0 8px 0; font-size: 12px; color: #1e3a8a; text-transform: uppercase; font-weight: bold;">Message joint</p>
+          <p style="margin: 0; font-size: 15px; color: #1e3a8a; font-style: italic; white-space: pre-line;">« ${esc(data.message)} »</p>
+        </div>
+      ` : ''}
+
+      <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #0f172a;">Détails par invité</h3>
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+          <thead>
+            <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+              <th style="padding: 10px 8px; font-size: 12px; text-transform: uppercase; color: #64748b;">Nom</th>
+              <th style="padding: 10px 8px; font-size: 12px; text-transform: uppercase; color: #64748b;">Statut</th>
+              <th style="padding: 10px 8px; font-size: 12px; text-transform: uppercase; color: #64748b;">Événements</th>
+              <th style="padding: 10px 8px; font-size: 12px; text-transform: uppercase; color: #64748b;">Régime / Allergies</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${membersHtml}
+          </tbody>
+        </table>
+      </div>
   `);
 
   const guestRecap = data.members
@@ -253,17 +272,25 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
 export async function sendContactNotificationEmail(data: ContactMailPayload) {
   const subjectLabel = CONTACT_SUBJECT_LABELS[data.subject] || data.subject || "Message";
 
-  const coupleHtml = layout("💌 Nouveau Message", `
-      <p style="font-size: 15px; color: #333;">
-        Vous avez reçu un nouveau message depuis le formulaire de contact du site.
-      </p>
-      <div style="background-color: #ffffff; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid #e0dcd5;">
-        <p style="margin: 4px 0;"><strong>Nom :</strong> ${esc(data.name)}</p>
-        <p style="margin: 4px 0;"><strong>Email :</strong> <a href="mailto:${esc(data.email)}">${esc(data.email)}</a></p>
-        <p style="margin: 4px 0;"><strong>Sujet :</strong> ${esc(subjectLabel)}</p>
-        <p style="margin: 12px 0 4px 0; padding-top: 8px; border-top: 1px solid #eee; white-space: pre-line;"><strong>Message :</strong><br><em style="color: #3B6FA0;">« ${esc(data.message)} »</em></p>
+  const coupleHtml = coupleLayout(`💌 Message : ${esc(subjectLabel)}`, `
+      <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
+        <div style="flex: 1; min-width: 200px; background-color: #f1f5f9; padding: 12px 16px; border-radius: 6px;">
+          <p style="margin: 0; font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">De</p>
+          <p style="margin: 4px 0 0 0; font-size: 15px; color: #0f172a; font-weight: 500;">${esc(data.name)}</p>
+        </div>
+        <div style="flex: 1; min-width: 200px; background-color: #f1f5f9; padding: 12px 16px; border-radius: 6px;">
+          <p style="margin: 0; font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">Email</p>
+          <p style="margin: 4px 0 0 0; font-size: 15px; color: #0f172a; font-weight: 500;"><a href="mailto:${esc(data.email)}" style="color: #2563eb; text-decoration: none;">${esc(data.email)}</a></p>
+        </div>
       </div>
-      <p style="font-size: 12px; color: #888;">Répondez directement à cet email pour écrire à ${esc(data.name)}.</p>
+
+      <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 6px; margin-bottom: 20px;">
+        <p style="margin: 0; font-size: 15px; color: #1e293b; line-height: 1.6; white-space: pre-line;">${esc(data.message)}</p>
+      </div>
+
+      <p style="margin: 0; font-size: 13px; color: #64748b;">
+        💡 <em>Astuce : Vous pouvez répondre directement à cet email pour envoyer un message à ${esc(data.name)}.</em>
+      </p>
   `);
 
   const guestHtml = `
