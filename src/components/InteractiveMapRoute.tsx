@@ -79,10 +79,10 @@ export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRou
       </div>
 
       {/* 2. DUAL GRID: ANIMATED PROGRESSIVE LOOPING RIBBON ON LEFT, NORMANDY MAP ON RIGHT */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch max-w-5xl mx-auto">
         
         {/* LEFT COLUMN (6 cols): PROGRESSIVE LOOPING THREAD + SHIFTED FRAMELESS TEXT */}
-        <div className="lg:col-span-6 flex flex-col justify-center relative pl-16 sm:pl-20 pr-2 py-4">
+        <div className="md:col-span-6 flex flex-col justify-center relative pl-16 sm:pl-20 pr-2 py-4">
           
           {/* SINGLE ANIMATED LOOPING THREAD (NO grey background line!) */}
           <div className="absolute left-0 top-2 bottom-2 w-14 pointer-events-none z-0">
@@ -136,7 +136,7 @@ export default function InteractiveMapRoute({ onShowLodging }: InteractiveMapRou
         </div>
 
         {/* RIGHT COLUMN (6 cols): FEATURED NORMANDY WATERCOLOR MAP ARTWORK */}
-        <div className="lg:col-span-6 flex flex-col justify-center h-full">
+        <div className="md:col-span-6 flex flex-col justify-center h-full">
           <div className="relative w-full h-full min-h-[340px] overflow-hidden rounded-3xl shadow-2xs border border-[#3B6FA0]/15">
             <img
               src={normandyMapImg}
