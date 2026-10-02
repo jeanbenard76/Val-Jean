@@ -4,6 +4,8 @@
  */
 
 import nodemailer, { type Transporter } from "nodemailer";
+import fs from "fs";
+import path from "path";
 
 export interface RSVPMailPayload {
   familyName: string;
@@ -73,7 +75,7 @@ function getTransporter(): Transporter | null {
   return transporter;
 }
 
-async function sendMail(mail: { to: string; subject: string; html: string; replyTo?: string }) {
+async function sendMail(mail: { to: string; subject: string; html: string; replyTo?: string; attachments?: any[] }) {
   const smtp = getTransporter();
   if (!smtp) {
     console.log(`[Mail] EMAIL_ADDRESS / EMAIL_PASSWORD absents : email non envoyé à ${mail.to} (« ${mail.subject} »)`);
@@ -109,6 +111,20 @@ function layout(title: string, content: string) {
     </div>
   `;
 }
+
+function getImagePath() {
+  const distPath = path.join(process.cwd(), "dist", "toile_de_jouy_mail.jpg");
+  if (fs.existsSync(distPath)) return distPath;
+  return path.join(process.cwd(), "public", "toile_de_jouy_mail.jpg");
+}
+
+const defaultAttachments = [
+  {
+    filename: "toile_de_jouy.jpg",
+    path: getImagePath(),
+    cid: "toileDeJouy",
+  }
+];
 
 function eventsOf(m: RSVPMailPayload["members"][number]) {
   const events = [];
@@ -172,25 +188,45 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
 
   const guestRecap = data.members
     .map((m) =>
-      `<li style="margin: 4px 0;"><strong>${esc(m.firstName)} ${esc(m.lastName)}</strong> : ${
-        m.isAttending ? `présent(e) — ${eventsOf(m)}` : "absent(e)"
-      }</li>`
+      `<li style="margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between;">
+        <strong style="display: inline-block;">${esc(m.firstName)} ${esc(m.lastName)}</strong> 
+        <span style="color: ${m.isAttending ? '#13263B' : '#718096'}; font-style: ${m.isAttending ? 'normal' : 'italic'};">
+          ${m.isAttending ? `Présent(e) — ${eventsOf(m)}` : "Ne sera pas présent(e)"}
+        </span>
+      </li>`
     )
     .join("");
 
-  const guestHtml = layout("💍 Votre réponse est bien enregistrée", `
-      <p style="font-size: 15px; color: #333;">Bonjour Famille ${esc(data.familyName)},</p>
-      <p style="font-size: 15px; color: #333;">
-        Merci pour votre réponse ! Voici le récapitulatif de ce que vous nous avez indiqué :
-      </p>
-      <ul style="background-color: #ffffff; padding: 16px 16px 16px 32px; border-radius: 8px; border: 1px solid #e0dcd5; font-size: 14px; color: #13263B;">
-        ${guestRecap}
-      </ul>
-      <p style="font-size: 14px; color: #333;">
-        Une erreur ou un changement ? Répondez simplement à cet email.
-      </p>
-      <p style="font-size: 15px; color: #13263B;">Avec toute notre affection,<br><strong>Valentine &amp; Jean</strong></p>
-  `);
+  const guestHtml = `
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #faf7f2; overflow: hidden; border: 1px solid #e2e8f0; border-radius: 8px;">
+      <img src="cid:toileDeJouy" alt="Mariage de Valentine & Jean" style="width: 100%; height: auto; display: block;" />
+      
+      <div style="padding: 40px 30px;">
+        <h2 style="color: #13263B; font-size: 20px; font-weight: normal; margin-top: 0; text-align: center; letter-spacing: 0.5px;">
+          Merci pour votre réponse !
+        </h2>
+        
+        <p style="font-size: 15px; color: #4a5568; line-height: 1.6; text-align: center; margin-bottom: 30px; margin-top: 20px;">
+          Nous avons bien enregistré votre retour pour notre mariage. Voici le récapitulatif de ce que vous nous avez indiqué :
+        </p>
+        
+        <div style="background-color: #ffffff; padding: 20px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+          <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; color: #13263B;">
+            ${guestRecap}
+          </ul>
+        </div>
+        
+        <p style="font-size: 13px; color: #718096; margin-top: 30px; text-align: center; line-height: 1.5;">
+          Un changement de programme ? Il vous suffit de répondre directement à cet email.
+        </p>
+        
+        <div style="text-align: center; margin-top: 40px;">
+          <p style="font-size: 14px; color: #13263B; margin: 0;">Avec toute notre affection,</p>
+          <p style="font-size: 16px; color: #13263B; font-weight: bold; margin: 5px 0 0 0;">Valentine & Jean</p>
+        </div>
+      </div>
+    </div>
+  `;
 
   await sendAll([
     {
@@ -202,8 +238,9 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
     {
       to: data.email,
       replyTo: COUPLE_RSVP_ADDRESS,
-      subject: "Votre réponse au mariage de Valentine & Jean",
+      subject: "[RSVP Mariage de Valentine & Jean] Merci pour votre réponse.",
       html: guestHtml,
+      attachments: defaultAttachments,
     },
   ]);
 }
@@ -227,27 +264,48 @@ export async function sendContactNotificationEmail(data: ContactMailPayload) {
       <p style="font-size: 12px; color: #888;">Répondez directement à cet email pour écrire à ${esc(data.name)}.</p>
   `);
 
-  const guestHtml = layout("💌 Message bien reçu", `
-      <p style="font-size: 15px; color: #333;">Bonjour ${esc(data.name)},</p>
-      <p style="font-size: 15px; color: #333;">
-        Merci de nous avoir écrit ! Nous avons bien reçu votre message et nous vous répondrons très vite.
-      </p>
-      <div style="background-color: #ffffff; padding: 16px; border-radius: 8px; margin: 16px 0; border: 1px solid #e0dcd5; white-space: pre-line; color: #3B6FA0; font-style: italic;">« ${esc(data.message)} »</div>
-      <p style="font-size: 15px; color: #13263B;">Avec toute notre affection,<br><strong>Valentine &amp; Jean</strong></p>
-  `);
+  const guestHtml = `
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #faf7f2; overflow: hidden; border: 1px solid #e2e8f0; border-radius: 8px;">
+      <img src="cid:toileDeJouy" alt="Mariage de Valentine & Jean" style="width: 100%; height: auto; display: block;" />
+      
+      <div style="padding: 40px 30px;">
+        <h2 style="color: #13263B; font-size: 20px; font-weight: normal; margin-top: 0; text-align: center; letter-spacing: 0.5px;">
+          Message bien reçu !
+        </h2>
+        
+        <p style="font-size: 15px; color: #4a5568; line-height: 1.6; text-align: center; margin-bottom: 10px; margin-top: 20px;">
+          Bonjour ${esc(data.name)},
+        </p>
+        
+        <p style="font-size: 15px; color: #4a5568; line-height: 1.6; text-align: center; margin-bottom: 30px; margin-top: 0;">
+          Merci de nous avoir écrit. Nous avons bien reçu votre message et reviendrons vers vous rapidement.
+        </p>
+        
+        <div style="background-color: #ffffff; padding: 20px; border-radius: 6px; border: 1px solid #e0dcd5; font-style: italic; color: #4a5568; font-size: 14px; white-space: pre-line; text-align: center;">
+          « ${esc(data.message)} »
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+          <p style="font-size: 14px; color: #13263B; margin: 0;">À très vite,</p>
+          <p style="font-size: 16px; color: #13263B; font-weight: bold; margin: 5px 0 0 0;">Valentine & Jean</p>
+        </div>
+      </div>
+    </div>
+  `;
 
   await sendAll([
     {
       to: COUPLE_CONTACT_ADDRESS,
       replyTo: data.email,
-      subject: `💌 Message de ${data.name} : ${subjectLabel}`,
+      subject: `[${subjectLabel}] Message de contact de ${data.name}`,
       html: coupleHtml,
     },
     {
       to: data.email,
       replyTo: COUPLE_CONTACT_ADDRESS,
-      subject: "Votre message à Valentine & Jean",
+      subject: "[Mariage Valentine & Jean] Accusé réception de votre message",
       html: guestHtml,
+      attachments: defaultAttachments,
     },
   ]);
 }
