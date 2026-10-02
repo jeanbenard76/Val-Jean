@@ -215,7 +215,7 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
       let presenceHtml = "";
       
       if (!m.isAttending) {
-        presenceHtml = "Ne sera malheureusement pas des nôtres";
+        presenceHtml = `<strong style="color: #991b1b;">❌ Ne sera malheureusement pas des nôtres</strong>`;
       } else {
         const attendingEvents: string[] = [];
         const declinedEvents: string[] = [];
@@ -251,15 +251,15 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
         };
         
         if (attendingEvents.length > 0) {
-          presenceHtml += `Sera parmi nous ${formatAttending(attendingEvents)}`;
+          presenceHtml += `<strong style="color: #166534;">✅ Sera présent(e)</strong> ${formatAttending(attendingEvents)}`;
         }
         
         if (declinedEvents.length > 0) {
           if (presenceHtml !== "") presenceHtml += "<br>";
-          presenceHtml += `Ne sera pas parmi nous ${formatDeclined(declinedEvents)}`;
+          presenceHtml += `<strong style="color: #991b1b;">❌ Ne sera pas présent(e)</strong> ${formatDeclined(declinedEvents)}`;
         }
         
-        if (presenceHtml === "") presenceHtml = "Sera parmi nous";
+        if (presenceHtml === "") presenceHtml = `<strong style="color: #166534;">✅ Sera présent(e)</strong>`;
       }
 
       return `<div style="margin-bottom: 16px; font-size: 15px;">
@@ -271,9 +271,6 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
 
   const guestHtml = `
     <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 540px; margin: 0 auto; padding: 40px 20px; color: #1c2833; background-color: #ffffff;">
-      <div style="text-align: center; margin-bottom: 40px;">
-        <img src="cid:toileDeJouy" alt="Valentine & Jean" style="max-width: 100%; height: auto; border-radius: 4px;" />
-      </div>
       
       <p style="font-size: 15px; font-weight: 300; margin-bottom: 24px; line-height: 1.8;">
         Chère famille ${esc(data.familyName)},
@@ -315,7 +312,6 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
       replyTo: COUPLE_RSVP_ADDRESS,
       subject: "[RSVP Mariage de Valentine & Jean] Merci pour votre réponse.",
       html: guestHtml,
-      attachments: defaultAttachments,
     },
   ]);
 }
@@ -349,9 +345,6 @@ export async function sendContactNotificationEmail(data: ContactMailPayload) {
 
   const guestHtml = `
     <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 540px; margin: 0 auto; padding: 40px 20px; color: #1c2833; background-color: #ffffff;">
-      <div style="text-align: center; margin-bottom: 40px;">
-        <img src="cid:toileDeJouy" alt="Valentine & Jean" style="max-width: 100%; height: auto; border-radius: 4px;" />
-      </div>
       
       <p style="font-size: 15px; font-weight: 300; margin-bottom: 24px; line-height: 1.8;">
         Bonjour ${esc(data.name)},
@@ -389,7 +382,6 @@ export async function sendContactNotificationEmail(data: ContactMailPayload) {
       replyTo: COUPLE_CONTACT_ADDRESS,
       subject: "[Mariage Valentine & Jean] Accusé réception de votre message",
       html: guestHtml,
-      attachments: defaultAttachments,
     },
   ]);
 }
