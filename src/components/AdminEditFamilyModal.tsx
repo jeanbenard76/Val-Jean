@@ -133,8 +133,7 @@ export default function AdminEditFamilyModal({ family, onClose, onSuccess, admin
               
               <select value={m.isBaby ? 'baby' : (m.isChild ? 'child' : 'adult')} onChange={e => {
                 const val = e.target.value;
-                updateMember(m.id, 'isBaby', val === 'baby');
-                updateMember(m.id, 'isChild', val === 'child');
+                setMembers(members.map(mem => mem.id === m.id ? { ...mem, isBaby: val === 'baby', isChild: val === 'child' } : mem));
               }} className="px-2 py-1.5 border rounded text-xs">
                 <option value="adult">Adulte</option>
                 <option value="child">Enfant</option>
