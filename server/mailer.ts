@@ -173,43 +173,6 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
     })
     .join("");
 
-  const coupleHtml = coupleLayout(`📝 RSVP : Famille ${esc(data.familyName)}`, `
-      <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
-        <div style="flex: 1; min-width: 200px; background-color: #f1f5f9; padding: 12px 16px; border-radius: 6px;">
-          <p style="margin: 0; font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">Contact</p>
-          <p style="margin: 4px 0 0 0; font-size: 15px; color: #0f172a; font-weight: 500;"><a href="mailto:${esc(data.email)}" style="color: #2563eb; text-decoration: none;">${esc(data.email)}</a></p>
-        </div>
-        <div style="flex: 1; min-width: 150px; background-color: #f1f5f9; padding: 12px 16px; border-radius: 6px;">
-          <p style="margin: 0; font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">Bilan</p>
-          <p style="margin: 4px 0 0 0; font-size: 15px; color: #0f172a; font-weight: 500;">${attendingCount} présent(s) sur ${totalCount}</p>
-        </div>
-      </div>
-
-      ${data.message ? `
-        <div style="background-color: #eff6ff; border-left: 4px solid #3b82f6; padding: 16px; margin-bottom: 24px; border-radius: 0 6px 6px 0;">
-          <p style="margin: 0 0 8px 0; font-size: 12px; color: #1e3a8a; text-transform: uppercase; font-weight: bold;">Message joint</p>
-          <p style="margin: 0; font-size: 15px; color: #1e3a8a; font-style: italic; white-space: pre-line;">« ${esc(data.message)} »</p>
-        </div>
-      ` : ''}
-
-      <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #0f172a;">Détails par invité</h3>
-      <div style="overflow-x: auto;">
-        <table style="width: 100%; border-collapse: collapse; text-align: left;">
-          <thead>
-            <tr style="background-color: #f8fafc; border-bottom: 2px solid #e2e8f0;">
-              <th style="padding: 10px 8px; font-size: 12px; text-transform: uppercase; color: #64748b;">Nom</th>
-              <th style="padding: 10px 8px; font-size: 12px; text-transform: uppercase; color: #64748b;">Statut</th>
-              <th style="padding: 10px 8px; font-size: 12px; text-transform: uppercase; color: #64748b;">Événements</th>
-              <th style="padding: 10px 8px; font-size: 12px; text-transform: uppercase; color: #64748b;">Régime / Allergies</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${membersHtml}
-          </tbody>
-        </table>
-      </div>
-  `);
-
   const guestRecap = data.members
     .map((m) => {
       let presenceHtml = "";
@@ -274,9 +237,28 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
     ? "C’est avec une grande joie que nous avons pris connaissance de votre réponse. Nous vous remercions pour votre retour !"
     : "Nous avons bien pris note de votre réponse. Nous regrettons de ne pas pouvoir vous compter parmi nous, mais nous vous remercions sincèrement d'avoir pris le temps de nous répondre.";
 
-  const guestHtml = `
-    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 540px; margin: 0 auto; padding: 40px 20px; color: #1c2833; background-color: #ffffff;">
-      
+  const coupleHeaderHtml = `
+      <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
+        <div style="flex: 1; min-width: 200px; background-color: #f1f5f9; padding: 12px 16px; border-radius: 6px;">
+          <p style="margin: 0; font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">Contact</p>
+          <p style="margin: 4px 0 0 0; font-size: 15px; color: #0f172a; font-weight: 500;"><a href="mailto:${esc(data.email)}" style="color: #2563eb; text-decoration: none;">${esc(data.email)}</a></p>
+        </div>
+        <div style="flex: 1; min-width: 150px; background-color: #f1f5f9; padding: 12px 16px; border-radius: 6px;">
+          <p style="margin: 0; font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 600;">Bilan</p>
+          <p style="margin: 4px 0 0 0; font-size: 15px; color: #0f172a; font-weight: 500;">${attendingCount} présent(s) sur ${totalCount}</p>
+        </div>
+      </div>
+
+      ${data.message ? `
+        <div style="background-color: #eff6ff; border-left: 4px solid #3b82f6; padding: 16px; margin-bottom: 24px; border-radius: 0 6px 6px 0;">
+          <p style="margin: 0 0 8px 0; font-size: 12px; color: #1e3a8a; text-transform: uppercase; font-weight: bold;">Message joint</p>
+          <p style="margin: 0; font-size: 15px; color: #1e3a8a; font-style: italic; white-space: pre-line;">« ${esc(data.message)} »</p>
+        </div>
+      ` : ''}
+      <hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 24px;" />
+  `;
+
+  const guestBodyHtml = `
       <p style="font-size: 15px; font-weight: 300; margin-bottom: 24px; line-height: 1.8;">
         Bonjour,
       </p>
@@ -301,6 +283,18 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
         Dans l’attente de célébrer ce moment précieux à vos côtés,<br><br>
         <span style="font-size: 17px; font-weight: 400; letter-spacing: 0.5px; color: #13263B;">Valentine & Jean</span>
       </p>
+  `;
+
+  const guestHtml = `
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 540px; margin: 0 auto; padding: 40px 20px; color: #1c2833; background-color: #ffffff;">
+      ${guestBodyHtml}
+    </div>
+  `;
+
+  const coupleHtml = `
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 540px; margin: 0 auto; padding: 40px 20px; color: #1c2833; background-color: #ffffff;">
+      ${coupleHeaderHtml}
+      ${guestBodyHtml}
     </div>
   `;
 
