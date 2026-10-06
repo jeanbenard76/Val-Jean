@@ -222,12 +222,36 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
     let totalNotRespondedMembers = 0;
     let totalAbsentAdults = 0, totalAbsentChildren = 0, totalAbsentBabies = 0;
 
+    let totalInvitedAdults = 0, totalInvitedChildren = 0, totalInvitedBabies = 0;
+    let vinInvitedAdults = 0, vinInvitedChildren = 0, vinInvitedBabies = 0;
+    let repasInvitedAdults = 0, repasInvitedChildren = 0, repasInvitedBabies = 0;
+    let brunchInvitedAdults = 0, brunchInvitedChildren = 0, brunchInvitedBabies = 0;
+
     families.forEach((fam) => {
       fam.members.forEach((m) => {
+        if (m.isBaby) totalInvitedBabies++;
+        else if (m.isChild) totalInvitedChildren++;
+        else totalInvitedAdults++;
+
         // Un membre est invité par défaut au vin d'honneur s'il n'y a pas d'exclusion explicite
-        if (m.invitedTo?.vinHonneur !== false) vinInvited++;
-        if (m.invitedTo?.repasNoces || m.events?.repasNoces) repasInvited++;
-        if (m.invitedTo?.brunchLendemain || m.events?.brunchLendemain) brunchInvited++;
+        if (m.invitedTo?.vinHonneur !== false) {
+          vinInvited++;
+          if (m.isBaby) vinInvitedBabies++;
+          else if (m.isChild) vinInvitedChildren++;
+          else vinInvitedAdults++;
+        }
+        if (m.invitedTo?.repasNoces || m.events?.repasNoces) {
+          repasInvited++;
+          if (m.isBaby) repasInvitedBabies++;
+          else if (m.isChild) repasInvitedChildren++;
+          else repasInvitedAdults++;
+        }
+        if (m.invitedTo?.brunchLendemain || m.events?.brunchLendemain) {
+          brunchInvited++;
+          if (m.isBaby) brunchInvitedBabies++;
+          else if (m.isChild) brunchInvitedChildren++;
+          else brunchInvitedAdults++;
+        }
       });
 
       const isResponded = Boolean(
@@ -290,6 +314,18 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
       vinInvited,
       repasInvited,
       brunchInvited,
+      totalInvitedAdults,
+      totalInvitedChildren,
+      totalInvitedBabies,
+      vinInvitedAdults,
+      vinInvitedChildren,
+      vinInvitedBabies,
+      repasInvitedAdults,
+      repasInvitedChildren,
+      repasInvitedBabies,
+      brunchInvitedAdults,
+      brunchInvitedChildren,
+      brunchInvitedBabies,
       totalRespondedMembers,
       totalNotRespondedMembers,
       totalAbsentAdults,
@@ -434,15 +470,15 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
             <div className="pt-2 border-t border-slate-100 text-xs text-[#5A5040] font-sans space-y-0.5">
               <div className="flex justify-between">
                 <span>Adultes :</span>
-                <strong className="text-[#13263B]">{eventBreakdown.totalAdultsAttending}</strong>
+                <strong className="text-[#13263B]">{eventBreakdown.totalAdultsAttending} <span className="font-normal text-slate-400">/ {eventBreakdown.totalInvitedAdults}</span></strong>
               </div>
               <div className="flex justify-between">
                 <span>Enfants :</span>
-                <strong className="text-[#C4A475]">{eventBreakdown.totalChildrenAttending}</strong>
+                <strong className="text-[#C4A475]">{eventBreakdown.totalChildrenAttending} <span className="font-normal text-slate-400">/ {eventBreakdown.totalInvitedChildren}</span></strong>
               </div>
               <div className="flex justify-between">
                 <span>Bébés :</span>
-                <strong className="text-slate-400">{eventBreakdown.totalBabiesAttending}</strong>
+                <strong className="text-slate-500">{eventBreakdown.totalBabiesAttending} <span className="font-normal text-slate-400">/ {eventBreakdown.totalInvitedBabies}</span></strong>
               </div>
             </div>
           </div>
@@ -461,15 +497,15 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
             <div className="pt-2 border-t border-slate-100 text-xs text-[#5A5040] font-sans space-y-0.5">
               <div className="flex justify-between">
                 <span>Adultes :</span>
-                <strong className="text-[#13263B]">{eventBreakdown.vinAdults}</strong>
+                <strong className="text-[#13263B]">{eventBreakdown.vinAdults} <span className="font-normal text-slate-400">/ {eventBreakdown.vinInvitedAdults}</span></strong>
               </div>
               <div className="flex justify-between">
                 <span>Enfants :</span>
-                <strong className="text-[#C4A475]">{eventBreakdown.vinChildren}</strong>
+                <strong className="text-[#C4A475]">{eventBreakdown.vinChildren} <span className="font-normal text-slate-400">/ {eventBreakdown.vinInvitedChildren}</span></strong>
               </div>
               <div className="flex justify-between">
                 <span>Bébés :</span>
-                <strong className="text-slate-400">{eventBreakdown.vinBabies}</strong>
+                <strong className="text-slate-500">{eventBreakdown.vinBabies} <span className="font-normal text-slate-400">/ {eventBreakdown.vinInvitedBabies}</span></strong>
               </div>
             </div>
           </div>
@@ -488,15 +524,15 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
             <div className="pt-2 border-t border-slate-100 text-xs text-[#5A5040] font-sans space-y-0.5">
               <div className="flex justify-between">
                 <span>Adultes :</span>
-                <strong className="text-[#13263B]">{eventBreakdown.repasAdults}</strong>
+                <strong className="text-[#13263B]">{eventBreakdown.repasAdults} <span className="font-normal text-slate-400">/ {eventBreakdown.repasInvitedAdults}</span></strong>
               </div>
               <div className="flex justify-between">
                 <span>Enfants :</span>
-                <strong className="text-[#C4A475]">{eventBreakdown.repasChildren}</strong>
+                <strong className="text-[#C4A475]">{eventBreakdown.repasChildren} <span className="font-normal text-slate-400">/ {eventBreakdown.repasInvitedChildren}</span></strong>
               </div>
               <div className="flex justify-between">
                 <span>Bébés :</span>
-                <strong className="text-slate-400">{eventBreakdown.repasBabies}</strong>
+                <strong className="text-slate-500">{eventBreakdown.repasBabies} <span className="font-normal text-slate-400">/ {eventBreakdown.repasInvitedBabies}</span></strong>
               </div>
             </div>
           </div>
@@ -515,15 +551,15 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
             <div className="pt-2 border-t border-slate-100 text-xs text-[#5A5040] font-sans space-y-0.5">
               <div className="flex justify-between">
                 <span>Adultes :</span>
-                <strong className="text-[#13263B]">{eventBreakdown.brunchAdults}</strong>
+                <strong className="text-[#13263B]">{eventBreakdown.brunchAdults} <span className="font-normal text-slate-400">/ {eventBreakdown.brunchInvitedAdults}</span></strong>
               </div>
               <div className="flex justify-between">
                 <span>Enfants :</span>
-                <strong className="text-[#C4A475]">{eventBreakdown.brunchChildren}</strong>
+                <strong className="text-[#C4A475]">{eventBreakdown.brunchChildren} <span className="font-normal text-slate-400">/ {eventBreakdown.brunchInvitedChildren}</span></strong>
               </div>
               <div className="flex justify-between">
                 <span>Bébés :</span>
-                <strong className="text-slate-400">{eventBreakdown.brunchBabies}</strong>
+                <strong className="text-slate-500">{eventBreakdown.brunchBabies} <span className="font-normal text-slate-400">/ {eventBreakdown.brunchInvitedBabies}</span></strong>
               </div>
             </div>
           </div>
