@@ -213,14 +213,14 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
 
   // Compute breakdown of Adults & Children per Event
   const eventBreakdown = useMemo(() => {
-    let vinAdults = 0, vinChildren = 0;
-    let repasAdults = 0, repasChildren = 0;
-    let brunchAdults = 0, brunchChildren = 0;
-    let totalAdultsAttending = 0, totalChildrenAttending = 0;
+    let vinAdults = 0, vinChildren = 0, vinBabies = 0;
+    let repasAdults = 0, repasChildren = 0, repasBabies = 0;
+    let brunchAdults = 0, brunchChildren = 0, brunchBabies = 0;
+    let totalAdultsAttending = 0, totalChildrenAttending = 0, totalBabiesAttending = 0;
     let vinInvited = 0, repasInvited = 0, brunchInvited = 0;
     let totalRespondedMembers = 0;
     let totalNotRespondedMembers = 0;
-    let totalAbsentAdults = 0, totalAbsentChildren = 0;
+    let totalAbsentAdults = 0, totalAbsentChildren = 0, totalAbsentBabies = 0;
 
     families.forEach((fam) => {
       fam.members.forEach((m) => {
@@ -242,23 +242,28 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
         fam.members.forEach((m) => {
           totalRespondedMembers++;
           if (m.isAttending) {
-            if (m.isChild) totalChildrenAttending++;
+            if (m.isBaby) totalBabiesAttending++;
+            else if (m.isChild) totalChildrenAttending++;
             else totalAdultsAttending++;
 
             if (m.events?.vinHonneur) {
-              if (m.isChild) vinChildren++;
+              if (m.isBaby) vinBabies++;
+              else if (m.isChild) vinChildren++;
               else vinAdults++;
             }
             if (m.events?.repasNoces) {
-              if (m.isChild) repasChildren++;
+              if (m.isBaby) repasBabies++;
+              else if (m.isChild) repasChildren++;
               else repasAdults++;
             }
             if (m.events?.brunchLendemain) {
-              if (m.isChild) brunchChildren++;
+              if (m.isBaby) brunchBabies++;
+              else if (m.isChild) brunchChildren++;
               else brunchAdults++;
             }
           } else {
-            if (m.isChild) totalAbsentChildren++;
+            if (m.isBaby) totalAbsentBabies++;
+            else if (m.isChild) totalAbsentChildren++;
             else totalAbsentAdults++;
           }
         });
@@ -272,19 +277,24 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
     return {
       totalAdultsAttending,
       totalChildrenAttending,
+      totalBabiesAttending,
       vinAdults,
       vinChildren,
+      vinBabies,
       repasAdults,
       repasChildren,
+      repasBabies,
       brunchAdults,
       brunchChildren,
+      brunchBabies,
       vinInvited,
       repasInvited,
       brunchInvited,
       totalRespondedMembers,
       totalNotRespondedMembers,
       totalAbsentAdults,
-      totalAbsentChildren
+      totalAbsentChildren,
+      totalAbsentBabies
     };
   }, [families]);
 
@@ -403,7 +413,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
               </div>
               <div className="flex justify-between">
                 <span>Absents déclarés :</span>
-                <strong className="text-rose-600">{eventBreakdown.totalAbsentAdults + eventBreakdown.totalAbsentChildren}</strong>
+                <strong className="text-rose-600">{eventBreakdown.totalAbsentAdults + eventBreakdown.totalAbsentChildren + eventBreakdown.totalAbsentBabies}</strong>
               </div>
             </div>
           </div>
@@ -415,7 +425,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
             </span>
             <div className="flex items-baseline justify-between">
               <span className="font-display text-3xl font-bold text-[#13263B]">
-                {eventBreakdown.totalAdultsAttending + eventBreakdown.totalChildrenAttending}
+                {eventBreakdown.totalAdultsAttending + eventBreakdown.totalChildrenAttending + eventBreakdown.totalBabiesAttending}
               </span>
               <span className="text-xs font-mono text-slate-500">
                 / {stats?.totalInvited || 0} invités
@@ -430,6 +440,10 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
                 <span>Enfants :</span>
                 <strong className="text-[#C4A475]">{eventBreakdown.totalChildrenAttending}</strong>
               </div>
+              <div className="flex justify-between">
+                <span>Bébés :</span>
+                <strong className="text-slate-400">{eventBreakdown.totalBabiesAttending}</strong>
+              </div>
             </div>
           </div>
 
@@ -440,7 +454,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
             </span>
             <div className="flex items-baseline justify-between">
               <span className="font-display text-3xl font-bold text-[#13263B]">
-                {eventBreakdown.vinAdults + eventBreakdown.vinChildren}
+                {eventBreakdown.vinAdults + eventBreakdown.vinChildren + eventBreakdown.vinBabies}
               </span>
               <span className="text-xs font-mono text-slate-500">/ {eventBreakdown.vinInvited} invités</span>
             </div>
@@ -453,6 +467,10 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
                 <span>Enfants :</span>
                 <strong className="text-[#C4A475]">{eventBreakdown.vinChildren}</strong>
               </div>
+              <div className="flex justify-between">
+                <span>Bébés :</span>
+                <strong className="text-slate-400">{eventBreakdown.vinBabies}</strong>
+              </div>
             </div>
           </div>
 
@@ -463,7 +481,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
             </span>
             <div className="flex items-baseline justify-between">
               <span className="font-display text-3xl font-bold text-[#C4A475]">
-                {eventBreakdown.repasAdults + eventBreakdown.repasChildren}
+                {eventBreakdown.repasAdults + eventBreakdown.repasChildren + eventBreakdown.repasBabies}
               </span>
               <span className="text-xs font-mono text-slate-500">/ {eventBreakdown.repasInvited} invités</span>
             </div>
@@ -476,6 +494,10 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
                 <span>Enfants :</span>
                 <strong className="text-[#C4A475]">{eventBreakdown.repasChildren}</strong>
               </div>
+              <div className="flex justify-between">
+                <span>Bébés :</span>
+                <strong className="text-slate-400">{eventBreakdown.repasBabies}</strong>
+              </div>
             </div>
           </div>
 
@@ -486,7 +508,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
             </span>
             <div className="flex items-baseline justify-between">
               <span className="font-display text-3xl font-bold text-amber-800">
-                {eventBreakdown.brunchAdults + eventBreakdown.brunchChildren}
+                {eventBreakdown.brunchAdults + eventBreakdown.brunchChildren + eventBreakdown.brunchBabies}
               </span>
               <span className="text-xs font-mono text-slate-500">/ {eventBreakdown.brunchInvited} invités</span>
             </div>
@@ -498,6 +520,10 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
               <div className="flex justify-between">
                 <span>Enfants :</span>
                 <strong className="text-[#C4A475]">{eventBreakdown.brunchChildren}</strong>
+              </div>
+              <div className="flex justify-between">
+                <span>Bébés :</span>
+                <strong className="text-slate-400">{eventBreakdown.brunchBabies}</strong>
               </div>
             </div>
           </div>

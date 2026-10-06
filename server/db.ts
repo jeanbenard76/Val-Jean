@@ -184,13 +184,13 @@ export function getAllFamiliesWithMembers() {
     }
 
     const rsvpRes = db!.exec(
-      "SELECT created_at, message FROM rsvps WHERE family_id = ? OR LOWER(family_name) = LOWER(?) ORDER BY created_at DESC LIMIT 1",
-      [fam.id, fam.family_name]
+      "SELECT created_at, message FROM rsvps WHERE family_id = ? ORDER BY created_at DESC LIMIT 1",
+      [fam.id]
     );
 
     const countRes = db!.exec(
-      "SELECT COUNT(*) FROM rsvps WHERE family_id = ? OR LOWER(family_name) = LOWER(?)",
-      [fam.id, fam.family_name]
+      "SELECT COUNT(*) FROM rsvps WHERE family_id = ?",
+      [fam.id]
     );
     const rsvpCount = countRes.length && countRes[0].values.length > 0 ? Number(countRes[0].values[0][0]) : 0;
 
@@ -322,6 +322,7 @@ export function getStats() {
   let totalInvited = 0;
   let totalAttendingAdults = 0;
   let totalAttendingChildren = 0;
+  let totalAttendingBabies = 0;
   let totalVinHonneur = 0;
   let totalRepasNoces = 0;
   let totalBrunch = 0;
@@ -334,7 +335,8 @@ export function getStats() {
       totalRespondedFamilies++;
       fam.members.forEach((m: any) => {
         if (m.isAttending) {
-          if (m.isChild) totalAttendingChildren++;
+          if (m.isBaby) totalAttendingBabies++;
+          else if (m.isChild) totalAttendingChildren++;
           else totalAttendingAdults++;
 
           if (m.events?.vinHonneur) totalVinHonneur++;
@@ -351,7 +353,8 @@ export function getStats() {
     totalInvited,
     totalAttendingAdults,
     totalAttendingChildren,
-    totalAttending: totalAttendingAdults + totalAttendingChildren,
+    totalAttendingBabies,
+    totalAttending: totalAttendingAdults + totalAttendingChildren + totalAttendingBabies,
     totalVinHonneur,
     totalRepasNoces,
     totalBrunch,
