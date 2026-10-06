@@ -35,8 +35,8 @@ export const STORY_STEPS: StoryStep[] = [
     defaultImage: jbsImg,
     rotateDeg: '-2.5deg',
     recitGlobal:
-      "Le bac tout juste en poche, c'est en septembre 2019 que le destin nous réunit au lycée Jean-Baptiste-Say. Le décor est planté : nous nous embarquons pour deux années de classe préparatoire au sein d'une classe de 40 élèves, comptant seulement 8 filles.",
-    valentineSays: "",
+      "En 2019, nous déménageons tous les deux à Paris. Valentine rejoint son frère dans une colocation de l'Avenue de Versailles, tandis que Jean s'installe dans un studio avec vue Tour Eiffel ! (en sortant bien la tête de la fenêtre) Nous arrivons au lycée Jean-Baptiste-Say, dans une classe de prépa PT de 45 élèves, dont seulement 20 % de filles. Deux ans de cours, de devoirs et de concours commencent alors.",
+    valentineSays: "J'arrive dans cette top prépa avec un objectif : réussir les concours sans redoubler, et avoir AU MOINS les Arts & Métiers, mais pour ça, il faut bien travailler.",
     jeanSays:
       "Sociable comme je suis, j'aborde cette rentrée avec une philosophie très stricte : je suis là pour travailler, point barre. La prépa, ce n'est pas fait pour se faire des amis, et je n'en ressens aucunement le besoin.",
     iconName: 'GraduationCap',
@@ -51,8 +51,8 @@ export const STORY_STEPS: StoryStep[] = [
     defaultImage: tourEiffelImg,
     rotateDeg: '2deg',
     recitGlobal:
-      "À la sortie du confinement, le besoin de s'aérer se fait sentir. Valentine et Jean s'accordent alors quelques pauses de plus en plus régulières sous forme de balades nocturnes. Mais attention, exigence de la prépa oblige, un véritable \"contrat\" est mis en place entre eux : la promenade ne doit pas durer trop longtemps et ne doit commencer ni trop tôt, ni trop tard. Dans les faits ? Ce cadre un brin trop rigide a fini par dicter leur itinéraire, transformant leurs escapades nocturnes en un rituel immuable : un aller-retour régulier entre le lycée et la Tour Eiffel.",
-    valentineSays: "",
+      "À la sortie du confinement, le besoin de s'aérer se fait sentir. Nous faisons alors quelques pauses de plus en plus régulières sous forme de balades dans Paris. Mais attention, exigence de la prépa oblige : la promenade ne doit pas durer trop longtemps et ne doit commencer ni trop tôt, ni trop tard. Rapidement, nous commençons à noter tous les parcs parisiens, et nous avons déjà un favori : celui des Buttes Chaumont.",
+    valentineSays: "J'ai gardé la note dans mon téléphone des évaluations faites sur les parcs : le Parc Monceau est en dernière position !!",
     jeanSays:
       "Bon, j'avais dit que la prépa n'était pas faite pour se faire des amis... Mais il faut bien avouer que nos discussions sur Snapchat pendant le confinement étaient plutôt agréables. Alors au final, pourquoi ne pas les prolonger dans la vraie vie ?",
     iconName: 'Coffee',
@@ -67,8 +67,8 @@ export const STORY_STEPS: StoryStep[] = [
     defaultImage: voituresImg,
     rotateDeg: '-1.8deg',
     recitGlobal:
-      "Deux ans après notre rentrée en prépa, et plus de huit mois après le début de notre idylle parisienne, une nouvelle page se tourne. Fini le rythme effréné, place à la vie tant attendue (et bien plus légère) d'école d'ingénieur ! À un \"petit\" détail près : cette nouvelle aventure va devoir s'écrire à distance. Valentine fait ses valises pour l'Est à Metz, tandis que Jean met le cap à l'extrême Ouest, à Brest.",
-    valentineSays: "",
+      "Deux ans après notre rentrée en prépa, les concours marquent le début d'une nouvelle étape. Valentine intègre les Arts & Métiers à Metz, tandis que Jean rejoint IMT Atlantique à Brest. La prépa est terminée, la vie étudiante commence. À distance. Avec près de 1 000 kilomètres entre nos deux écoles, il va falloir s'organiser. La distance commence à être une habitude dans la famille Chem-lenhof !",
+    valentineSays: "Jeannot m'appelle tout content de m'annoncer qu'il est pris à Brest, pendant que je réalise de mon coté que Brest-Metz ne se fait pas si vite.",
     jeanSays:
       "En plein road-trip avec des amis, les résultats tombent : je suis pris dans l'école que je visais à Brest ! J'étais tellement heureux que je me suis empressé d'annoncer cette nouvelle à Valentine avant de raccrocher pour fêter ça",
     iconName: 'Compass',
@@ -83,8 +83,8 @@ export const STORY_STEPS: StoryStep[] = [
     defaultImage: oursImg,
     rotateDeg: '2.8deg',
     recitGlobal:
-      "Pendant trois ans, nous apprivoisons la distance entre les liaisons TGV et les vols internationaux. De Joensuu en Finlande jusqu'aux parcs naturels américains, chaque retrouvaille est une aventure : bains glacés finlandais après le sauna traditionnel, et randonnées sauvages à l'affût des ours américains.",
-    valentineSays: "",
+      "Et comme si la distance entre Brest et Metz ne suffisait pas, Jean s'en va pendant 6 mois en plein cœur de la Finlande, puis Valentine aux Etats Unis. Mais cela nous permet de vire des expériences inédites : bains dans des lacs glacés, randonnées sauvages avec face à face avec des Ours Bruns du Tennessee.",
+    valentineSays: "Plutôt que de faire un échange dans une école en Laponie, Jean a décidé de vivre dans le sud de la Finlande, dans une région froide, grise et sans soleil. Super les vacances.",
     jeanSays:
       "Au final, l'avantage de cette distance pendant nos trois années d'école d'ingénieurs, c'est que ça nous a donné une excellente excuse pour voyager !",
     iconName: 'Globe',
@@ -99,8 +99,8 @@ export const STORY_STEPS: StoryStep[] = [
     defaultImage: retrouvaillesImg,
     rotateDeg: '-2deg',
     recitGlobal:
-      "Clap de fin pour les relations longue distance ! En mars 2025, Valentine rejoint Jean à Paris pour y débuter sa nouvelle vie professionnelle. Fini les trains et les avions, elle pose définitivement ses valises dans le 12ème arrondissement... un choix d'adresse évidemment très stratégique pour pouvoir profiter tous les jours de la meilleure ligne de métro de la capitale : l'incontournable ligne 6 !",
-    valentineSays: "",
+      "En mars 2025, Valentine rejoint Jean à Paris pour commencer sa vie professionnelle, dans le conseil naturellement. Après plusieurs années de trains et d'avions réguliers, la longue distance prend fin : Jean habite dans le 15e, elle s'installe dans le 12e arrondissement (les deux arrondissements les plus éloignés de Paris sans doute).",
+    valentineSays: "Après 5 ans de relations sans jamais vivre dans la même ville, on se retrouve enfin à Paris ! Il y a forcément un petit temps d'adaptation pour redécouvrir la vie à quelques minutes en métro l'un de l'autre.",
     jeanSays:
       "La distance étant définitivement derrière nous, une nouvelle étape est à prévoir et à organiser....",
     iconName: 'Briefcase',
@@ -115,8 +115,8 @@ export const STORY_STEPS: StoryStep[] = [
     defaultImage: buttesChaumontImg,
     rotateDeg: '1.5deg',
     recitGlobal:
-      "Après plusieurs mois de préparatifs secrets, Jean propose une balade hivernale aux Buttes-Chaumont. Le lieu n'est évidemment pas choisi au hasard : c'est ce même parc qu'ils avaient officiellement élu \"meilleur parc parisien\" lors de leurs escapades en 2020 ! C'est dans ce décor symbolique qu'il se lance et fait sa demande en mariage. Et après (seulement !) quelques petites secondes de réflexion pour faire durer le suspense, Valentine dit \"oui\" !",
-    valentineSays: "",
+      "Après plusieurs mois de préparatifs secrets, Jean propose une balade hivernale aux Buttes-Chaumont. Le lieu n'est évidemment pas choisi au hasard : c'est ce même parc que nous avions officiellement élu \"meilleur parc parisien\". C'est dans ce décor symbolique qu'il se lance et fait sa demande en mariage. Et après (seulement !) quelques petites secondes de réflexion pour faire durer le suspense, à base de « QUOI ? » « MAIS QUOI ??? », Valentine dit \"oui, évidemment\" !",
+    valentineSays: "Il est arrivé hyper en avance à la balade, alors qu'il préfère arriver pile à l'heure histoire de ne pas trop poireauter. Ça aurait dû me mettre la puce à l'oreille !",
     jeanSays:
       "Trois mois d'organisation en sous-marin pour en arriver là... À peine quelques heures après avoir enfin récupéré la bague, il était déjà temps de passer le cap de la demande !",
     iconName: 'Heart',
