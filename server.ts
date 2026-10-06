@@ -20,6 +20,7 @@ import {
   clearAllRSVPs,
   addFamilies,
   deleteFamily,
+  updateFamily,
   addContactMessage,
   getAllContactMessages,
 } from "./server/db";
@@ -190,6 +191,18 @@ async function startServer() {
         return res.status(400).json({ error: "Un tableau de familles est requis" });
       }
       const result = addFamilies(families);
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+  // Update a family
+  app.put("/api/admin/families/:id", requireAdmin, (req, res) => {
+    try {
+      const familyId = req.params.id;
+      if (!familyId) return res.status(400).json({ error: "L'ID de la famille est requis" });
+      const result = updateFamily(familyId, req.body);
       res.json(result);
     } catch (err: any) {
       res.status(500).json({ error: err.message });

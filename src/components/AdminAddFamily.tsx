@@ -18,7 +18,7 @@ export default function AdminAddFamily({ onSuccess, adminHeaders }: AdminAddFami
   // Manual form state
   const [familyName, setFamilyName] = useState('');
   const [email, setEmail] = useState('');
-  const [members, setMembers] = useState<{ id: number, firstName: string, lastName: string, isChild: boolean, invitedVin: boolean, invitedRepas: boolean, invitedBrunch: boolean }[]>([]);
+  const [members, setMembers] = useState<{ id: number, firstName: string, lastName: string, isChild: boolean, isBaby: boolean, invitedVin: boolean, invitedRepas: boolean, invitedBrunch: boolean }[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -28,7 +28,7 @@ export default function AdminAddFamily({ onSuccess, adminHeaders }: AdminAddFami
   const [excelParsing, setExcelParsing] = useState(false);
 
   const addMember = () => {
-    setMembers([...members, { id: Date.now(), firstName: '', lastName: familyName, isChild: false, invitedVin: true, invitedRepas: true, invitedBrunch: true }]);
+    setMembers([...members, { id: Date.now(), firstName: '', lastName: familyName, isChild: false, isBaby: false, invitedVin: true, invitedRepas: true, invitedBrunch: true }]);
   };
 
   const updateMember = (id: number, field: string, value: any) => {
@@ -55,6 +55,8 @@ export default function AdminAddFamily({ onSuccess, adminHeaders }: AdminAddFami
         firstName: m.firstName.trim(),
         lastName: m.lastName.trim(),
         isChild: m.isChild,
+            isBaby,
+        isBaby: m.isBaby,
         invitedTo: {
           vinHonneur: m.invitedVin,
           repasNoces: m.invitedRepas,
@@ -107,6 +109,7 @@ export default function AdminAddFamily({ onSuccess, adminHeaders }: AdminAddFami
         const lastName = row['Nom']?.toString().trim() || famName;
         const email = row['Email']?.toString().trim() || '';
         const isChild = row['Catégorie']?.toString().toLowerCase().includes('enfant') || row['Enfant']?.toString().toLowerCase() === 'oui';
+        const isBaby = row['Catégorie']?.toString().toLowerCase().includes('bébé') || row['Catégorie']?.toString().toLowerCase().includes('bebe');
         
         const vin = row["Vin d'Honneur"]?.toString().toLowerCase() !== 'non';
         const repas = row["Repas de Noces"]?.toString().toLowerCase() !== 'non';
@@ -131,6 +134,7 @@ export default function AdminAddFamily({ onSuccess, adminHeaders }: AdminAddFami
             firstName,
             lastName,
             isChild,
+            isBaby,
             age,
             invitedTo: {
               vinHonneur: vin,
@@ -253,10 +257,14 @@ export default function AdminAddFamily({ onSuccess, adminHeaders }: AdminAddFami
                   <input type="text" placeholder="Prénom" value={m.firstName} onChange={e => updateMember(m.id, 'firstName', e.target.value)} className="flex-1 min-w-[120px] px-2 py-1.5 bg-white border border-slate-200 rounded-lg text-xs" />
                   <input type="text" placeholder="Nom" value={m.lastName} onChange={e => updateMember(m.id, 'lastName', e.target.value)} className="flex-1 min-w-[120px] px-2 py-1.5 bg-white border border-slate-200 rounded-lg text-xs" />
                   
-                  <label className="flex items-center gap-1 text-xs whitespace-nowrap cursor-pointer">
-                    <input type="checkbox" checked={m.isChild} onChange={e => updateMember(m.id, 'isChild', e.target.checked)} />
-                    Enfant
-                  </label>
+                  <select value={m.isBaby ? 'baby' : (m.isChild ? 'child' : 'adult')} onChange={e => {
+                    const val = e.target.value;
+                    setMembers(members.map(mem => mem.id === m.id ? { ...mem, isBaby: val === 'baby', isChild: val === 'child' } : mem));
+                  }} className="px-2 py-1.5 bg-white border border-slate-200 rounded-lg text-xs cursor-pointer">
+                    <option value="adult">Adulte</option>
+                    <option value="child">Enfant</option>
+                    <option value="baby">Bébé</option>
+                  </select>
                   
                   <div className="flex items-center gap-2 border-l border-slate-300 pl-2 ml-1 text-xs">
                     <label className="flex items-center gap-1 cursor-pointer" title="Vin d'Honneur"><input type="checkbox" checked={m.invitedVin} onChange={e => updateMember(m.id, 'invitedVin', e.target.checked)} /> Vin</label>

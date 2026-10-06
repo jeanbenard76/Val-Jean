@@ -5,10 +5,11 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'motion/react';
-import { Database, Download, FileSpreadsheet, ShieldCheck, RefreshCw, Search, Users, Baby, Utensils, MessageSquare, Check, X, ArrowLeft, Trash2 } from 'lucide-react';
+import { Database, Download, FileSpreadsheet, ShieldCheck, RefreshCw, Search, Users, Baby, Utensils, MessageSquare, Check, X, ArrowLeft, Trash2, Edit2 } from 'lucide-react';
 import { GuestFamily, RSVPStats } from '../types';
 import { getStoredFamilies, clearLocalStorageRSVPs } from '../utils/rsvpStorage';
 import AdminAddFamily from './AdminAddFamily';
+import AdminEditFamilyModal from './AdminEditFamilyModal';
 
 interface SecretAdminDashboardProps {
   onBackToHome?: () => void;
@@ -70,6 +71,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
   const [filterStatus, setFilterStatus] = useState<'all' | 'attending' | 'absent' | 'dietary'>('all');
   const [filterEvent, setFilterEvent] = useState<'all' | 'vin' | 'repas' | 'brunch'>('all');
   const [contactMessages, setContactMessages] = useState<ContactMessage[]>([]);
+  const [editingFamily, setEditingFamily] = useState<GuestFamily | null>(null);
 
   // Authentication gate: null = checking, true = dashboard (native browser prompt)
   const [authed, setAuthed] = useState<boolean | null>(null);
@@ -594,6 +596,9 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
                         </span>
                       )}
                       
+                      <button onClick={() => setEditingFamily(fam)} className="p-1 text-slate-400 hover:text-[#3B6FA0] hover:bg-blue-50 rounded-lg transition-colors cursor-pointer" title="Modifier la famille">
+                        <Edit2 className="w-4 h-4" />
+                      </button>
                       <button onClick={() => handleDeleteFamily(fam.id, fam.familyName)} className="p-1 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer" title="Supprimer la famille">
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -606,9 +611,9 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
                       <div key={m.id} className="p-3 bg-white rounded-xl border border-slate-200/80 space-y-1.5 flex flex-col justify-between">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-1.5">
-                            {m.isChild ? <Baby className="w-3.5 h-3.5 text-[#C4A475]" /> : <Users className="w-3.5 h-3.5 text-[#13263B]" />}
+                            {(m.isChild || m.isBaby) ? <Baby className="w-3.5 h-3.5 text-[#C4A475]" /> : <Users className="w-3.5 h-3.5 text-[#13263B]" />}
                             <span className="font-semibold text-[#13263B]">{m.firstName} {m.lastName}</span>
-                            <span className="text-[9px] uppercase font-bold text-slate-400">({m.isChild ? 'Enfant' : 'Adulte'})</span>
+                            <span className="text-[9px] uppercase font-bold text-slate-400">({m.isBaby ? 'Bébé' : (m.isChild ? 'Enfant' : 'Adulte')})</span>
                           </div>
 
                           {isResponded ? (
@@ -731,7 +736,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
             families.forEach((fam) => {
               fam.members.forEach((m: any) => {
                 csv += `"${fam.id}","${fam.familyName}","${m.firstName}","${m.lastName}","${
-                  m.isChild ? "Enfant" : "Adulte"
+                  m.isBaby ? "Bébé" : (m.isChild ? "Enfant" : "Adulte")
                 }","${m.age || ""}","${m.isAttending ? "Oui" : "Non"}","${
                   m.events?.vinHonneur ? "Oui" : "Non"
                 }","${m.events?.repasNoces ? "Oui" : "Non"}","${
@@ -809,6 +814,19 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
         </button>
       </div>
 
+{editingFamily && (
+        <AdminEditFamilyModal
+          family={editingFamily}
+          onClose={() => setEditingFamily(null)}
+          onSuccess={() => {
+            setEditingFamily(null);
+            fetchFamilies();
+            fetchStats();
+          }}
+          adminHeaders={adminHeaders}
+        />
+      )}
     </div>
   );
 }
+

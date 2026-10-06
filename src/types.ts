@@ -30,6 +30,7 @@ export interface FamilyMember {
   firstName: string;
   lastName: string;
   isChild: boolean;
+  isBaby?: boolean;
   age?: number;
   isAttending: boolean;
   invitedTo?: {

@@ -54,6 +54,7 @@ export async function initDatabase(): Promise<Database> {
       first_name TEXT NOT NULL,
       last_name TEXT NOT NULL,
       is_child INTEGER DEFAULT 0,
+      is_baby INTEGER DEFAULT 0,
       age INTEGER,
       is_attending INTEGER DEFAULT 1,
       invited_vin INTEGER DEFAULT 1,
@@ -89,6 +90,7 @@ export async function initDatabase(): Promise<Database> {
   try { db.run('ALTER TABLE members ADD COLUMN invited_vin INTEGER DEFAULT 1'); } catch (e) {}
   try { db.run('ALTER TABLE members ADD COLUMN invited_repas INTEGER DEFAULT 1'); } catch (e) {}
   try { db.run('ALTER TABLE members ADD COLUMN invited_brunch INTEGER DEFAULT 1'); } catch (e) {}
+  try { db.run('ALTER TABLE members ADD COLUMN is_baby INTEGER DEFAULT 0'); } catch (e) {}
 
   // Sync initial invitation scopes for pre-seeded families in existing database
   syncInitialInvitations(db);
@@ -163,6 +165,7 @@ export function getAllFamiliesWithMembers() {
           firstName: mObj.first_name,
           lastName: mObj.last_name,
           isChild: Boolean(mObj.is_child),
+          isBaby: Boolean(mObj.is_baby),
           age: mObj.age,
           isAttending: Boolean(mObj.is_attending),
           invitedTo: {
@@ -285,15 +288,15 @@ export function submitRSVP(data: {
     if (existsRes.length && existsRes[0].values.length > 0) {
       db.run(
         `UPDATE members
-         SET is_attending = ?, vin_honneur = ?, repas_noces = ?, brunch_lendemain = ?, dietary_notes = ?
+         SET is_attending = ?, vin_honneur = ?, repas_noces = ?, brunch_lendemain = ?, dietary_notes = ?, is_child = ?, is_baby = ?
          WHERE id = ?`,
-        [isAttending, vin, repas, brunch, dietary, m.id]
+        [isAttending, vin, repas, brunch, dietary, m.isChild ? 1 : 0, m.isBaby ? 1 : 0, m.id]
       );
     } else {
       db.run(
-        `INSERT INTO members (id, family_id, first_name, last_name, is_child, age, is_attending, invited_vin, invited_repas, invited_brunch, vin_honneur, repas_noces, brunch_lendemain, dietary_notes)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [m.id, famId, m.firstName, m.lastName, m.isChild ? 1 : 0, m.age || null, isAttending, invVin, invRepas, invBrunch, vin, repas, brunch, dietary]
+        `INSERT INTO members (id, family_id, first_name, last_name, is_child, is_baby, age, is_attending, invited_vin, invited_repas, invited_brunch, vin_honneur, repas_noces, brunch_lendemain, dietary_notes)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [m.id, famId, m.firstName, m.lastName, m.isChild ? 1 : 0, m.isBaby ? 1 : 0, m.age || null, isAttending, invVin, invRepas, invBrunch, vin, repas, brunch, dietary]
       );
     }
   }
@@ -482,9 +485,9 @@ export function addFamilies(families: any[]) {
       const brunch = (invBrunch && m.events?.brunchLendemain) ? 1 : 0;
       
       db.run(
-        `INSERT INTO members (id, family_id, first_name, last_name, is_child, age, is_attending, invited_vin, invited_repas, invited_brunch, vin_honneur, repas_noces, brunch_lendemain, dietary_notes)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [memId, famId, m.firstName, m.lastName, m.isChild ? 1 : 0, m.age || null, isAttending, invVin, invRepas, invBrunch, vin, repas, brunch, m.dietaryNotes || '']
+        `INSERT INTO members (id, family_id, first_name, last_name, is_child, is_baby, age, is_attending, invited_vin, invited_repas, invited_brunch, vin_honneur, repas_noces, brunch_lendemain, dietary_notes)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [memId, famId, m.firstName, m.lastName, m.isChild ? 1 : 0, m.isBaby ? 1 : 0, m.age || null, isAttending, invVin, invRepas, invBrunch, vin, repas, brunch, m.dietaryNotes || '']
       );
     }
     
