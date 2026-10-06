@@ -282,11 +282,11 @@ async function startServer() {
     try {
       const families = getAllFamiliesWithMembers();
       let csv =
-        "Famille,Prénom,Nom,Statut,Âge,Présent,Vin d'Honneur,Repas de Noces,Brunch,Régime/Allergies,Email\n";
+        "ID Famille,Famille,Prénom,Nom,Statut,Âge,Présent,Vin d'Honneur,Repas de Noces,Brunch,Régime/Allergies,Email\n";
 
       families.forEach((fam) => {
         fam.members.forEach((m: any) => {
-          csv += `"${fam.familyName}","${m.firstName}","${m.lastName}","${
+          csv += `"${fam.id}","${fam.familyName}","${m.firstName}","${m.lastName}","${
             m.isChild ? "Enfant" : "Adulte"
           }","${m.age || ""}","${m.isAttending ? "Oui" : "Non"}","${
             m.events.vinHonneur ? "Oui" : "Non"

@@ -574,7 +574,7 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/60 pb-2">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h4 className="font-display font-bold text-base text-[#13263B]">
-                        Famille {fam.familyName}
+                        Famille {fam.familyName} <span className="text-xs font-mono text-slate-400 font-normal">({fam.id})</span>
                       </h4>
                       {fam.email && (
                         <a href={`mailto:${fam.email}`} className="text-xs text-[#3B6FA0] hover:underline font-mono">
@@ -727,10 +727,10 @@ export default function SecretAdminDashboard({ onBackToHome }: SecretAdminDashbo
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <button
           onClick={() => {
-            let csv = "Famille,Prénom,Nom,Statut,Âge,Présent,Vin d'Honneur,Repas de Noces,Brunch,Régime/Allergies,Email\n";
+            let csv = "ID Famille,Famille,Prénom,Nom,Statut,Âge,Présent,Vin d'Honneur,Repas de Noces,Brunch,Régime/Allergies,Email\n";
             families.forEach((fam) => {
               fam.members.forEach((m: any) => {
-                csv += `"${fam.familyName}","${m.firstName}","${m.lastName}","${
+                csv += `"${fam.id}","${fam.familyName}","${m.firstName}","${m.lastName}","${
                   m.isChild ? "Enfant" : "Adulte"
                 }","${m.age || ""}","${m.isAttending ? "Oui" : "Non"}","${
                   m.events?.vinHonneur ? "Oui" : "Non"
