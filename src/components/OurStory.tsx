@@ -45,7 +45,7 @@ export const STORY_STEPS: StoryStep[] = [
     id: 2,
     year: '2020',
     date: 'Année 2020',
-    title: 'Balades Parisiennes & Fringales de Crêpes',
+    title: 'Balades Parisiennes',
     subtitle: 'Jardin du Luxembourg, Buttes-Chaumont, Panthéon',
     location: 'Paris',
     defaultImage: tourEiffelImg,
@@ -61,9 +61,9 @@ export const STORY_STEPS: StoryStep[] = [
     id: 3,
     year: '2021',
     date: 'Été 2021',
-    title: 'Résultats des Concours & Choc des Écoles',
-    subtitle: 'IMT Atlantique vs Arts et Métiers de Metz',
-    location: 'Road-trip & Metz / Brest',
+    title: 'Résultats des Concours',
+    subtitle: 'IMT Atlantique vs Arts & Métiers de Metz',
+    location: 'Allés retours Metz-Brest',
     defaultImage: voituresImg,
     rotateDeg: '-1.8deg',
     recitGlobal:
@@ -77,9 +77,9 @@ export const STORY_STEPS: StoryStep[] = [
     id: 4,
     year: '2021-2024',
     date: '2021 — 2024',
-    title: '3 Ans à Distance : Saunas & Ours Américains',
+    title: '3 Ans à Distance',
     subtitle: 'Brest, Metz, Paris, Finlande & USA',
-    location: 'Joensuu (Finlande) & États-Unis',
+    location: 'Saunas & Ours Américains',
     defaultImage: oursImg,
     rotateDeg: '2.8deg',
     recitGlobal:
@@ -93,7 +93,7 @@ export const STORY_STEPS: StoryStep[] = [
     id: 5,
     year: '2025',
     date: 'Début 2025',
-    title: 'Retrouvailles à Paris & Vies Professionnelles',
+    title: 'Retrouvailles à Paris',
     subtitle: 'Consultants en Énergie & Industrie',
     location: 'Paris',
     defaultImage: retrouvaillesImg,
@@ -109,7 +109,7 @@ export const STORY_STEPS: StoryStep[] = [
     id: 6,
     year: '21/12/2025',
     date: '21 Décembre 2025',
-    title: 'La Demande en Fiançailles aux Buttes-Chaumont',
+    title: 'La Demande',
     subtitle: 'Retour aux sources sur notre rocher',
     location: 'Parc des Buttes-Chaumont, Paris',
     defaultImage: buttesChaumontImg,
@@ -156,7 +156,7 @@ export default function OurStory() {
 
   return (
     <section ref={sectionRef} className="w-full max-w-[1400px] mx-auto px-4 sm:px-8 py-6 sm:py-12 relative overflow-hidden" id="our-story-section">
-      
+
       {/* 1. SECTION HEADER */}
       <div className="text-center mb-6 sm:mb-10 space-y-2 relative z-10">
         <span className="text-[10px] sm:text-[11px] tracking-[0.3em] font-sans uppercase font-bold text-[#C4A475] block mb-3">
@@ -227,9 +227,8 @@ export default function OurStory() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: false, margin: '-80px' }}
                   transition={{ duration: 0.6, delay: 0.05 }}
-                  className={`max-w-6xl mx-auto w-full transition-all duration-500 relative z-10 ${
-                    isActive ? 'opacity-100 scale-100' : 'opacity-85 scale-[0.98]'
-                  }`}
+                  className={`max-w-6xl mx-auto w-full transition-all duration-500 relative z-10 ${isActive ? 'opacity-100 scale-100' : 'opacity-85 scale-[0.98]'
+                    }`}
                 >
                   {/* ELEGANT MINIMAL HEADER: YEAR, LOCATION & FINE LINE */}
                   <div className="flex flex-col items-center justify-center mb-6 max-w-sm mx-auto text-center">
@@ -247,7 +246,7 @@ export default function OurStory() {
 
                   {/* TRIPARTITE GRID: VALENTINE QUOTE | OPAQUE WHITE CENTER CARD | JEAN QUOTE */}
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-                    
+
                     {/* 1. LEFT COLUMN: VALENTINE'S PERSPECTIVE */}
                     <div className="lg:col-span-3 order-2 lg:order-1 flex flex-col justify-center">
                       <div className="p-2 space-y-2 text-left relative z-20">
@@ -256,8 +255,8 @@ export default function OurStory() {
                             Valentine
                           </span>
                         </div>
-                        <p 
-                          className="font-serif italic text-sm text-amber-950 font-semibold leading-relaxed" 
+                        <p
+                          className="font-serif italic text-sm text-amber-950 font-semibold leading-relaxed"
                           style={{ textShadow: "0 0 10px white, 0 0 20px white, 0 0 30px white" }}
                         >
                           &ldquo;{step.valentineSays}&rdquo;
@@ -268,7 +267,7 @@ export default function OurStory() {
                     {/* 2. CENTER COLUMN: MAIN STEP CORE & POLAROID PHOTO */}
                     <div className="lg:col-span-6 order-1 lg:order-2 flex flex-col items-center">
                       <div className="bg-white border border-slate-200 rounded-3xl p-6 text-center space-y-4 shadow-md w-full relative z-20 overflow-hidden">
-                        
+
                         {/* Title & Subtitle */}
                         <div>
                           <h3 className="font-display text-2xl sm:text-3xl text-[#13263B] font-semibold leading-tight">
@@ -314,7 +313,7 @@ export default function OurStory() {
                             Jean
                           </span>
                         </div>
-                        <p 
+                        <p
                           className="font-serif italic text-sm text-blue-950 font-semibold leading-relaxed"
                           style={{ textShadow: "0 0 10px white, 0 0 20px white, 0 0 30px white" }}
                         >
