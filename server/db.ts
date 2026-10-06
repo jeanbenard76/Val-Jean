@@ -509,3 +509,30 @@ export function deleteFamily(familyId: string) {
   saveDatabaseToDisk();
   return { success: true };
 }
+
+
+/**
+ * Update an existing family and its members.
+ */
+export function updateFamily(familyId: string, familyData: any) {
+  if (!db) throw new Error('Database not initialized');
+  db.run("UPDATE families SET family_name = ?, email = ? WHERE id = ?", [familyData.familyName, familyData.email || '', familyId]);
+  db.run("DELETE FROM members WHERE family_id = ?", [familyId]);
+  for (const m of familyData.members) {
+      const memId = m.id || `m-custom-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+      const invVin = m.invitedTo?.vinHonneur !== false ? 1 : 0;
+      const invRepas = m.invitedTo?.repasNoces ? 1 : 0;
+      const invBrunch = m.invitedTo?.brunchLendemain ? 1 : 0;
+      const isAttending = m.isAttending ? 1 : 0;
+      const vin = (invVin && m.events?.vinHonneur) ? 1 : 0;
+      const repas = (invRepas && m.events?.repasNoces) ? 1 : 0;
+      const brunch = (invBrunch && m.events?.brunchLendemain) ? 1 : 0;
+      db.run(
+        `INSERT INTO members (id, family_id, first_name, last_name, is_child, is_baby, age, is_attending, invited_vin, invited_repas, invited_brunch, vin_honneur, repas_noces, brunch_lendemain, dietary_notes)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [memId, familyId, m.firstName, m.lastName, m.isChild ? 1 : 0, m.isBaby ? 1 : 0, m.age || null, isAttending, invVin, invRepas, invBrunch, vin, repas, brunch, m.dietaryNotes || '']
+      );
+  }
+  saveDatabaseToDisk();
+  return { success: true };
+}

@@ -56,10 +56,11 @@ export default function Registry() {
     const uniqueCats = Array.from(new Set(items.map((i) => i.category)));
     const mappedCats = uniqueCats.map((cat) => {
       let icon = Gift;
-      if (cat.toLowerCase().includes('miel') || cat === 'honeymoon') icon = Compass;
-      else if (cat.toLowerCase().includes('table') || cat === 'tableware') icon = Utensils;
-      else if (cat.toLowerCase().includes('maison') || cat === 'home') icon = Home;
-      else if (cat.toLowerCase().includes('hifi') || cat.toLowerCase().includes('audio')) icon = Sparkles;
+      const catStr = String(cat).toLowerCase();
+      if (catStr.includes('miel') || cat === 'honeymoon') icon = Compass;
+      else if (catStr.includes('table') || cat === 'tableware') icon = Utensils;
+      else if (catStr.includes('maison') || cat === 'home') icon = Home;
+      else if (catStr.includes('hifi') || catStr.includes('audio')) icon = Sparkles;
       
       return { id: cat, label: cat, icon };
     });

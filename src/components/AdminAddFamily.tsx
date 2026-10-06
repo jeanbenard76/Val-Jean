@@ -55,7 +55,6 @@ export default function AdminAddFamily({ onSuccess, adminHeaders }: AdminAddFami
         firstName: m.firstName.trim(),
         lastName: m.lastName.trim(),
         isChild: m.isChild,
-            isBaby,
         isBaby: m.isBaby,
         invitedTo: {
           vinHonneur: m.invitedVin,
