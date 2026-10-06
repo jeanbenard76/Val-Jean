@@ -104,6 +104,9 @@ export default function AdminAddFamily({ onSuccess, adminHeaders }: AdminAddFami
         const famName = row['Famille']?.toString().trim();
         if (!famName) return;
 
+        const famIdStr = row['ID Famille']?.toString().trim();
+        const groupKey = famIdStr || famName;
+
         const firstName = row['Prénom']?.toString().trim() || '';
         const lastName = row['Nom']?.toString().trim() || famName;
         const email = row['Email']?.toString().trim() || '';
@@ -115,8 +118,9 @@ export default function AdminAddFamily({ onSuccess, adminHeaders }: AdminAddFami
         const brunch = row["Brunch"]?.toString().toLowerCase() !== 'non';
         const age = parseInt(row["Âge"]?.toString() || '0') || null;
 
-        if (!familiesMap.has(famName)) {
-          familiesMap.set(famName, {
+        if (!familiesMap.has(groupKey)) {
+          familiesMap.set(groupKey, {
+            id: famIdStr || undefined,
             familyName: famName,
             email: email,
             members: []
@@ -124,12 +128,12 @@ export default function AdminAddFamily({ onSuccess, adminHeaders }: AdminAddFami
         }
         
         // Only update email if it was empty and we found one
-        if (!familiesMap.get(famName).email && email) {
-          familiesMap.get(famName).email = email;
+        if (!familiesMap.get(groupKey).email && email) {
+          familiesMap.get(groupKey).email = email;
         }
 
         if (firstName) {
-          familiesMap.get(famName).members.push({
+          familiesMap.get(groupKey).members.push({
             firstName,
             lastName,
             isChild,

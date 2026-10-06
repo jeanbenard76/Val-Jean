@@ -467,11 +467,15 @@ export function addFamilies(families: any[]) {
     // Generate an ID if it doesn't exist
     const famId = fam.id || `fam-custom-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
     
-    // Insert family
+    // Insert or Update family
     db.run(
-      "INSERT INTO families (id, family_name, email, notes) VALUES (?, ?, ?, 'manual_addition')",
+      `INSERT INTO families (id, family_name, email, notes) VALUES (?, ?, ?, 'manual_addition')
+       ON CONFLICT(id) DO UPDATE SET family_name=excluded.family_name, email=excluded.email`,
       [famId, fam.familyName, fam.email || '']
     );
+
+    // Delete existing members so we don't create duplicates on re-import
+    db.run("DELETE FROM members WHERE family_id = ?", [famId]);
 
     // Insert members
     for (const m of fam.members) {
