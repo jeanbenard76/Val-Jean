@@ -67,7 +67,7 @@ export default function Registry() {
   }, [items]);
 
   return (
-    <div className="w-full max-w-5xl mx-auto px-3 sm:px-4 py-6 sm:py-8" id="wedding-registry-section">
+    <div className="w-full max-w-5xl mx-auto px-3 sm:px-4 pt-8 pb-6 sm:pt-16 sm:pb-8" id="wedding-registry-section">
       
       {/* Editorial Header */}
       <div className="text-center mb-6 sm:mb-8">
@@ -128,12 +128,12 @@ export default function Registry() {
               >
                 <div>
                   {/* 1. PHOTO OF GIFT */}
-                  <div className="aspect-square sm:aspect-[4/3] overflow-hidden rounded-xl bg-white shadow-2xs relative group mb-4 border border-[#3B6FA0]/5">
+                  <div className="h-48 sm:h-56 w-full overflow-hidden rounded-xl bg-white shadow-2xs relative group mb-4 border border-[#3B6FA0]/5">
                     <img
                       src={item.imageUrl}
                       alt={item.title}
                       referrerPolicy="no-referrer"
-                      className="w-full h-full object-contain p-6 sm:p-10 transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-contain p-4 sm:p-6 transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute top-2.5 left-2.5 bg-[#13263B]/90 backdrop-blur-xs text-[#FAF7F2] text-[10px] font-serif italic px-2.5 py-0.5 rounded-full shadow-2xs z-10">
                       {item.category}
