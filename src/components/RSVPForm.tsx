@@ -390,8 +390,8 @@ export default function RSVPForm() {
                         <span className="font-medium text-[#13263B]">
                           {m.firstName} {m.lastName}
                         </span>
-                        <span className={`text-[9px] px-1.5 py-0.2 rounded-full uppercase ${m.isChild ? 'bg-[#C4A475]/20 text-[#8B6B38]' : 'bg-[#13263B]/10 text-[#13263B]'}`}>
-                          {m.isChild ? 'Enfant' : 'Adulte'}
+                        <span className={`text-[9px] px-1.5 py-0.2 rounded-full uppercase ${(m.isChild || m.isBaby) ? 'bg-[#C4A475]/20 text-[#8B6B38]' : 'bg-[#13263B]/10 text-[#13263B]'}`}>
+                          {m.isBaby ? 'Bébé' : (m.isChild ? 'Enfant' : 'Adulte')}
                         </span>
                       </div>
 
@@ -586,9 +586,9 @@ export default function RSVPForm() {
                                   {member.firstName} {member.lastName}
                                 </span>
                                 <span className={`text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full ${
-                                  member.isChild ? 'bg-[#C4A475]/20 text-[#8B6B38]' : 'bg-[#13263B]/10 text-[#13263B]'
+                                  (member.isChild || member.isBaby) ? 'bg-[#C4A475]/20 text-[#8B6B38]' : 'bg-[#13263B]/10 text-[#13263B]'
                                 }`}>
-                                  {member.isChild ? 'Enfant' : 'Adulte'}
+                                  {member.isBaby ? 'Bébé' : (member.isChild ? 'Enfant' : 'Adulte')}
                                 </span>
                               </div>
                             </div>
