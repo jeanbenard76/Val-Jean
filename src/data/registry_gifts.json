@@ -13,7 +13,7 @@
   {
     "id": "cadeau-3633660",
     "title": "Dyson R2 Nurovi",
-    "description": "Robot aspirateur avec deux serpillaires triangulaires, un moteur de d'aspiration de 21 000 Pa et une brosse auto-démêlante",
+    "description": "Robot aspirateur avec deux serpillaires triangulaires, un moteur d'aspiration de 21 000 Pa et une brosse auto-démêlante",
     "targetAmount": 849.0,
     "currentAmount": 0,
     "category": "Appartement",
@@ -66,6 +66,28 @@
     "personalNote": "Un appartement se doit de posséder un appareil à raclette. Avec ça, nous serons officiellement parés pour la saison hivernale 2027-2028 !"
   },
   {
+    "id": "cadeau-3633663",
+    "title": "Cocotte ronde en fonte émaillée 28cm",
+    "description": "Ustensile culinaire en fonte émaillée, tolérant une amplitude thermique extrême allant de -23℃ à 260℃. Son revêtement multicouche résiste à l'acidité et favorise une caramélisation optimale.",
+    "targetAmount": 455.0,
+    "currentAmount": 0,
+    "category": "Appartement",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790974661nno34_595.jpeg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633663.html",
+    "personalNote": ""
+  },
+  {
+    "id": "cadeau-3633662",
+    "title": "6 Mini cocottes en céramique",
+    "description": "Ensemble de 6 récipients individuels en céramique technique (grès émaillé) à haute densité.",
+    "targetAmount": 174.0,
+    "currentAmount": 0,
+    "category": "Appartement",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790974506o3fya_595.jpeg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633662.html",
+    "personalNote": ""
+  },
+  {
     "id": "cadeau-3633656",
     "title": "Croix",
     "description": "Description à personnaliser.",
@@ -77,34 +99,12 @@
     "personalNote": "Mot personnel à ajouter ici."
   },
   {
-    "id": "cadeau-3633663",
-    "title": "Cocotte ronde en fonte émaillée 28cm",
-    "description": "Description à personnaliser.",
-    "targetAmount": 455.0,
-    "currentAmount": 0,
-    "category": "Appartement",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790974661nno34_595.jpeg",
-    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633663.html",
-    "personalNote": "Mot personnel à ajouter ici."
-  },
-  {
-    "id": "cadeau-3633662",
-    "title": "6 Mini cocottes en céramique",
-    "description": "Description à personnaliser.",
-    "targetAmount": 174.0,
-    "currentAmount": 0,
-    "category": "Appartement",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790974506o3fya_595.jpeg",
-    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633662.html",
-    "personalNote": "Mot personnel à ajouter ici."
-  },
-  {
     "id": "cadeau-3633195",
     "title": "8 assiettes à dessert 21cm",
     "description": "Description à personnaliser.",
     "targetAmount": 357.0,
     "currentAmount": 0,
-    "category": "Vaisselle",
+    "category": "Art de la table",
     "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790801397ak7pg_595.jpg",
     "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633195.html",
     "personalNote": "Mot personnel à ajouter ici."
@@ -115,7 +115,7 @@
     "description": "Description à personnaliser.",
     "targetAmount": 73.0,
     "currentAmount": 0,
-    "category": "Vaisselle",
+    "category": "Art de la table",
     "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790801493lml2h_595.jpg",
     "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633196.html",
     "personalNote": "Mot personnel à ajouter ici."
