@@ -81,7 +81,7 @@ export default function AdminEditFamilyModal({ family, onClose, onSuccess, admin
     };
 
     try {
-      const res = await fetch(/api/admin/families/, {
+      const res = await fetch(`/api/admin/families/${family.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', ...adminHeaders() },
         body: JSON.stringify(payload)
