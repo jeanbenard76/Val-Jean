@@ -17,6 +17,7 @@ export interface StoryStep {
   subtitle: string;
   location: string;
   defaultImage: string;
+  coupleImage: string;
   rotateDeg: string;
   recitGlobal: string;
   valentineSays: string;
@@ -33,6 +34,7 @@ export const STORY_STEPS: StoryStep[] = [
     subtitle: 'Lycée Jean-Baptiste Say (Paris)',
     location: 'Paris 16e',
     defaultImage: jbsImg,
+    coupleImage: voituresImg,
     rotateDeg: '-2.5deg',
     recitGlobal:
       "En 2019, nous déménageons tous les deux à Paris. Valentine rejoint son frère dans une colocation de l'Avenue de Versailles, tandis que Jean s'installe dans un studio avec vue Tour Eiffel ! (en sortant bien la tête de la fenêtre) Nous arrivons au lycée Jean-Baptiste-Say, dans une classe de prépa PT de 45 élèves, dont seulement 20 % de filles. Deux ans de cours, de devoirs et de concours commencent alors.",
@@ -49,6 +51,7 @@ export const STORY_STEPS: StoryStep[] = [
     subtitle: 'Jardin du Luxembourg, Buttes-Chaumont, Panthéon',
     location: 'Paris',
     defaultImage: tourEiffelImg,
+    coupleImage: voituresImg,
     rotateDeg: '2deg',
     recitGlobal:
       "À la sortie du confinement, le besoin de s'aérer se fait sentir. Nous faisons alors quelques pauses de plus en plus régulières sous forme de balades dans Paris. Mais attention, exigence de la prépa oblige : la promenade ne doit pas durer trop longtemps et ne doit commencer ni trop tôt, ni trop tard. Rapidement, nous commençons à noter tous les parcs parisiens, et nous avons déjà un favori : celui des Buttes Chaumont.",
@@ -65,6 +68,7 @@ export const STORY_STEPS: StoryStep[] = [
     subtitle: 'IMT Atlantique vs Arts & Métiers de Metz',
     location: 'Allés retours Metz-Brest',
     defaultImage: voituresImg,
+    coupleImage: voituresImg,
     rotateDeg: '-1.8deg',
     recitGlobal:
       "Deux ans après notre rentrée en prépa, les concours marquent le début d'une nouvelle étape. Valentine intègre les Arts & Métiers à Metz, tandis que Jean rejoint IMT Atlantique à Brest. La prépa est terminée, la vie étudiante commence. À distance. Avec près de 1 000 kilomètres entre nos deux écoles, il va falloir s'organiser. La distance commence à être une habitude dans la famille Chem-lenhof !",
@@ -81,6 +85,7 @@ export const STORY_STEPS: StoryStep[] = [
     subtitle: 'Brest, Metz, Paris, Finlande & USA',
     location: 'Saunas & Ours Américains',
     defaultImage: oursImg,
+    coupleImage: voituresImg,
     rotateDeg: '2.8deg',
     recitGlobal:
       "Et comme si la distance entre Brest et Metz ne suffisait pas, Jean s'en va pendant 6 mois en plein cœur de la Finlande, puis Valentine aux Etats Unis. Mais cela nous permet de vire des expériences inédites : bains dans des lacs glacés, randonnées sauvages avec face à face avec des Ours Bruns du Tennessee.",
@@ -97,6 +102,7 @@ export const STORY_STEPS: StoryStep[] = [
     subtitle: 'Consultants en Énergie & Industrie',
     location: 'Paris',
     defaultImage: retrouvaillesImg,
+    coupleImage: voituresImg,
     rotateDeg: '-2deg',
     recitGlobal:
       "En mars 2025, Valentine rejoint Jean à Paris pour commencer sa vie professionnelle, dans le conseil naturellement. Après plusieurs années de trains et d'avions réguliers, la longue distance prend fin : Jean habite dans le 15e, elle s'installe dans le 12e arrondissement (les deux arrondissements les plus éloignés de Paris sans doute).",
@@ -113,6 +119,7 @@ export const STORY_STEPS: StoryStep[] = [
     subtitle: 'Retour aux sources sur notre rocher',
     location: 'Parc des Buttes-Chaumont, Paris',
     defaultImage: buttesChaumontImg,
+    coupleImage: voituresImg,
     rotateDeg: '1.5deg',
     recitGlobal:
       "Après plusieurs mois de préparatifs secrets, Jean propose une balade hivernale aux Buttes-Chaumont. Le lieu n'est évidemment pas choisi au hasard : c'est ce même parc que nous avions officiellement élu \"meilleur parc parisien\". C'est dans ce décor symbolique qu'il se lance et fait sa demande en mariage. Et après (seulement !) quelques petites secondes de réflexion pour faire durer le suspense, à base de « QUOI ? » « MAIS QUOI ??? », Valentine dit \"oui, évidemment\" !",
@@ -278,17 +285,33 @@ export default function OurStory() {
                           </p>
                         </div>
 
-                        {/* Polaroid Photo Frame */}
-                        <div className="flex justify-center py-1">
+                        {/* Polaroid Photo Frames */}
+                        <div className="flex justify-center gap-2 sm:gap-4 py-1">
+                          {/* Photo Situation */}
                           <div
-                            className="bg-white p-2.5 rounded-xl shadow-xs border border-slate-200 transition-transform duration-300 hover:rotate-0 max-w-[200px] sm:max-w-[210px] w-full relative group"
+                            className="bg-white p-2.5 rounded-xl shadow-xs border border-slate-200 transition-transform duration-300 hover:rotate-0 max-w-[140px] sm:max-w-[160px] w-full relative group"
                             style={{ transform: `rotate(${step.rotateDeg})` }}
                           >
                             <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-[#FAF7F2]/90 border border-amber-200/60 rotate-[-1deg] opacity-80 pointer-events-none" />
                             <div className="w-full aspect-4/3 rounded-lg bg-slate-50 overflow-hidden relative">
                               <img
                                 src={step.defaultImage}
-                                alt={step.title}
+                                alt={`${step.title} situation`}
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              />
+                            </div>
+                          </div>
+                          
+                          {/* Photo Couple */}
+                          <div
+                            className="bg-white p-2.5 rounded-xl shadow-xs border border-slate-200 transition-transform duration-300 hover:rotate-0 max-w-[140px] sm:max-w-[160px] w-full relative group"
+                            style={{ transform: `rotate(-${step.rotateDeg})` }}
+                          >
+                            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-[#FAF7F2]/90 border border-amber-200/60 rotate-[1deg] opacity-80 pointer-events-none" />
+                            <div className="w-full aspect-4/3 rounded-lg bg-slate-50 overflow-hidden relative">
+                              <img
+                                src={step.coupleImage}
+                                alt={`${step.title} couple`}
                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                               />
                             </div>
