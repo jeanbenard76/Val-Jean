@@ -90,111 +90,111 @@
   {
     "id": "cadeau-3633656",
     "title": "Croix",
-    "description": "Description à personnaliser.",
+    "description": "Croix en mosaïque fabriquée par les soins de l'artisanat de l'Arche.",
     "targetAmount": 35,
     "currentAmount": 0,
     "category": "Appartement",
     "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790964816jfj08_595.jpg",
     "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633656.html",
-    "personalNote": "Mot personnel à ajouter ici."
-  },
-  {
-    "id": "cadeau-3633195",
-    "title": "8 assiettes à dessert 21cm",
-    "description": "Description à personnaliser.",
-    "targetAmount": 357,
-    "currentAmount": 0,
-    "category": "Art de la table",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790801397ak7pg_595.jpg",
-    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633195.html",
-    "personalNote": "Mot personnel à ajouter ici."
+    "personalNote": ""
   },
   {
     "id": "cadeau-3633196",
     "title": "8 assiettes à dîner 26cm",
-    "description": "Description à personnaliser.",
-    "targetAmount": 73,
+    "description": "Assiettes de diamètre de 26 cm dotées d'un émaillage polychrome haute résistance.",
+    "targetAmount": 62.05,
     "currentAmount": 0,
     "category": "Art de la table",
     "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790801493lml2h_595.jpg",
     "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633196.html",
-    "personalNote": "Mot personnel à ajouter ici."
+    "personalNote": ""
+  },
+  {
+    "id": "cadeau-3633195",
+    "title": "8 assiettes à dessert 21cm",
+    "description": "Assiettes de diamètre de 21 cm dotées d'un émaillage polychrome haute résistance.",
+    "targetAmount": 304,
+    "currentAmount": 0,
+    "category": "Art de la table",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790801397ak7pg_595.jpg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633195.html",
+    "personalNote": ""
+  },
+  {
+    "id": "cadeau-3635820",
+    "title": "Saucière 25cL",
+    "description": "Saucière \"Soleil Levant\" en porcelaine de Limoges d'une contenance de 25cl",
+    "targetAmount": 306,
+    "currentAmount": 0,
+    "category": "Art de la table",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1791448592dxldr_595.jpg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3635820.html",
+    "personalNote": ""
+  },
+  {
+    "id": "cadeau-3635819",
+    "title": "8 tasses à café",
+    "description": "8 tasses à café \"Soleil Levant\" en porcelaine de Limoges d'une contenance de 8cl",
+    "targetAmount": 673.1,
+    "currentAmount": 0,
+    "category": "Art de la table",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1791448806dlavk_595.jpg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3635819.html",
+    "personalNote": ""
+  },
+  {
+    "id": "cadeau-3635818",
+    "title": "8 tasses à thé",
+    "description": "8 tasses à thé \"Soleil Levant\" en porcelaine de Limoges d'une contenance de 23cl",
+    "targetAmount": 678.3,
+    "currentAmount": 0,
+    "category": "Art de la table",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1791448868ovdej_595.jpg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3635818.html",
+    "personalNote": ""
+  },
+  {
+    "id": "cadeau-3635814",
+    "title": "Compotier",
+    "description": "Compotier creux de 24,5 cm (80 cl), modèle \"Soleil Levant\" en porcelaine de Limoges",
+    "targetAmount": 175.1,
+    "currentAmount": 0,
+    "category": "Art de la table",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1791448903h6veq_595.jpg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3635814.html",
+    "personalNote": ""
+  },
+  {
+    "id": "cadeau-3635813",
+    "title": "Plat ovale 38cm",
+    "description": "Plat ovale de 38 cm, modèle \"Soleil Levant\" en porcelaine de Limoges",
+    "targetAmount": 306,
+    "currentAmount": 0,
+    "category": "Art de la table",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1791448933chx69_595.jpg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3635813.html",
+    "personalNote": ""
   },
   {
     "id": "cadeau-3633657",
     "title": "Égouttoir à carafe",
-    "description": "Description à personnaliser.",
+    "description": "Égouttoir à carafe en métal",
     "targetAmount": 28.9,
     "currentAmount": 0,
     "category": "Appartement",
     "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/17909648586n6wc_595.png",
     "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633657.html",
-    "personalNote": "Mot personnel à ajouter ici."
+    "personalNote": ""
   },
   {
     "id": "cadeau-3635821",
     "title": "Plancha à gaz ENO",
-    "description": "Description à personnaliser.",
+    "description": "Plancha à gaz piezo-mécanique 3 brûleurs à double rampe",
     "targetAmount": 439,
     "currentAmount": 0,
     "category": "Mobilier",
     "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1791355495u1m4q_595.jpeg",
     "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3635821.html",
-    "personalNote": "Mot personnel à ajouter ici."
-  },
-  {
-    "id": "cadeau-3635820",
-    "title": "Bernardaud site officiel | Porcelai...",
-    "description": "Description à personnaliser.",
-    "targetAmount": 306,
-    "currentAmount": 0,
-    "category": "Accessoires",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1791355385uctfv_595.jpg",
-    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3635820.html",
-    "personalNote": "Mot personnel à ajouter ici."
-  },
-  {
-    "id": "cadeau-3635819",
-    "title": "Bernardaud site officiel | Porcelai...",
-    "description": "Description à personnaliser.",
-    "targetAmount": 673.1,
-    "currentAmount": 0,
-    "category": "Tasses",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1791355193ctwn8_595.jpg",
-    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3635819.html",
-    "personalNote": "Mot personnel à ajouter ici."
-  },
-  {
-    "id": "cadeau-3635818",
-    "title": "Bernardaud site officiel | Porcelai...",
-    "description": "Description à personnaliser.",
-    "targetAmount": 678.3,
-    "currentAmount": 0,
-    "category": "Tasses",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1791355137vvx0c_595.jpg",
-    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3635818.html",
-    "personalNote": "Mot personnel à ajouter ici."
-  },
-  {
-    "id": "cadeau-3635814",
-    "title": "Bernardaud site officiel | Porcelai...",
-    "description": "Description à personnaliser.",
-    "targetAmount": 175.1,
-    "currentAmount": 0,
-    "category": "Autres",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1791355022g7gsj_595.jpg",
-    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3635814.html",
-    "personalNote": "Mot personnel à ajouter ici."
-  },
-  {
-    "id": "cadeau-3635813",
-    "title": "Bernardaud site officiel | Porcelai...",
-    "description": "Description à personnaliser.",
-    "targetAmount": 306,
-    "currentAmount": 0,
-    "category": "Autres",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/17913549737gygq_595.jpg",
-    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3635813.html",
-    "personalNote": "Mot personnel à ajouter ici."
+    "personalNote": ""
   }
 ]
