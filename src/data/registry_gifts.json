@@ -11,26 +11,15 @@
     "personalNote": "Pour notre lune de miel, nous avons choisi le Cambodge afin de partir sur les traces de la famille de Valentine et d'en (re)découvrir la culture !"
   },
   {
-    "id": "cadeau-3633660",
-    "title": "Dyson R2 Nurovi",
-    "description": "Robot aspirateur avec deux serpillaires triangulaires, un moteur d'aspiration de 21 000 Pa et une brosse auto-démêlante",
-    "targetAmount": 849,
+    "id": "cadeau-3633656",
+    "title": "Croix",
+    "description": "Croix en mosaïque fabriquée par les soins de l'artisanat de l'Arche.",
+    "targetAmount": 35,
     "currentAmount": 0,
     "category": "Appartement",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790974316crd8a_595.jpg",
-    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633660.html",
-    "personalNote": "Le rêve absolu de Jean : un appartement impeccable sans lever le petit doigt pendant 90 jours, et un pilotage LIDAR pour éviter tout risque de piratage !"
-  },
-  {
-    "id": "cadeau-3633192",
-    "title": "Platine vinyle Pro-Ject T1 Evo",
-    "description": "modèle T1 BT modifiée, fabriquée en Europe, qui intègre un préamplificateur, un émetteur Bluetooth et une cellule Ortofon OM10 configurée en usine pour permettre un fonctionnement immédiat",
-    "targetAmount": 449,
-    "currentAmount": 0,
-    "category": "Hifi et audio",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790801209boi2a_595.jpeg",
-    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633192.html",
-    "personalNote": "Valentine se passionne pour les vinyles et débute sa collection, il ne reste plus qu'à pouvoir les écouter !"
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790964816jfj08_595.jpg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633656.html",
+    "personalNote": ""
   },
   {
     "id": "cadeau-3633655",
@@ -42,61 +31,6 @@
     "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790964751c60nd_595.jpg",
     "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633655.html",
     "personalNote": "As d'or 2018, Azul est un grand classique que nous aimons beaucoup mais que nous n'avons pas encore dans notre ludothèque !"
-  },
-  {
-    "id": "cadeau-3633661",
-    "title": "Machine à crêpes 6pers.",
-    "description": "Appareil à crêpes électrique de 1000W avec revêtement antiadhésif permettant de cuire simultanément 6 mini-crêpes ou pancakes",
-    "targetAmount": 69.99,
-    "currentAmount": 0,
-    "category": "Appartement",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790974345wrusr_595.png",
-    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633661.html",
-    "personalNote": "Il en va de la survie de nos traditions : le sacro-saint rituel de la crêpe party du dimanche soir de valentine doit pouvoir perdurer!"
-  },
-  {
-    "id": "cadeau-3633658",
-    "title": "Machine à raclette 8pers.",
-    "description": "Appareil à raclette de 1100W multifonction avec plaque de cuisson en pierre naturelle",
-    "targetAmount": 149.99,
-    "currentAmount": 0,
-    "category": "Appartement",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790974752lyptd_595.jpeg",
-    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633658.html",
-    "personalNote": "Un appartement se doit de posséder un appareil à raclette. Avec ça, nous serons officiellement parés pour la saison hivernale 2027-2028 !"
-  },
-  {
-    "id": "cadeau-3633663",
-    "title": "Cocotte ronde en fonte émaillée 28cm",
-    "description": "Ustensile culinaire en fonte émaillée, tolérant une amplitude thermique extrême allant de -23℃ à 260℃. Son revêtement multicouche résiste à l'acidité et favorise une caramélisation optimale.",
-    "targetAmount": 455,
-    "currentAmount": 0,
-    "category": "Appartement",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790974661nno34_595.jpeg",
-    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633663.html",
-    "personalNote": ""
-  },
-  {
-    "id": "cadeau-3633662",
-    "title": "6 Mini cocottes en céramique",
-    "description": "Ensemble de 6 récipients individuels en céramique technique (grès émaillé) à haute densité.",
-    "targetAmount": 174,
-    "currentAmount": 0,
-    "category": "Appartement",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790974506o3fya_595.jpeg",
-    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633662.html",
-    "personalNote": ""
-  },
-  {
-    "id": "cadeau-3633656",
-    "title": "Croix",
-    "description": "Croix en mosaïque fabriquée par les soins de l'artisanat de l'Arche.",
-    "targetAmount": 35,
-    "currentAmount": 0,
-    "category": "Appartement",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790964816jfj08_595.jpg",
-    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633656.html",
-    "personalNote": ""
   },
   {
     "id": "cadeau-3633196",
@@ -176,6 +110,72 @@
     "personalNote": ""
   },
   {
+    "id": "cadeau-3633660",
+    "title": "Dyson R2 Nurovi",
+    "description": "Robot aspirateur avec deux serpillaires triangulaires, un moteur d'aspiration de 21 000 Pa et une brosse auto-démêlante",
+    "targetAmount": 849,
+    "currentAmount": 0,
+    "category": "Appartement",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790974316crd8a_595.jpg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633660.html",
+    "personalNote": "Le rêve absolu de Jean : un appartement impeccable sans lever le petit doigt pendant 90 jours, et un pilotage LIDAR pour éviter tout risque de piratage !"
+  },
+  {
+    "id": "cadeau-3633192",
+    "title": "Platine vinyle Pro-Ject T1 Evo",
+    "description": "Modèle T1 BT modifiée, fabriquée en Europe, qui intègre un préamplificateur, un émetteur Bluetooth et une cellule Ortofon OM10.",
+    "targetAmount": 449,
+    "currentAmount": 0,
+    "category": "Appartement",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790801209boi2a_595.jpeg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633192.html",
+    "personalNote": "Valentine se passionne pour les vinyles et débute sa collection, il ne reste plus qu'à pouvoir les écouter !"
+  },
+  {
+    "id": "cadeau-3633661",
+    "title": "Machine à crêpes 6pers.",
+    "description": "Appareil à crêpes électrique de 1000W avec revêtement antiadhésif permettant de cuire simultanément 6 mini-crêpes ou pancakes",
+    "targetAmount": 69.99,
+    "currentAmount": 0,
+    "category": "Appartement",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790974345wrusr_595.png",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633661.html",
+    "personalNote": "Il en va de la survie de nos traditions : le sacro-saint rituel de la crêpe party du dimanche soir de valentine doit pouvoir perdurer!"
+  },
+  {
+    "id": "cadeau-3633658",
+    "title": "Machine à raclette 8pers.",
+    "description": "Appareil à raclette de 1100W multifonction avec plaque de cuisson en pierre naturelle",
+    "targetAmount": 149.99,
+    "currentAmount": 0,
+    "category": "Appartement",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790974752lyptd_595.jpeg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633658.html",
+    "personalNote": "Un appartement se doit de posséder un appareil à raclette. Avec ça, nous serons officiellement parés pour la saison hivernale 2027-2028 !"
+  },
+  {
+    "id": "cadeau-3633663",
+    "title": "Cocotte ronde en fonte émaillée 28cm",
+    "description": "Ustensile culinaire en fonte émaillée, tolérant une amplitude thermique extrême allant de -23℃ à 260℃. Son revêtement multicouche résiste à l'acidité et favorise une caramélisation optimale.",
+    "targetAmount": 455,
+    "currentAmount": 0,
+    "category": "Appartement",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790974661nno34_595.jpeg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633663.html",
+    "personalNote": ""
+  },
+  {
+    "id": "cadeau-3633662",
+    "title": "6 Mini cocottes en céramique",
+    "description": "Ensemble de 6 récipients individuels en céramique technique (grès émaillé) à haute densité.",
+    "targetAmount": 174,
+    "currentAmount": 0,
+    "category": "Appartement",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790974506o3fya_595.jpeg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633662.html",
+    "personalNote": ""
+  },
+  {
     "id": "cadeau-3633657",
     "title": "Égouttoir à carafe",
     "description": "Égouttoir à carafe en métal",
@@ -192,7 +192,7 @@
     "description": "Plancha à gaz piezo-mécanique 3 brûleurs à double rampe",
     "targetAmount": 439,
     "currentAmount": 0,
-    "category": "Mobilier",
+    "category": "Appartement",
     "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1791355495u1m4q_595.jpeg",
     "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3635821.html",
     "personalNote": ""
