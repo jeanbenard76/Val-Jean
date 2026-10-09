@@ -138,6 +138,7 @@ export default function App() {
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
+        </div>
 
         {/* 2. MOBILE DRAWER NAVIGATION */}
         <AnimatePresence>
@@ -169,6 +170,7 @@ export default function App() {
                 }`}
               >
                 {item.label}
+              </button>
             ))}
             </motion.div>
           )}
