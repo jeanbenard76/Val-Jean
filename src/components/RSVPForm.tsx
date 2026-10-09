@@ -108,15 +108,19 @@ export default function RSVPForm() {
 
   // Search filter matching families or individual member names
   const filteredSuggestions = useMemo(() => {
-    const q = searchQuery.trim().toLowerCase();
+    const q = searchQuery.trim();
     if (!q) return [];
+    
+    const normalize = (str: string) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const searchTerms = normalize(q).split(/\s+/);
+
     return families.filter((fam) => {
-      if (fam.familyName.toLowerCase().includes(q)) return true;
-      return fam.members.some(
-        (m) =>
-          m.firstName.toLowerCase().includes(q) ||
-          m.lastName.toLowerCase().includes(q)
-      );
+      const famString = normalize([
+        fam.familyName,
+        ...fam.members.map((m) => `${m.firstName} ${m.lastName}`)
+      ].join(' '));
+      
+      return searchTerms.every((term) => famString.includes(term));
     });
   }, [searchQuery, families]);
 
