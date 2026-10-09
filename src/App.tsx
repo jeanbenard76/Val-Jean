@@ -215,7 +215,7 @@ export default function App() {
 
                 {/* Main Script Heading */}
                 <h1 className="font-script text-[clamp(3rem,5vw,5rem)] 2xl:text-[7rem] text-[#13263B] my-1 sm:my-2 leading-tight drop-shadow-xs select-none">
-                  Valentine <span className="font-serif italic text-[#C4A475]">&amp;</span> Jean
+                  Valentine <span className="font-serif font-light text-[#C4A475] px-1">&amp;</span> Jean
                 </h1>
 
                 {/* Simple & Authentic Date Display */}
