@@ -120,16 +120,16 @@ export default function Contact() {
               {/* Divider */}
               <div className="w-24 h-[1px] bg-[#3B6FA0]/10 mx-auto" />
 
-              {/* Juliette */}
+              {/* Thomas */}
               <div className="flex items-start gap-4">
                 <div>
                   <h5 className="font-display font-semibold text-base text-[#1A3A5C]">
-                    Juliette Chem-Lenhof <span className="text-xs text-[#5A5040]/70 font-serif italic">(Témoin de Valentine)</span>
+                    Thomas Malgouyres <span className="text-xs text-[#5A5040]/70 font-serif italic">(Témoin de Valentine)</span>
                   </h5>
                   <p className="text-xs text-[#5A5040] font-serif italic mt-0.5">Pour organiser des surprises, discours et animations</p>
-                  <a href="tel:+33611223344" className="inline-flex items-center gap-1.5 mt-2 text-xs font-mono font-semibold text-[#3B6FA0] hover:text-[#1A3A5C] transition-colors">
+                  <a href="tel:+33652934211" className="inline-flex items-center gap-1.5 mt-2 text-xs font-mono font-semibold text-[#3B6FA0] hover:text-[#1A3A5C] transition-colors">
                     <Phone className="w-3.5 h-3.5" />
-                    <span>+33 6 11 22 33 44</span>
+                    <span>+33 6 52 93 42 11</span>
                   </a>
                 </div>
               </div>
