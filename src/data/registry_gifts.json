@@ -6,7 +6,7 @@
     "targetAmount": 5000,
     "currentAmount": 0,
     "category": "Voyage de noce",
-    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/334651/1790786898ve2dd_595.jpg",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1791551036u3v39_595.jpeg",
     "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633200.html",
     "personalNote": "Pour notre lune de miel, nous avons choisi le Cambodge afin de partir sur les traces de la famille de Valentine et d'en (re)découvrir la culture !"
   },
@@ -19,6 +19,39 @@
     "category": "Appartement",
     "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1790964816jfj08_595.jpg",
     "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3633656.html",
+    "personalNote": ""
+  },
+  {
+    "id": "cadeau-3636609",
+    "title": "Zenith",
+    "description": "",
+    "targetAmount": 29.9,
+    "currentAmount": 0,
+    "category": "Jeux de société",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1791528662v5q5l_595.jpg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3636609.html",
+    "personalNote": ""
+  },
+  {
+    "id": "cadeau-3636610",
+    "title": "Behind",
+    "description": "",
+    "targetAmount": 20.9,
+    "currentAmount": 0,
+    "category": "Jeux de société",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1791528701x3djy_595.jpg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3636610.html",
+    "personalNote": ""
+  },
+  {
+    "id": "cadeau-3636611",
+    "title": "Courtisans",
+    "description": "",
+    "targetAmount": 18,
+    "currentAmount": 0,
+    "category": "Jeux de société",
+    "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/179152880744jo4_595.jpg",
+    "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3636611.html",
     "personalNote": ""
   },
   {
@@ -191,7 +224,7 @@
     "title": "Plancha à gaz ENO",
     "description": "Plancha à gaz piezo-mécanique 3 brûleurs à double rampe",
     "targetAmount": 439,
-    "currentAmount": 0,
+    "currentAmount": 1,
     "category": "Appartement",
     "imageUrl": "https://www.millemercismariage.com/uploads/photos/cadeaux/2026/335729/1791355495u1m4q_595.jpeg",
     "actionUrl": "https://www.millemercismariage.com/valentineetjean/liste/cadeau-3635821.html",
