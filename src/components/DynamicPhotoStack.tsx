@@ -233,7 +233,7 @@ export default function DynamicPhotoStack() {
 
               {/* Polaroid Caption */}
               <div className="text-center pt-2 select-none flex flex-col justify-center">
-                <h4 className="font-display text-[#13263B] text-base font-semibold">
+                <h4 className="font-display text-[#3B6FA0] text-base font-semibold">
                   {photo.title}
                 </h4>
                 <p className="font-serif italic text-[#3B6FA0] text-xs">
