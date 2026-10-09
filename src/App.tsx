@@ -75,7 +75,8 @@ export default function App() {
     <div className="min-h-[100dvh] toile-overlay selection:bg-[#FAE28A] flex flex-col relative" id="app-root">
       
       {/* 1. STICKY NAV HEADER */}
-      <header className="sticky top-0 z-[100] bg-[#FFFEF5]/90 backdrop-blur-md border-b border-[#3B6FA0]/15 px-6 py-4 flex items-center justify-between shadow-xs">
+      <header className="sticky top-0 z-[100] bg-[#FFFEF5]/90 backdrop-blur-md shadow-xs flex flex-col">
+        <div className="border-b border-[#3B6FA0]/15 px-6 py-4 flex items-center justify-between w-full relative z-[101]">
         {/* Left: Brand Monogram */}
         <div 
           onClick={() => handlePageChange('home')} 
@@ -137,19 +138,18 @@ export default function App() {
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
-      </header>
 
-      {/* 2. MOBILE DRAWER NAVIGATION */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden fixed top-[73px] left-0 right-0 bg-[#FFFEF5]/95 backdrop-blur-lg border-b border-[#3B6FA0]/15 z-[90] shadow-xl overflow-hidden flex flex-col p-6 space-y-4 font-serif tracking-widest uppercase text-[#1A3A5C] text-center"
-            id="mobile-navigation-drawer"
-          >
+        {/* 2. MOBILE DRAWER NAVIGATION */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="lg:hidden absolute top-full left-0 right-0 bg-[#FFFEF5]/95 backdrop-blur-lg border-b border-[#3B6FA0]/15 z-[90] shadow-xl overflow-hidden flex flex-col p-6 space-y-4 font-serif tracking-widest uppercase text-[#1A3A5C] text-center origin-top"
+              id="mobile-navigation-drawer"
+            >
             {[
               { id: 'home', label: 'Accueil' },
               { id: 'story', label: 'Notre Histoire' },
@@ -169,11 +169,11 @@ export default function App() {
                 }`}
               >
                 {item.label}
-              </button>
             ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
 
       {/* 3. MAIN WORKSPACE */}
       <main className="flex-1">
