@@ -233,7 +233,7 @@ export default function OurStory() {
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, margin: '-80px' }}
+                  viewport={{ once: true, margin: '-20px' }}
                   transition={{ duration: 0.6, delay: 0.05 }}
                   className={`max-w-6xl mx-auto w-full transition-all duration-500 relative z-10 ${isActive ? 'opacity-100 scale-100' : 'opacity-85 scale-[0.98]'
                     }`}
