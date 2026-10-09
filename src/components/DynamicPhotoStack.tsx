@@ -135,7 +135,7 @@ export default function DynamicPhotoStack() {
       
       {/* SECTION HEADER */}
       <div className="text-center mb-6">
-        <h3 className="font-display text-2xl sm:text-3xl text-[#13263B]">
+        <h3 className="font-script text-[clamp(2.5rem,4.5vw,5rem)] text-[#13263B]">
           Quelques souvenirs
         </h3>
       </div>

@@ -176,11 +176,6 @@ export default function OurStory() {
         <div className="w-20 h-[1px] bg-[#C4A475] mx-auto my-2" />
       </div>
 
-      {/* 4. DYNAMIC PHOTO STACK MOVED HERE */}
-      <div className="mb-16 sm:mb-24 relative z-20">
-        <DynamicPhotoStack />
-      </div>
-
       <div className="relative w-full">
         {/* 2. MATHEMATICALLY PERFECT SVG THREAD 
             By using grid auto-rows, we guarantee each step takes exactly 1/6th of the height.
@@ -357,6 +352,11 @@ export default function OurStory() {
             );
           })}
         </div>
+      </div>
+
+      {/* 4. DYNAMIC PHOTO STACK AT THE BOTTOM */}
+      <div className="mt-16 sm:mt-24">
+        <DynamicPhotoStack />
       </div>
     </section>
   );
