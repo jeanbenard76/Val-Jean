@@ -109,7 +109,7 @@ export default function Registry() {
 
       {/* Grid of Translucent White Gift Cards (2 Columns on Desktop) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence>
           {filteredItems.map((item) => {
             const isFullyFunded = item.currentAmount >= item.targetAmount;
             const percentage = item.currentAmount ? Math.round((item.currentAmount / item.targetAmount) * 100) : 0;
