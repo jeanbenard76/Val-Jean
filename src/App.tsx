@@ -193,7 +193,7 @@ export default function App() {
                 {/* Parents & Larger Center Logo Row */}
                 <div className="flex flex-row items-center justify-between gap-2 sm:gap-6 w-full max-w-3xl mx-auto px-2 sm:px-4 border-b border-[#C4A475]/30 pb-6 sm:pb-8 mb-6 sm:mb-8">
                   <span className="text-[9px] sm:text-xs font-serif tracking-widest uppercase text-[#13263B]/70 text-center sm:text-left font-medium leading-relaxed">
-                    Anne et Visith <br /> Chem-Lenhof
+                    Monsieur et Madame <br /> Visith et Anne Chem-Lenhof
                   </span>
 
                   <div className="p-1 sm:p-1.5 bg-[#FAF7F2] rounded-full border border-[#C4A475]/35 shadow-xs shrink-0 mx-1 sm:mx-0">
@@ -201,7 +201,7 @@ export default function App() {
                   </div>
 
                   <span className="text-[9px] sm:text-xs font-serif tracking-widest uppercase text-[#13263B]/70 text-center sm:text-right font-medium leading-relaxed">
-                    Anny-Claude et Marc <br /> Bénard
+                    Monsieur et Madame <br /> Marc et Anny-Claude Bénard
                   </span>
                 </div>
               </div>
