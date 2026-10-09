@@ -299,7 +299,7 @@ export default function OurStory() {
                             style={{ transform: `rotate(${step.rotateDeg})` }}
                           >
                             <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-[#FAF7F2]/90 border border-amber-200/60 rotate-[-1deg] opacity-80 pointer-events-none" />
-                            <div className="w-full aspect-4/3 rounded-lg bg-slate-50 overflow-hidden relative">
+                            <div className="w-full aspect-[4/3] rounded-lg bg-slate-50 overflow-hidden relative">
                               <img
                                 src={step.defaultImage}
                                 alt={`${step.title} situation`}
@@ -314,7 +314,7 @@ export default function OurStory() {
                             style={{ transform: `rotate(-${step.rotateDeg})` }}
                           >
                             <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-[#FAF7F2]/90 border border-amber-200/60 rotate-[1deg] opacity-80 pointer-events-none" />
-                            <div className="w-full aspect-4/3 rounded-lg bg-slate-50 overflow-hidden relative">
+                            <div className="w-full aspect-[4/3] rounded-lg bg-slate-50 overflow-hidden relative">
                               <img
                                 src={step.coupleImage}
                                 alt={`${step.title} couple`}
