@@ -31,64 +31,64 @@ const PHOTOS: PhotoCard[] = [
     id: 1,
     src: img1,
     alt: "Winner",
-    title: "Victoire !",
-    caption: "L'esprit de compétition",
+    title: "3 mai 2025",
+    caption: "",
     rotation: -3,
   },
   {
     id: 2,
     src: img2,
     alt: "Camping",
-    title: "Camping",
-    caption: "Aventures en nature",
+    title: "14 mai 2026",
+    caption: "",
     rotation: 4,
   },
   {
     id: 3,
     src: img3,
     alt: "Mariage amis",
-    title: "Mariage des amis",
-    caption: "Célébrations",
+    title: "04 juillet 2026",
+    caption: "",
     rotation: -2,
   },
   {
     id: 4,
     src: img4,
     alt: "Course à pied",
-    title: "Course à pied",
-    caption: "Dépassement de soi",
+    title: "28 mars 2025",
+    caption: "",
     rotation: 3,
   },
   {
     id: 5,
     src: img5,
     alt: "30 ans mariage",
-    title: "Noces de perle",
-    caption: "30 ans de mariage",
+    title: "19 septembre 2026",
+    caption: "",
     rotation: -4,
   },
   {
     id: 6,
     src: img6,
     alt: "Annecy",
-    title: "Annecy",
-    caption: "Escapade au lac",
+    title: "21 août 2021",
+    caption: "",
     rotation: 5,
   },
   {
     id: 7,
     src: img7,
     alt: "Parcs naturels",
-    title: "Parcs naturels",
-    caption: "Les grands espaces",
+    title: "13 octobre 2024",
+    caption: "",
     rotation: -3,
   },
   {
     id: 8,
     src: img8,
     alt: "Saumur",
-    title: "Saumur",
-    caption: "Escapade",
+    title: "18 août 2022",
+    caption: "",
     rotation: 2,
   },
 ];
@@ -135,11 +135,8 @@ export default function DynamicPhotoStack() {
       
       {/* SECTION HEADER */}
       <div className="text-center mb-6">
-        <span className="font-serif italic text-xs text-[#3B6FA0] uppercase tracking-widest block mb-1">
-          Album Souvenir &amp; Clichés
-        </span>
         <h3 className="font-display text-2xl sm:text-3xl text-[#13263B]">
-          Instantanés de Bonheur
+          Quelques souvenirs
         </h3>
       </div>
 

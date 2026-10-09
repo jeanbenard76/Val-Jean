@@ -8,6 +8,7 @@ import voituresImg from '../assets/images/voitures.png';
 import oursImg from '../assets/images/ours.png';
 import retrouvaillesImg from '../assets/images/toureiffel.png';
 import buttesChaumontImg from '../assets/images/buttes_chaumont.png';
+import DynamicPhotoStack from './DynamicPhotoStack';
 
 export interface StoryStep {
   id: number;
@@ -173,6 +174,11 @@ export default function OurStory() {
           L'Histoire de Valentine &amp; Jean
         </h2>
         <div className="w-20 h-[1px] bg-[#C4A475] mx-auto my-2" />
+      </div>
+
+      {/* 4. DYNAMIC PHOTO STACK MOVED HERE */}
+      <div className="mb-16 sm:mb-24 relative z-20">
+        <DynamicPhotoStack />
       </div>
 
       <div className="relative w-full">
