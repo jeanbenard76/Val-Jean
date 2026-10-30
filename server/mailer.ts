@@ -345,7 +345,7 @@ export function generateIcsContent(params: {
     "PRODID:-//Valentine & Jean//Mariage 2027//FR",
     "VERSION:2.0",
     "CALSCALE:GREGORIAN",
-    "METHOD:REQUEST",
+    "METHOD:PUBLISH",
     "BEGIN:VTIMEZONE",
     "TZID:Europe/Paris",
     "X-LIC-LOCATION:Europe/Paris",
@@ -368,7 +368,6 @@ export function generateIcsContent(params: {
     `UID:${params.uid}`,
     `DTSTAMP:${dtStamp}`,
     `ORGANIZER;CN="Valentine & Jean":mailto:${COUPLE_RSVP_ADDRESS}`,
-    `ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN="${safeAttendeeName}":mailto:${safeAttendeeEmail}`,
     `DTSTART;TZID=Europe/Paris:${params.slot.dtStartLocal}`,
     `DTEND;TZID=Europe/Paris:${params.slot.dtEndLocal}`,
     `SUMMARY:${escapeIcsText(params.slot.summary)}`,
@@ -610,24 +609,23 @@ ${data.members.map((m) => `- ${m.firstName} ${m.lastName} (${m.isChild ? 'Enfant
   ];
 
   if (data.email && data.email.trim() && data.email.includes('@')) {
-    const guestMail: Parameters<typeof sendMail>[0] = {
+    const guestAttachments: any[] = [...mailAttachmentsWithLogo];
+    if (calendarSlot && icsContent) {
+      guestAttachments.push({
+        filename: "mariage-valentine-et-jean.ics",
+        content: icsContent,
+        contentType: "text/calendar; charset=utf-8",
+      });
+    }
+
+    mails.push({
       to: data.email.trim(),
       replyTo: COUPLE_RSVP_ADDRESS,
       subject: "[RSVP Mariage de Valentine & Jean] Merci pour votre réponse.",
       html: guestHtml,
       text: guestText,
-      attachments: mailAttachmentsWithLogo,
-    };
-
-    if (calendarSlot && icsContent) {
-      guestMail.icalEvent = {
-        filename: "mariage-valentine-et-jean.ics",
-        method: "REQUEST",
-        content: icsContent,
-      };
-    }
-
-    mails.push(guestMail);
+      attachments: guestAttachments,
+    });
   }
 
   await sendAll(mails);
