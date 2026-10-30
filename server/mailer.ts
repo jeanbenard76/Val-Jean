@@ -614,7 +614,7 @@ ${data.members.map((m) => `- ${m.firstName} ${m.lastName} (${m.isChild ? 'Enfant
       guestAttachments.push({
         filename: "mariage-valentine-et-jean.ics",
         content: icsContent,
-        contentType: "text/calendar; charset=utf-8",
+        contentType: "application/octet-stream",
       });
     }
 
