@@ -540,44 +540,13 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
     : null;
 
   const calendarSectionHtml = calendarSlot ? `
-      <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-left: 4px solid #C4A475; border-radius: 8px; padding: 18px 20px; margin: 0 0 28px 0;">
-        <div style="font-size: 13px; font-weight: 700; color: #C4A475; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;">
-          📅 Ajouter à votre agenda
-        </div>
-        <div style="font-size: 16px; font-weight: 600; color: #13263B; margin-bottom: 6px;">
-          ${esc(calendarSlot.summary)}
-        </div>
-        <div style="font-size: 14px; color: #475569; margin-bottom: 16px; line-height: 1.5;">
-          🕒 <strong>Créneau réservé :</strong> ${esc(calendarSlot.slotText)}
-        </div>
-        
-        <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 12px;">
-          <tr>
-            <td style="padding-right: 10px; padding-bottom: 8px;">
-              <a href="${calendarSlot.googleUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: #13263B; color: #ffffff; text-decoration: none; padding: 9px 18px; border-radius: 6px; font-size: 13px; font-weight: 500; letter-spacing: 0.3px;">
-                + Google Agenda
-              </a>
-            </td>
-            <td style="padding-bottom: 8px;">
-              <a href="${calendarSlot.outlookUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: #ffffff; color: #13263B; border: 1px solid #cbd5e1; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; letter-spacing: 0.3px;">
-                + Outlook
-              </a>
-            </td>
-          </tr>
-        </table>
-
-        <p style="margin: 0; font-size: 12px; color: #64748b; line-height: 1.5;">
-          📎 <em>Une invitation <strong>mariage-valentine-et-jean.ics</strong> est également jointe à ce courriel pour l’ajouter d’un clic sur <strong>Apple Calendar (iPhone, Mac)</strong> et autres applications.</em>
-        </p>
-      </div>
+      <p style="font-size: 14px; font-weight: 300; color: #64748b; margin: 0 0 24px 0; line-height: 1.7;">
+        🗓️ <em>L’invitation d’agenda pour le créneau du <strong>${esc(calendarSlot.slotText)}</strong> est jointe à ce courriel (également disponible sur <a href="${calendarSlot.googleUrl}" target="_blank" rel="noopener noreferrer" style="color: #3B6E9E; text-decoration: underline;">Google Agenda</a> ou <a href="${calendarSlot.outlookUrl}" target="_blank" rel="noopener noreferrer" style="color: #3B6E9E; text-decoration: underline;">Outlook</a>).</em>
+      </p>
   ` : "";
 
   const calendarSectionText = calendarSlot ? `
-Ajouter à votre agenda :
-- Créneau réservé : ${calendarSlot.slotText}
-- Google Agenda : ${calendarSlot.googleUrl}
-- Outlook : ${calendarSlot.outlookUrl}
-(Le fichier d'invitation mariage-valentine-et-jean.ics est également joint à ce courriel pour Apple Calendar, iPhone, Mac, Outlook et autres agendas)
+(L'invitation d'agenda pour le créneau du ${calendarSlot.slotText} est jointe à ce courriel — lien direct Google Agenda : ${calendarSlot.googleUrl})
 ` : "";
 
   const coupleHeaderHtml = `
