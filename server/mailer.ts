@@ -239,14 +239,14 @@ export function determineCalendarSlot(members: RSVPMailPayload["members"]): Wedd
   // Si au moins un membre présent participe au repas de noces
   const hasDinner = attending.some((m) => Boolean(m.events?.repasNoces));
   if (hasDinner) {
-    const title = "Mariage Valentine & Jean — Cérémonie, Dîner & Soirée";
+    const title = "Mariage Valentine & Jean — Cérémonie & Dîner";
     const description = [
       "Mariage de Valentine & Jean",
       "",
       "Programme du Samedi 17 Avril 2027 :",
       "• 14h30 : Cérémonie religieuse (Église catholique Notre-Dame-de-l'Assomption, 76880 Arques-la-Bataille)",
       "• 18h00 : Vin d'honneur & cocktail (Manoir d'Auffay, Promenade du Château, 76560 Oherville)",
-      "• 20h00 : Dîner de Noces & Soirée dansante jusqu'au bout de la nuit (03h00)",
+      "• 20h00 : Dîner de Noces & Soirée dansante",
     ].join("\n");
 
     const startUtc = "20270417T123000Z";
@@ -258,7 +258,7 @@ export function determineCalendarSlot(members: RSVPMailPayload["members"]): Wedd
       type: "diner",
       title,
       summary: title,
-      slotText: "Samedi 17 avril 2027 de 14h30 au dimanche 18 avril 2027 à 03h00",
+      slotText: "Samedi 17 avril 2027 à partir de 14h30",
       dtStartLocal: "20270417T143000",
       dtEndLocal: "20270418T030000",
       startUtc,
