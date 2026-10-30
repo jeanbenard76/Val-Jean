@@ -90,11 +90,6 @@ async function sendMail(mail: {
   text?: string;
   replyTo?: string;
   attachments?: any[];
-  icalEvent?: {
-    filename?: string;
-    method?: string;
-    content?: string | Buffer;
-  };
 }) {
   const smtp = getTransporter();
   if (!smtp) {
@@ -174,213 +169,6 @@ function eventsOf(m: RSVPMailPayload["members"][number]) {
   if (m.events?.repasNoces) events.push("Repas de Noces");
   if (m.events?.brunchLendemain) events.push("Brunch");
   return events.length > 0 ? events.join(", ") : "Aucun";
-}
-
-export interface WeddingCalendarSlot {
-  type: "vin_honneur" | "diner" | "brunch";
-  title: string;
-  summary: string;
-  slotText: string;
-  dtStartLocal: string;
-  dtEndLocal: string;
-  startUtc: string;
-  endUtc: string;
-  startIso: string;
-  endIso: string;
-  description: string;
-  location: string;
-}
-
-export function determineCalendarSlot(members: RSVPMailPayload["members"]): WeddingCalendarSlot | null {
-  const attending = members.filter((m) => m.isAttending);
-  if (attending.length === 0) return null;
-
-  const location = "Église catholique Notre-Dame-de-l'Assomption, 76880 Arques-la-Bataille & Manoir d'Auffay, 76560 Oherville";
-
-  // 1. Créneau Brunch : samedi 14h30 - dimanche 14h30
-  // Si au moins un membre présent participe au brunch
-  const hasBrunch = attending.some((m) => Boolean(m.events?.brunchLendemain));
-  if (hasBrunch) {
-    const title = "Mariage Valentine & Jean — Mariage & Brunch";
-    const description = [
-      "Mariage de Valentine & Jean",
-      "",
-      "Programme du Samedi 17 Avril 2027 :",
-      "• 14h30 : Cérémonie religieuse (Église catholique Notre-Dame-de-l'Assomption, 76880 Arques-la-Bataille)",
-      "• 18h00 : Vin d'honneur & cocktail (Manoir d'Auffay, Promenade du Château, 76560 Oherville)",
-      "• 20h00 : Dîner de Noces & Soirée dansante",
-      "",
-      "Dimanche 18 Avril 2027 :",
-      "• Brunch du lendemain au Manoir d'Auffay jusqu'à 14h30",
-    ].join("\n");
-
-    const startUtc = "20270417T123000Z";
-    const endUtc = "20270418T123000Z";
-    const startIso = "2027-04-17T14:30:00";
-    const endIso = "2027-04-18T14:30:00";
-
-    return {
-      type: "brunch",
-      title,
-      summary: title,
-      slotText: "Du samedi 17 avril 2027 à 14h30 au dimanche 18 avril 2027 à 14h30",
-      dtStartLocal: "20270417T143000",
-      dtEndLocal: "20270418T143000",
-      startUtc,
-      endUtc,
-      startIso,
-      endIso,
-      description,
-      location,
-    };
-  }
-
-  // 2. Créneau Dîner : samedi 14h30 - dimanche 03h00
-  // Si au moins un membre présent participe au repas de noces
-  const hasDinner = attending.some((m) => Boolean(m.events?.repasNoces));
-  if (hasDinner) {
-    const title = "Mariage Valentine & Jean — Cérémonie & Dîner";
-    const description = [
-      "Mariage de Valentine & Jean",
-      "",
-      "Programme du Samedi 17 Avril 2027 :",
-      "• 14h30 : Cérémonie religieuse (Église catholique Notre-Dame-de-l'Assomption, 76880 Arques-la-Bataille)",
-      "• 18h00 : Vin d'honneur & cocktail (Manoir d'Auffay, Promenade du Château, 76560 Oherville)",
-      "• 20h00 : Dîner de Noces & Soirée dansante",
-    ].join("\n");
-
-    const startUtc = "20270417T123000Z";
-    const endUtc = "20270418T010000Z";
-    const startIso = "2027-04-17T14:30:00";
-    const endIso = "2027-04-18T03:00:00";
-
-    return {
-      type: "diner",
-      title,
-      summary: title,
-      slotText: "Samedi 17 avril 2027 à partir de 14h30",
-      dtStartLocal: "20270417T143000",
-      dtEndLocal: "20270418T030000",
-      startUtc,
-      endUtc,
-      startIso,
-      endIso,
-      description,
-      location,
-    };
-  }
-
-  // 3. Créneau Vin d'honneur uniquement : samedi 14h30 - 20h00
-  const title = "Mariage Valentine & Jean — Cérémonie & Vin d'Honneur";
-  const description = [
-    "Mariage de Valentine & Jean",
-    "",
-    "Programme du Samedi 17 Avril 2027 :",
-    "• 14h30 : Cérémonie religieuse (Église catholique Notre-Dame-de-l'Assomption, 76880 Arques-la-Bataille)",
-    "• 18h00 - 20h00 : Vin d'honneur & cocktail (Manoir d'Auffay, Promenade du Château, 76560 Oherville)",
-  ].join("\n");
-
-  const startUtc = "20270417T123000Z";
-  const endUtc = "20270417T180000Z";
-  const startIso = "2027-04-17T14:30:00";
-  const endIso = "2027-04-17T20:00:00";
-
-  return {
-    type: "vin_honneur",
-    title,
-    summary: title,
-    slotText: "Samedi 17 avril 2027 de 14h30 à 20h00",
-    dtStartLocal: "20270417T143000",
-    dtEndLocal: "20270417T200000",
-    startUtc,
-    endUtc,
-    startIso,
-    endIso,
-    description,
-    location,
-  };
-}
-
-function escapeIcsText(str: string): string {
-  return String(str || "")
-    .replace(/\\/g, "\\\\")
-    .replace(/;/g, "\\;")
-    .replace(/,/g, "\\,")
-    .replace(/\r?\n/g, "\\n");
-}
-
-function foldIcsLine(line: string): string {
-  if (Buffer.byteLength(line, "utf8") <= 74) return line;
-  let res = "";
-  let cur = "";
-  let isFirst = true;
-  for (const char of line) {
-    const limit = isFirst ? 74 : 73;
-    if (Buffer.byteLength(cur + char, "utf8") > limit) {
-      res += (isFirst ? "" : "\r\n ") + cur;
-      cur = char;
-      isFirst = false;
-    } else {
-      cur += char;
-    }
-  }
-  if (cur) res += (isFirst ? "" : "\r\n ") + cur;
-  return res;
-}
-
-export function generateIcsContent(params: {
-  uid: string;
-  recipientName: string;
-  recipientEmail: string;
-  slot: WeddingCalendarSlot;
-}): string {
-  const now = new Date();
-  const dtStamp = now.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-
-  const safeAttendeeName = params.recipientName.replace(/["\r\n\\]/g, "");
-  const safeAttendeeEmail = params.recipientEmail.replace(/[\r\n]/g, "");
-
-  const lines = [
-    "BEGIN:VCALENDAR",
-    "PRODID:-//Valentine & Jean//Mariage 2027//FR",
-    "VERSION:2.0",
-    "CALSCALE:GREGORIAN",
-    "METHOD:PUBLISH",
-    "BEGIN:VTIMEZONE",
-    "TZID:Europe/Paris",
-    "X-LIC-LOCATION:Europe/Paris",
-    "BEGIN:DAYLIGHT",
-    "TZOFFSETFROM:+0100",
-    "TZOFFSETTO:+0200",
-    "TZNAME:CEST",
-    "DTSTART:19700329T020000",
-    "RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU",
-    "END:DAYLIGHT",
-    "BEGIN:STANDARD",
-    "TZOFFSETFROM:+0200",
-    "TZOFFSETTO:+0100",
-    "TZNAME:CET",
-    "DTSTART:19701025T030000",
-    "RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU",
-    "END:STANDARD",
-    "END:VTIMEZONE",
-    "BEGIN:VEVENT",
-    `UID:${params.uid}`,
-    `DTSTAMP:${dtStamp}`,
-    `ORGANIZER;CN="Valentine & Jean":mailto:${COUPLE_RSVP_ADDRESS}`,
-    `DTSTART;TZID=Europe/Paris:${params.slot.dtStartLocal}`,
-    `DTEND;TZID=Europe/Paris:${params.slot.dtEndLocal}`,
-    `SUMMARY:${escapeIcsText(params.slot.summary)}`,
-    `DESCRIPTION:${escapeIcsText(params.slot.description)}`,
-    `LOCATION:${escapeIcsText(params.slot.location)}`,
-    "STATUS:CONFIRMED",
-    "SEQUENCE:0",
-    "TRANSP:OPAQUE",
-    "END:VEVENT",
-    "END:VCALENDAR",
-  ];
-
-  return lines.map(foldIcsLine).join("\r\n") + "\r\n";
 }
 
 /**
@@ -477,23 +265,6 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
   const introText = anyAttending
     ? "C’est avec une grande joie que nous avons pris connaissance de votre réponse. Nous vous remercions pour votre retour !"
     : "Nous avons bien pris note de votre réponse. Nous regrettons de ne pas pouvoir vous compter parmi nous, mais nous vous remercions sincèrement d'avoir pris le temps de nous répondre.";
-
-  const calendarSlot = determineCalendarSlot(data.members);
-  const safeSlug = (data.familyName || "invite")
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9]/g, "-")
-    .replace(/-+/g, "-");
-  const icsUid = `rsvp-vj-2027-${safeSlug}-${Date.now()}@valentinetjean.fr`;
-  const icsContent = calendarSlot && data.email
-    ? generateIcsContent({
-        uid: icsUid,
-        recipientName: `Famille ${data.familyName}`,
-        recipientEmail: data.email.trim(),
-        slot: calendarSlot,
-      })
-    : null;
 
   const coupleHeaderHtml = `
       <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
@@ -593,7 +364,7 @@ Valentine & Jean — 17 Avril 2027`;
   const coupleText = `Nouvelle réponse RSVP : Famille ${data.familyName}
 Contact : ${data.email?.trim() || 'Non renseigné'}
 Bilan : ${attendingCount} présent(s) sur ${totalCount}
-${calendarSlot ? `Créneau agenda : ${calendarSlot.slotText}\n` : ''}${data.message ? `Message joint : « ${data.message} »\n` : ''}
+${data.message ? `Message joint : « ${data.message} »\n` : ''}
 Détail des membres :
 ${data.members.map((m) => `- ${m.firstName} ${m.lastName} (${m.isChild ? 'Enfant' : 'Adulte'}) : ${m.isAttending ? 'PRÉSENT(E) - ' + eventsOf(m) : 'ABSENT(E)'}${m.dietaryNotes ? ' [Régime: ' + m.dietaryNotes + ']' : ''}`).join('\n')}`;
 
@@ -609,22 +380,13 @@ ${data.members.map((m) => `- ${m.firstName} ${m.lastName} (${m.isChild ? 'Enfant
   ];
 
   if (data.email && data.email.trim() && data.email.includes('@')) {
-    const guestAttachments: any[] = [...mailAttachmentsWithLogo];
-    if (calendarSlot && icsContent) {
-      guestAttachments.push({
-        filename: "mariage-valentine-et-jean.ics",
-        content: icsContent,
-        contentType: "application/octet-stream",
-      });
-    }
-
     mails.push({
       to: data.email.trim(),
       replyTo: COUPLE_RSVP_ADDRESS,
       subject: "[RSVP Mariage de Valentine & Jean] Merci pour votre réponse.",
       html: guestHtml,
       text: guestText,
-      attachments: guestAttachments,
+      attachments: mailAttachmentsWithLogo,
     });
   }
 
