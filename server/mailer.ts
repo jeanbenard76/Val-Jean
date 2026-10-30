@@ -189,43 +189,6 @@ export interface WeddingCalendarSlot {
   endIso: string;
   description: string;
   location: string;
-  googleUrl: string;
-  outlookUrl: string;
-}
-
-function buildGoogleCalendarUrl(params: {
-  title: string;
-  startUtc: string;
-  endUtc: string;
-  description: string;
-  location: string;
-}): string {
-  const base = "https://calendar.google.com/calendar/render?action=TEMPLATE";
-  const query = [
-    `text=${encodeURIComponent(params.title)}`,
-    `dates=${params.startUtc}/${params.endUtc}`,
-    `details=${encodeURIComponent(params.description)}`,
-    `location=${encodeURIComponent(params.location)}`,
-  ].join("&");
-  return `${base}&${query}`;
-}
-
-function buildOutlookCalendarUrl(params: {
-  title: string;
-  startIso: string;
-  endIso: string;
-  description: string;
-  location: string;
-}): string {
-  const base = "https://outlook.live.com/calendar/0/deeplink/compose?path=%2Fcalendar%2Faction%2Fcompose&rru=addevent";
-  const query = [
-    `subject=${encodeURIComponent(params.title)}`,
-    `startdt=${encodeURIComponent(params.startIso + "+02:00")}`,
-    `enddt=${encodeURIComponent(params.endIso + "+02:00")}`,
-    `body=${encodeURIComponent(params.description)}`,
-    `location=${encodeURIComponent(params.location)}`,
-  ].join("&");
-  return `${base}&${query}`;
 }
 
 export function determineCalendarSlot(members: RSVPMailPayload["members"]): WeddingCalendarSlot | null {
@@ -269,8 +232,6 @@ export function determineCalendarSlot(members: RSVPMailPayload["members"]): Wedd
       endIso,
       description,
       location,
-      googleUrl: buildGoogleCalendarUrl({ title, startUtc, endUtc, description, location }),
-      outlookUrl: buildOutlookCalendarUrl({ title, startIso, endIso, description, location }),
     };
   }
 
@@ -306,8 +267,6 @@ export function determineCalendarSlot(members: RSVPMailPayload["members"]): Wedd
       endIso,
       description,
       location,
-      googleUrl: buildGoogleCalendarUrl({ title, startUtc, endUtc, description, location }),
-      outlookUrl: buildOutlookCalendarUrl({ title, startIso, endIso, description, location }),
     };
   }
 
@@ -339,8 +298,6 @@ export function determineCalendarSlot(members: RSVPMailPayload["members"]): Wedd
     endIso,
     description,
     location,
-    googleUrl: buildGoogleCalendarUrl({ title, startUtc, endUtc, description, location }),
-    outlookUrl: buildOutlookCalendarUrl({ title, startIso, endIso, description, location }),
   };
 }
 
@@ -539,16 +496,6 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
       })
     : null;
 
-  const calendarSectionHtml = calendarSlot ? `
-      <p style="font-size: 14px; font-weight: 300; color: #64748b; margin: 0 0 24px 0; line-height: 1.7;">
-        🗓️ <em>L’invitation d’agenda pour le créneau du <strong>${esc(calendarSlot.slotText)}</strong> est jointe à ce courriel (également disponible sur <a href="${calendarSlot.googleUrl}" target="_blank" rel="noopener noreferrer" style="color: #3B6E9E; text-decoration: underline;">Google Agenda</a> ou <a href="${calendarSlot.outlookUrl}" target="_blank" rel="noopener noreferrer" style="color: #3B6E9E; text-decoration: underline;">Outlook</a>).</em>
-      </p>
-  ` : "";
-
-  const calendarSectionText = calendarSlot ? `
-(L'invitation d'agenda pour le créneau du ${calendarSlot.slotText} est jointe à ce courriel — lien direct Google Agenda : ${calendarSlot.googleUrl})
-` : "";
-
   const coupleHeaderHtml = `
       <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
         <div style="flex: 1; min-width: 200px; background-color: #f1f5f9; padding: 12px 16px; border-radius: 6px;">
@@ -588,8 +535,6 @@ export async function sendRSVPNotificationEmail(data: RSVPMailPayload) {
       <div style="margin: 0 0 32px 16px; border-left: 1px solid #e2e8f0; padding-left: 20px;">
         ${guestRecap}
       </div>
-
-      ${calendarSectionHtml}
       
       <p style="font-size: 15px; font-weight: 300; margin-bottom: 24px; line-height: 1.8;">
         Si le moindre imprévu venait modifier ces informations, n’hésitez pas à nous en faire part sur le site internet ou en répondant simplement à ce courriel.
@@ -638,7 +583,7 @@ ${data.members.map((m) => {
   const dietStr = m.dietaryNotes && m.dietaryNotes.trim() ? ` [Régime : ${m.dietaryNotes.trim()}]` : '';
   return `- ${m.firstName} ${m.lastName} : Présent(e) (${eventsOf(m)})${dietStr}`;
 }).join('\n')}
-${calendarSectionText}
+
 Si le moindre imprévu venait modifier ces informations, n’hésitez pas à nous en faire part sur le site internet ou en répondant simplement à ce courriel.
 
 Petit rappel : Pensez à faire votre procuration si nécessaire pour le 1er tour des élections présidentielles 2027 ! Cela tombe le même week-end.
